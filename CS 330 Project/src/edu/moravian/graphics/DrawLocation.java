@@ -1,4 +1,4 @@
-package cs.pkg330.project.graphics;
+package edu.moravian.graphics;
 
 /**
  * Describes where a Drawable object's Sprite should be drawn in relation to

@@ -1,6 +1,6 @@
-package cs.pkg330.project.graphics;
+package edu.moravian.graphics;
 
-import cs.pkg330.project.graphics.filters.SpriteFilter;
+import edu.moravian.graphics.filters.SpriteFilter;
 import java.util.ArrayList;
 import java.util.Collection;
 

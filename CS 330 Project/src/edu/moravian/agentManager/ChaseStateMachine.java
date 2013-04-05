@@ -1,8 +1,8 @@
 package edu.moravian.agentManager;
 
 import edu.moravian.Settings;
-import edu.moravian.Timer;
 import edu.moravian.agent.ChaseAgent;
+import edu.moravian.util.Timer;
 
 /**
  *
@@ -11,8 +11,7 @@ import edu.moravian.agent.ChaseAgent;
 public class ChaseStateMachine
   {
 
-    private int hungerTime;
-    private int sleepTime;
+
     private AgentState current_state;
     private AgentState previous_state;
     private ChaseAgent agent;
@@ -22,11 +21,9 @@ public class ChaseStateMachine
 
     public ChaseStateMachine(ChaseAgent agent)
       {
-        hungerTime = (int) Settings.getInstance().getDefaultFoodReserves();
-        sleepTime = (int) Settings.getInstance().getDefaultChaseEnergyLevel();
+
         this.agent = agent;
-        hunger = new TimeBasedMeter(hungerTime);
-        fatigue = new TimeBasedMeter(sleepTime);
+
         current_state = NullState.Instance();
       }
 
@@ -52,60 +49,13 @@ public class ChaseStateMachine
         //TODO may queue of previous states 
       }
 
-    public boolean isTired()
-      {
-        return fatigue.isDueForReset();
 
-      }
-
-    public void pauseHunger()
-      {
-        hunger.pause();
-      }
-
-    public void unPauseHunger()
-      {
-        hunger.unPause();
-      }
-
-    public boolean isHungry()
-      {
-      
-        return hunger.isDueForReset();
-      }
-
-    /**
-     * Restore the maximum multiplied by a scale
-     *
-     * @param Scale The amount by which to scale the food restoration. 1 is
-     * default
-     */
-    public void restoreFood(double Scale)
-      {
-     
-       hunger.reset();
-          
-          System.out.println(hunger.time.getDelta() + Scale);
-
-      }
 
     public AgentState getCurrent_state() {
         return current_state;
     }
     
     
-
-    /**
-     * Restore fatigue by default amount scaled by input.
-     *
-     * @param Scale The amount by which to scale the sleep restoration. 1 is
-     * default
-     */
-    public void restoreFatigue(double Scale)
-      {
-        fatigue.reset();
-
-      }
 
     /**
      * This allows the easy creation of managers for time based game metrics.  

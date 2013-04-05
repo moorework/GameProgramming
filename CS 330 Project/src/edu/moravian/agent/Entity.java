@@ -1,6 +1,6 @@
 package edu.moravian.agent;
 
-import edu.moravian.WorldGraphics2D;
+import edu.moravian.graphics.WorldGraphics2D;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 

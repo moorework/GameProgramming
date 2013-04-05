@@ -1,5 +1,6 @@
 package edu.moravian;
 
+import edu.moravian.graphics.VideoConfigurationException;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -29,7 +30,7 @@ public class Main
 
         // Create our game with a world size equal to
         // the screen size
-        StateGame g = new StateGame(1200, 800);
+        TowerDefenseGame g = new TowerDefenseGame(1200, 800);
 
         try
           {

@@ -1,6 +1,6 @@
-package cs.pkg330.project.graphics.filters;
+package edu.moravian.graphics.filters;
 
-import cs.pkg330.project.graphics.Sprite;
+import edu.moravian.graphics.Sprite;
 
 
 /**

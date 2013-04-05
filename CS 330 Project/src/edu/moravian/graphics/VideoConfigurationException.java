@@ -1,4 +1,4 @@
-package edu.moravian;
+package edu.moravian.graphics;
 
 /**
  * This class represents a video configuration exception.

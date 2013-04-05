@@ -1,6 +1,6 @@
-package cs.pkg330.project.graphics;
+package edu.moravian.graphics;
 
-import cs.pkg330.project.math.Point2D;
+import edu.moravian.math.Point2D;
 
 
 /**

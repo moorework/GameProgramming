@@ -1,5 +1,8 @@
 package edu.moravian;
 
+import edu.moravian.graphics.VideoConfigurationException;
+import edu.moravian.graphics.WorldGraphics2D;
+import edu.moravian.util.Timer;
 import java.awt.Color;
 import java.awt.DisplayMode;
 import java.awt.Graphics;
@@ -263,19 +266,19 @@ class UserInterfaceController extends JFrame implements Runnable
         @Override
         public void keyTyped(KeyEvent e)
         {
-            ((StateGame) game).keyTyped(e);
+            ((TowerDefenseGame) game).keyTyped(e);
         }
 
         @Override
         public void keyPressed(KeyEvent e)
         {
-            ((StateGame) game).keyPressed(e);
+            ((TowerDefenseGame) game).keyPressed(e);
         }
 
         @Override
         public void keyReleased(KeyEvent e)
         {
-            ((StateGame) game).keyReleased(e);
+            ((TowerDefenseGame) game).keyReleased(e);
         }
     }
 }

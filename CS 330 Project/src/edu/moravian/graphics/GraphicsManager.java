@@ -1,8 +1,8 @@
-package cs.pkg330.project.graphics;
+package edu.moravian.graphics;
 
-import cs.pkg330.project.graphics.filters.SpriteFilter;
-import cs.pkg330.project.math.Point2D;
-import cs.pkg330.project.utilities.World2D;
+import edu.moravian.graphics.filters.SpriteFilter;
+import edu.moravian.math.Point2D;
+
 import java.util.ArrayList;
 
 /**
@@ -101,7 +101,7 @@ public class GraphicsManager {
      * 
      * @param w2d the World2D object to draw to
      */
-    public void draw(World2D w2d) {
+    public void draw(WorldGraphics2D w2d) {
         /*
          * We will iterate through all of our graphical resources in-order (as they
          * may be deliberately layered) and, for each of those objects, we will

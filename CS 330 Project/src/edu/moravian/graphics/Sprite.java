@@ -1,4 +1,4 @@
-package cs.pkg330.project.graphics;
+package edu.moravian.graphics;
 
 import java.awt.Graphics;
 import java.awt.Image;

@@ -1,4 +1,4 @@
-package edu.moravian;
+package edu.moravian.util;
 
 import edu.moravian.math.Point2D;
 

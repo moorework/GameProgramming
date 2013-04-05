@@ -1,4 +1,6 @@
-package edu.moravian;
+package edu.moravian.util;
+
+import edu.moravian.Settings;
 
 /**
  * Timer class that handles time.  The external unit of this class is seconds.  
