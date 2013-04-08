@@ -158,7 +158,7 @@ class UserInterfaceController extends JFrame implements Runnable
             this.createBufferStrategy(2);
 
             // Now that the strategy is created, we safe a reference to it
-            // so that we can draw (below)
+            // so that we can fillRect (below)
             BufferStrategy bufStrat = this.getBufferStrategy();
 
             // prev will be the time of the last frame.
@@ -177,7 +177,7 @@ class UserInterfaceController extends JFrame implements Runnable
                 prev = currTime;
 
                 // Tell the game object to update itself - i.e. to make itself
-                // ready for the next draw.
+                // ready for the next fillRect.
                 game.update();
 
                 // Drawing is done through a Graphics object.  You can think
@@ -188,11 +188,11 @@ class UserInterfaceController extends JFrame implements Runnable
                 // Whatever was drawn perviously is still on the screen.
                 // We'll use a solid white background here.
                 g.setColor(Settings.getInstance().getBackgroundColor());
-                // Note that drawRect will only draw the rectangle outline
+                // Note that drawRect will only fillRect the rectangle outline
                 g.fillRect(0, 0, width, height);
 
 
-                // Tell the game to draw itself using the graphics context
+                // Tell the game to fillRect itself using the graphics context
                 game.draw(new WorldGraphics2D(g));
 
 
@@ -217,7 +217,7 @@ class UserInterfaceController extends JFrame implements Runnable
                 // what is on the screen.
                 bufStrat.show();
 
-                // A monitor can only draw frames so fast.  If our frame rate
+                // A monitor can only fillRect frames so fast.  If our frame rate
                 // is faster than the monitor's refresh rate, frames will
                 // either be dropped by the video system or they will be
                 // drawn and cause video flicker.  To avoid this, we make

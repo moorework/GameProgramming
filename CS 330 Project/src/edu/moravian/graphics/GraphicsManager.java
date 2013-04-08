@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @author Myles
  */
 public class GraphicsManager {
-    // the objects that we're to draw
+    // the objects that we're to fillRect
     private ArrayList<Drawable> graphics;
     // the filters that will be applied to everything we have
     private ArrayList<SpriteFilter> globalFilters;
@@ -19,7 +19,7 @@ public class GraphicsManager {
      * Create a new GraphicsManager.
      */
     public GraphicsManager() {
-        // instantiate the collections holding the things we are to draw
+        // instantiate the collections holding the things we are to fillRect
         graphics = new ArrayList<Drawable>();
         // instantiate the collection holding the global filters to be used on all images
         globalFilters = new ArrayList<SpriteFilter>();
@@ -27,7 +27,7 @@ public class GraphicsManager {
     
     /**
      * Add a new Drawable object to the Manager. This object will be included in
-     * all future draw cycles.
+     * all future fillRect cycles.
      * 
      * @param newDrawObject the new Drawable object to be managed
      */
@@ -97,16 +97,16 @@ public class GraphicsManager {
     
     /**
      * Draw the resources being managed by the GraphicsManager to a provided
-     * World2D object. This represents a single draw cycle.
+     * World2D object. This represents a single fillRect cycle.
      * 
-     * @param w2d the World2D object to draw to
+     * @param w2d the World2D object to fillRect to
      */
     public void draw(WorldGraphics2D w2d) {
         /*
          * We will iterate through all of our graphical resources in-order (as they
          * may be deliberately layered) and, for each of those objects, we will
-         * pass it through each of our filters and then draw it to the World2D
-         * object. How we draw it to the World2D object will be defined by the
+         * pass it through each of our filters and then fillRect it to the World2D
+         * object. How we fillRect it to the World2D object will be defined by the
          * Drawable object using an enum.
          */
         
@@ -127,15 +127,15 @@ public class GraphicsManager {
             // retrieve the Drawable's DrawLocation so that we know how it would
             // like to be drawn
             DrawLocation drawLoc = toDraw.getDrawLocation();
-            // retrieve the Drawable's position so that we know where to draw it
+            // retrieve the Drawable's position so that we know where to fillRect it
             Point2D drawPoint = toDraw.getPos();
             
             // based on the DrawLocation that we pulled from the 
             switch (drawLoc) {
-                case AT_POINT: // draw the Sprite normally at the Drawable's position
+                case AT_POINT: // fillRect the Sprite normally at the Drawable's position
                     w2d.drawImage(sprite, drawPoint);
                     break; // prevent fall-through
-                case CENTER: // draw the Sprite such that the Position describes
+                case CENTER: // fillRect the Sprite such that the Position describes
                              // its center-point
                     w2d.drawImageWithPointAtCenter(sprite, drawPoint);
                     break; // prevent fall-through

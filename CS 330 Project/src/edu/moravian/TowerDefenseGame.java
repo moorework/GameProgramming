@@ -1,36 +1,40 @@
 package edu.moravian;
 
-
+import edu.moravian.entities.BasicTower;
+import edu.moravian.entities.Tower;
+import edu.moravian.entities.basicCreep;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
+import edu.moravian.math.Vector2D;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 import sun.swing.BakedArrayList;
+
+//TODO make sure the coordinates are world coordinates 
 
 /**
  * This class encapsulates and holds all of the rules for the game
  *
  * @author moore
  */
-public class TowerDefenseGame implements KeyListener, Game
-{
+public class TowerDefenseGame implements KeyListener, Game {
 
     private int worldWidth;
     private int worldHeight;
-
     private boolean endgame_met;
-
     private final Point2D center_point;
-    
     private Color background;
     private Settings set;
     private boolean debug;
+    private BasicTower t;
+    private basicCreep b;
 
-    public TowerDefenseGame(int worldWidth, int worldHeight)
-    {
+    public TowerDefenseGame(int worldWidth, int worldHeight) {
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
 
@@ -44,43 +48,43 @@ public class TowerDefenseGame implements KeyListener, Game
         endgame_met = false;
 
         background = set.getBackgroundColor();
-
+        t = new BasicTower(center_point);
+        Rectangle rect = new Rectangle(100, 100);
+        
+        b = new basicCreep(new Point2D(0,0), new Vector2D(2,2), rect);
 
     }
 
     @Override
-    public void update()
-    {
+    public void update() {
         /*
          * In general we are trying to delegate logic to others 
          * and keep rules to ourself
          */
-
-
+        
+        b.update();
     }
 
     @Override
-    public void draw(WorldGraphics2D Wg2D)
-    {
+    public void draw(WorldGraphics2D Wg2D) {
         Wg2D.setColor(background);
         Wg2D.fillRect(new Point2D(0, 0), worldWidth, worldHeight);
 
         Wg2D.setColor(background.brighter().brighter());
-        
-        Wg2D.fillRect(center_point, 100, 100);
-       
+t.draw(Wg2D);
+b.draw(Wg2D);
+
+
 
     }
 
     @Override
-    public boolean done()
-    {
+    public boolean done() {
         return endgame_met;
     }
 
     @Override
-    public void keyTyped(KeyEvent ke)
-    {
+    public void keyTyped(KeyEvent ke) {
     }
 
     /**
@@ -90,18 +94,15 @@ public class TowerDefenseGame implements KeyListener, Game
      * @param ke
      */
     @Override
-    public void keyPressed(KeyEvent ke)
-    {
-        switch (ke.getKeyCode())
-        {
-         
+    public void keyPressed(KeyEvent ke) {
+        switch (ke.getKeyCode()) {
+
 
 
         }
     }
 
     @Override
-    public void keyReleased(KeyEvent ke)
-    {
+    public void keyReleased(KeyEvent ke) {
     }
 }

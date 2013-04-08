@@ -4,10 +4,13 @@ import edu.moravian.Settings;
 import edu.moravian.util.CoordinateTransloator;
 import edu.moravian.graphics.Sprite;
 import edu.moravian.math.Point2D;
+import edu.moravian.math.Vector2D;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.image.BufferedImage;
 
 /**
@@ -81,5 +84,22 @@ public class WorldGraphics2D {
         Point2D screenPoint = trans.worldtoScreen(position);
 
         g2d.drawImage(sprite.getBackingImage(), (int) screenPoint.getX(), (int) screenPoint.getY() - (sprite.getHeight() / 2), null);
+    }
+
+    public void fillCircle(Point2D pos, int Radius, Color brighter) {
+        Color old = g2d.getColor();
+        g2d.setColor(brighter);
+        g2d.fillOval((int) pos.getX(), (int) pos.getY(), Radius * 2, Radius * 2);
+
+        g2d.setColor(old);
+    }
+
+    public void fillRect(Point2D pos, Dimension rightLowerCorner, Color col) {
+
+        Color old = g2d.getColor();
+        g2d.setColor(col);
+        g2d.fillRect((int) pos.getX(), (int) pos.getY(), (int) rightLowerCorner.width, (int) rightLowerCorner.height);
+
+        g2d.setColor(old);
     }
 }
