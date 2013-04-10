@@ -5,7 +5,7 @@
 
 
 import edu.moravian.math.Point2D;
-import edu.moravian.util.CoordinateTransloator;
+import edu.moravian.util.CoordinateTranslator;
 import java.util.LinkedList;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -22,13 +22,13 @@ public class CoorDinateTransloatorTest
     public static final int worldWidth = 150;
     public static final int worldHeight = 200;
     public static final int numtest = 100;
-    CoordinateTransloator trans;
+    CoordinateTranslator trans;
     LinkedList<Point2D> worlds;
     LinkedList<Point2D> screens;
 
     public CoorDinateTransloatorTest()
     {
-        trans = new CoordinateTransloator(ScreenWidth, ScreenHeight, worldWidth, worldHeight);
+        trans = new CoordinateTranslator(ScreenWidth, ScreenHeight, worldWidth, worldHeight);
 
         worlds = new LinkedList<Point2D>();
         screens = new LinkedList<Point2D>();
