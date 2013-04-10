@@ -1,9 +1,6 @@
 
-package edu.moravian.entities;
+package edu.moravian.tower;
 
-import edu.moravian.graphics.DrawLocation;
-import edu.moravian.graphics.Drawable;
-import edu.moravian.graphics.Sprite;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
 import java.awt.Color;

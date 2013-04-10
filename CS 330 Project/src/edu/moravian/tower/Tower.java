@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.moravian.entities;
+package edu.moravian.tower;
 
 import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
@@ -12,12 +12,11 @@ import java.awt.Shape;
  *
  * @author moore
  */
-public interface Creep {
-        public Shape get_dims();
-    
+public interface Tower {
+
     public Point2D getPosition();
     
-    public Vector2D getDirection();
-
-    public boolean touching(Shape shp);
+    public Shape getRange();
+    
+    public void shoot();
 }

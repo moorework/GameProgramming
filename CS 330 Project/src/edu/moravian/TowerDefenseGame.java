@@ -1,28 +1,27 @@
 package edu.moravian;
 
-import edu.moravian.entities.BasicTower;
-import edu.moravian.entities.Tower;
-import edu.moravian.entities.basicCreep;
+import edu.moravian.tower.BasicTower;
+import edu.moravian.creep.basicCreep;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
+import edu.moravian.tower.Tower;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
-import sun.swing.BakedArrayList;
+import org.w3c.dom.Entity;
 
 //TODO make sure the coordinates are world coordinates 
-
 /**
  * This class encapsulates and holds all of the rules for the game
  *
  * @author moore
  */
-public class TowerDefenseGame implements KeyListener, Game {
+public class TowerDefenseGame implements KeyListener, Game
+  {
 
     private int worldWidth;
     private int worldHeight;
@@ -33,8 +32,11 @@ public class TowerDefenseGame implements KeyListener, Game {
     private boolean debug;
     private BasicTower t;
     private basicCreep b;
+    private LinkedList<Entity> entities;
+    private LinkedList<Tower> towers;
 
-    public TowerDefenseGame(int worldWidth, int worldHeight) {
+    public TowerDefenseGame(int worldWidth, int worldHeight)
+      {
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
 
@@ -49,43 +51,47 @@ public class TowerDefenseGame implements KeyListener, Game {
 
         background = set.getBackgroundColor();
         t = new BasicTower(center_point);
+        towers = new LinkedList<Tower>();
+        towers.add(t);
         Rectangle rect = new Rectangle(100, 100);
-        
-        b = new basicCreep(new Point2D(0,0), new Vector2D(2,2), rect);
 
-    }
+        entities = new LinkedList<Entity>();
+        b = new basicCreep(new Point2D(0, 200), new Vector2D(2, 0), rect);
+
+      }
 
     @Override
-    public void update() {
+    public void update()
+      {
         /*
          * In general we are trying to delegate logic to others 
          * and keep rules to ourself
          */
-        
+
         b.update();
-    }
+      }
 
     @Override
-    public void draw(WorldGraphics2D Wg2D) {
+    public void draw(WorldGraphics2D Wg2D)
+      {
         Wg2D.setColor(background);
         Wg2D.fillRect(new Point2D(0, 0), worldWidth, worldHeight);
 
         Wg2D.setColor(background.brighter().brighter());
-t.draw(Wg2D);
-b.draw(Wg2D);
-
-
-
-    }
+        t.draw(Wg2D);
+        b.draw(Wg2D);
+      }
 
     @Override
-    public boolean done() {
+    public boolean done()
+      {
         return endgame_met;
-    }
+      }
 
     @Override
-    public void keyTyped(KeyEvent ke) {
-    }
+    public void keyTyped(KeyEvent ke)
+      {
+      }
 
     /**
      * This is where we handle input. If any future keyboard input needs to be
@@ -94,15 +100,31 @@ b.draw(Wg2D);
      * @param ke
      */
     @Override
-    public void keyPressed(KeyEvent ke) {
-        switch (ke.getKeyCode()) {
+    public void keyPressed(KeyEvent ke)
+      {
+        switch (ke.getKeyCode())
+          {
 
 
 
-        }
-    }
+          }
+      }
 
     @Override
-    public void keyReleased(KeyEvent ke) {
-    }
-}
+    public void keyReleased(KeyEvent ke)
+      {
+      }
+
+    public LinkedList<Entity> getEntities()
+      {
+        return entities;
+      }
+
+    public LinkedList<Tower> getTowers()
+      {
+        return towers;
+      }
+    
+    
+    
+  }
