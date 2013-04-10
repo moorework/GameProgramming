@@ -15,14 +15,14 @@ import java.awt.Shape;
  *
  * @author moore
  */
-public class basicCreep implements Creep {
+public class BasicStupidCreep implements Creep {
 
     //TODO get this from settings
     private Point2D pos;
     private Vector2D dir;
     private Shape Dims;
 
-    public basicCreep(Point2D pos, Vector2D dir, Shape Dims) {
+    public BasicStupidCreep(Point2D pos, Vector2D dir, Shape Dims) {
         this.pos = pos;
         this.dir = dir;
         this.Dims = Dims;
