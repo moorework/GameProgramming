@@ -1,11 +1,12 @@
 package edu.moravian;
 
-import edu.moravian.entities.BasicTower;
-import edu.moravian.entities.Tower;
-import edu.moravian.entities.BasicStupidCreep;
+
+import edu.moravian.creep.BasicStupidCreep;
+import edu.moravian.creep.Creep;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
+import edu.moravian.tower.BasicTower;
 import edu.moravian.tower.Tower;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -33,9 +34,14 @@ public class TowerDefenseGame implements KeyListener, Game
     private boolean debug;
     private BasicTower t;
     private BasicStupidCreep b;
+    private LinkedList<Tower> towers;
+    private LinkedList<Creep> creeps;
 
     public TowerDefenseGame(int worldWidth, int worldHeight)
       {
+          
+          towers = new LinkedList<Tower>();
+          creeps = new LinkedList<Creep>();
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
 
@@ -56,8 +62,8 @@ public class TowerDefenseGame implements KeyListener, Game
         
         b = new BasicStupidCreep(new Point2D(0,0), new Vector2D(2,2), rect);
 
-        entities = new LinkedList<Entity>();
-        b = new BasicCreep(new Point2D(0, 200), new Vector2D(2, 0), rect);
+
+        b = new BasicStupidCreep(new Point2D(0, 200), new Vector2D(2, 0), rect);
 
       }
 
@@ -116,10 +122,7 @@ public class TowerDefenseGame implements KeyListener, Game
       {
       }
 
-    public LinkedList<Entity> getEntities()
-      {
-        return entities;
-      }
+
 
     public LinkedList<Tower> getTowers()
       {

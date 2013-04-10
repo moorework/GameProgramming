@@ -2,14 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.moravian.entities;
+package edu.moravian.creep;
 
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
+import edu.moravian.projectile.Projectile;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Shape;
+import java.util.LinkedList;
 
 /**
  *
@@ -43,10 +45,7 @@ public class BasicStupidCreep implements Creep {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public boolean touching(Shape shp) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+  
 
     public void draw(WorldGraphics2D g2d) {
         g2d.fillRect(pos, new Dimension(50, 50), Color.red);
@@ -54,5 +53,10 @@ public class BasicStupidCreep implements Creep {
 
     public void update() {
         pos = pos.scalePlus(1.1, dir);
+    }
+
+    @Override
+    public void respondToColission(LinkedList<Projectile> projs) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
