@@ -1,7 +1,7 @@
 package edu.moravian;
 
 import edu.moravian.tower.BasicTower;
-import edu.moravian.creep.basicCreep;
+import edu.moravian.creep.BasicCreep;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
@@ -31,7 +31,7 @@ public class TowerDefenseGame implements KeyListener, Game
     private Settings set;
     private boolean debug;
     private BasicTower t;
-    private basicCreep b;
+    private BasicCreep b;
     private LinkedList<Entity> entities;
     private LinkedList<Tower> towers;
 
@@ -56,7 +56,7 @@ public class TowerDefenseGame implements KeyListener, Game
         Rectangle rect = new Rectangle(100, 100);
 
         entities = new LinkedList<Entity>();
-        b = new basicCreep(new Point2D(0, 200), new Vector2D(2, 0), rect);
+        b = new BasicCreep(new Point2D(0, 200), new Vector2D(2, 0), rect);
 
       }
 
