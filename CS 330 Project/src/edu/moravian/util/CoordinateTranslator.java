@@ -6,7 +6,7 @@ import edu.moravian.math.Point2D;
  * This class translates between screen coordinates and world coordinates 
  * @author James Moore (moore.work@live.com)
  */
-public class CoordinateTransloator
+public class CoordinateTranslator
   {
 
     private int screenWidth;
@@ -14,7 +14,7 @@ public class CoordinateTransloator
     private double worldWidth;
     private double worldHeight;
 
-    public CoordinateTransloator(int screenWidth, int screenHeight, double worldWidth, double worldHeight)
+    public CoordinateTranslator(int screenWidth, int screenHeight, double worldWidth, double worldHeight)
       {
         this.screenWidth = screenWidth ;
         this.screenHeight = screenHeight ;

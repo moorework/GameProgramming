@@ -7,7 +7,7 @@ import edu.moravian.math.Vector2D;
  *
  * @author James Moore (moore.work@live.com)
  */
-public class CollissionDetector
+public class CollisionDetector
 {
 
     /**

@@ -123,7 +123,7 @@ public class Ball
     public void respondColission(Ball other)
     {
 
-        if (CollissionDetector.twoSpheresColliding(this, other))
+        if (CollisionDetector.twoSpheresColliding(this, other))
         {
             Vector2D collissionNormal = this.getCenter().minus(other.getCenter());
 

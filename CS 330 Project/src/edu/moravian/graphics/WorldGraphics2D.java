@@ -1,7 +1,7 @@
 package edu.moravian.graphics;
 
 import edu.moravian.Settings;
-import edu.moravian.util.CoordinateTransloator;
+import edu.moravian.util.CoordinateTranslator;
 import edu.moravian.graphics.Sprite;
 import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
@@ -22,13 +22,13 @@ public class WorldGraphics2D
   {
 
     Graphics2D g2d;
-    CoordinateTransloator trans;
+    CoordinateTranslator trans;
     Settings set = Settings.getInstance();
 
     public WorldGraphics2D(Graphics g)
       {
         this.g2d = (Graphics2D) g;
-        trans = new CoordinateTransloator(
+        trans = new CoordinateTranslator(
                 set.getResolution().width,
                 set.getResolution().height,
                 set.getWorldSize().width,
