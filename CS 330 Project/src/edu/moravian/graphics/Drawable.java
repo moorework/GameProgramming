@@ -12,11 +12,11 @@ import edu.moravian.math.Point2D;
 public interface Drawable {
     
     /**
-     * Retrieve the current frame of the drawable object.
+     * Retrieve the graphics id drawable object.
      * 
-     * @return the current frame of the object
+     * @return the graphics id of the object
      */
-    public Sprite getCurrFrame();
+    public int getGraphicsID();
     
     /**
      * Retrieve a Point2D that describes the position of the drawable object.
