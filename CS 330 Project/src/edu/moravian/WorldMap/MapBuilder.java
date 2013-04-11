@@ -13,4 +13,9 @@ public class MapBuilder {
         // TODO implement me
         return null;
     }
+    
+    protected static int getMapID()
+    {
+        return 0;
+    }
 }
