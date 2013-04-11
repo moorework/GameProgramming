@@ -4,8 +4,7 @@ package edu.moravian;
 import edu.moravian.creep.Creep;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
-import edu.moravian.math.Vector2D;
-import edu.moravian.tower.BasicTower;
+
 import edu.moravian.tower.Tower;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -31,16 +30,12 @@ public class TowerDefenseGame implements KeyListener, Game
     private Color background;
     private Settings set;
     private boolean debug;
-    private BasicTower t;
 
-    private LinkedList<Tower> towers;
-    private LinkedList<Creep> creeps;
+
 
     public TowerDefenseGame(int worldWidth, int worldHeight)
       {
-          
-          towers = new LinkedList<Tower>();
-          creeps = new LinkedList<Creep>();
+
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
 
@@ -54,9 +49,8 @@ public class TowerDefenseGame implements KeyListener, Game
         endgame_met = false;
 
         background = set.getBackgroundColor();
-        t = new BasicTower(center_point);
-        towers = new LinkedList<Tower>();
-        towers.add(t);
+      
+
         Rectangle rect = new Rectangle(100, 100);
         
    
@@ -118,11 +112,7 @@ public class TowerDefenseGame implements KeyListener, Game
 
 
 
-    public LinkedList<Tower> getTowers()
-      {
-        return towers;
-      }
-    
+
     
     
   }

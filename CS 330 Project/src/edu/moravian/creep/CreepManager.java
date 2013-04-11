@@ -29,7 +29,7 @@ public class CreepManager {
         return 0;
     }
     
-    public Iterable getCreeps()
+    public Iterable<Creep> getCreeps()
     {
         // TODO implement me
         return null;
