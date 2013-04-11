@@ -60,4 +60,10 @@ public class WorldMap implements Drawable {
         // TODO implement me
         return null;
     }
+    
+    public Point2D getEndPoint()
+    {
+        // TODO implement me
+        return null;
+    }
 }
