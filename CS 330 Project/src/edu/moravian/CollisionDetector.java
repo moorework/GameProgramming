@@ -1,6 +1,5 @@
 package edu.moravian;
 
-import edu.moravian.Ball;
 import edu.moravian.math.Vector2D;
 
 /**
