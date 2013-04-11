@@ -27,7 +27,4 @@ public interface Creep {
      * @param par0
      * @return
      */
-public void respondToColission(LinkedList<Projectile> projs);
-
-public boolean isDead();
 }
