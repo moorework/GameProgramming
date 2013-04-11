@@ -6,11 +6,29 @@ import edu.moravian.math.Point2D;
  *
  * @author myles
  */
-public class PathCell implements WorldCell {
+public class TowerCell implements WorldCell {
 
     @Override
     public boolean canBeOccupied()
     {
+        return true;
+    }
+    
+    public boolean isOccupied()
+    {
+        // TODO implement me
+        return false;
+    }
+    
+    public boolean setOccupied()
+    {
+        // TODO implement me
+        return false;
+    }
+    
+    public boolean setUnOccupied()
+    {
+        // TODO implement me
         return false;
     }
 
@@ -23,6 +41,6 @@ public class PathCell implements WorldCell {
     @Override
     public boolean isPathable()
     {
-        return true;
+        return false;
     }
 }

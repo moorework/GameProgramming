@@ -56,5 +56,8 @@ public class WorldMap implements Drawable {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    
+    public Point2D getStartingPoint() {
+        // TODO implement me
+        return null;
+    }
 }
