@@ -7,7 +7,6 @@ package edu.moravian.creep;
 import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
 import edu.moravian.projectile.Projectile;
-import java.util.LinkedList;
 import java.awt.Shape;
 
 /**
@@ -27,4 +26,7 @@ public interface Creep {
      * @param par0
      * @return
      */
+public void respondToColission(Projectile projectile);
+
+public boolean isDead();
 }
