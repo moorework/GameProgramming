@@ -63,7 +63,7 @@ public class Ball
         g2d.setColor(old);
     }
 
-    
+    //TODO make sure the elasticity is in the file 
     /**
      * Updates the position of the ball within the world
      */

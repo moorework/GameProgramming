@@ -15,11 +15,10 @@ import java.awt.Shape;
  * @author moore
  */
 public interface Creep {
-
-    public Shape get_dims();
-
+        public Shape get_dims();
+    
     public Point2D getPosition();
-
+    
     public Vector2D getDirection();
 
     /**
@@ -27,4 +26,7 @@ public interface Creep {
      * @param par0
      * @return
      */
+public void respondToColission(LinkedList<Projectile> projs);
+
+public boolean isDead();
 }

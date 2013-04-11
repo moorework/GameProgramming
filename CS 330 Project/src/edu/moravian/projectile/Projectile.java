@@ -5,8 +5,6 @@
 package edu.moravian.projectile;
 
 import edu.moravian.Ball;
-import edu.moravian.creep.Creep;
-import edu.moravian.graphics.Drawable;
 import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
 import java.awt.Shape;
@@ -15,33 +13,13 @@ import java.awt.Shape;
  *
  * @author moore
  */
-public abstract class Projectile  implements Drawable{
+public interface Projectile {
 
-    private Creep target;
-    private int damage;
-    private double speedscale;
-    private Point2D pos;
-    private Vector2D dir;
+    public Ball get_dims();
 
-    public Projectile(Creep target_in, int damage_in, double speedscale_in) {
-        target = target_in;
-        damage = damage_in;
-        speedscale = speedscale_in;
-    }
+    public Point2D getPosition();
 
-    public abstract Ball get_dims();
+    public Vector2D getDirection();
 
-    public Point2D getPosition() {
-        return pos;
-    }
-
-    public Vector2D getVelocity() {
-        return dir;
-    }
-
-    public int getDamage() {
-        return damage;
-    }
-
-    public abstract void update();
+    
 }

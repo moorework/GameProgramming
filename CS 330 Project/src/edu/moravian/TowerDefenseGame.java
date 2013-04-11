@@ -1,6 +1,7 @@
 package edu.moravian;
 
 
+import edu.moravian.creep.BasicStupidCreep;
 import edu.moravian.creep.Creep;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
@@ -32,7 +33,7 @@ public class TowerDefenseGame implements KeyListener, Game
     private Settings set;
     private boolean debug;
     private BasicTower t;
-
+    private BasicStupidCreep b;
     private LinkedList<Tower> towers;
     private LinkedList<Creep> creeps;
 
@@ -59,7 +60,11 @@ public class TowerDefenseGame implements KeyListener, Game
         towers.add(t);
         Rectangle rect = new Rectangle(100, 100);
         
-   
+        b = new BasicStupidCreep(new Point2D(0,0), new Vector2D(2,2), rect);
+
+
+        b = new BasicStupidCreep(new Point2D(0, 200), new Vector2D(2, 0), rect);
+
       }
 
     @Override
@@ -70,7 +75,7 @@ public class TowerDefenseGame implements KeyListener, Game
          * and keep rules to ourself
          */
 
-
+        b.update();
       }
 
     @Override
@@ -79,8 +84,9 @@ public class TowerDefenseGame implements KeyListener, Game
         Wg2D.setColor(background);
         Wg2D.fillRect(new Point2D(0, 0), worldWidth, worldHeight);
 
-
-
+        Wg2D.setColor(background.brighter().brighter());
+        t.draw(Wg2D);
+        b.draw(Wg2D);
       }
 
     @Override
