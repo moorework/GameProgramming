@@ -34,4 +34,6 @@ public interface Drawable {
      * @return the DrawLocation describing where the Drawable expects to be drawn
      */
     public DrawLocation getDrawLocation();
+
+    public Sprite getCurrFrame();
 }
