@@ -12,5 +12,4 @@ public class Path {
         // TODO implement me
         return null;
     }
-    
 }

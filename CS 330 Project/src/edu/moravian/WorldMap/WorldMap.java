@@ -2,6 +2,7 @@ package edu.moravian.WorldMap;
 
 import edu.moravian.graphics.DrawLocation;
 import edu.moravian.graphics.Drawable;
+import edu.moravian.graphics.Sprite;
 import edu.moravian.math.Point2D;
 import org.jgrapht.Graph;
 
@@ -65,5 +66,10 @@ public class WorldMap implements Drawable {
     {
         // TODO implement me
         return null;
+    }
+
+    @Override
+    public Sprite getCurrFrame() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
