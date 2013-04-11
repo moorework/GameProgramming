@@ -45,8 +45,6 @@ public class BasicStupidCreep implements Creep {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-  
-
     public void draw(WorldGraphics2D g2d) {
         g2d.fillRect(pos, new Dimension(50, 50), Color.red);
     }

@@ -27,4 +27,6 @@ public interface Creep {
      * @return
      */
 public void respondToColission(LinkedList<Projectile> projs);
+
+public boolean isDead();
 }
