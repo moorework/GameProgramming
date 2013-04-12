@@ -8,8 +8,8 @@ import edu.moravian.math.Point2D;
  * @author myles
  */
 public abstract class TargetingSystem {
-    private int visionRadius;
-    private Point2D position;
+    protected int visionRadius;
+    protected Point2D position;
     
     public TargetingSystem(int radius, Point2D pos)
     {
