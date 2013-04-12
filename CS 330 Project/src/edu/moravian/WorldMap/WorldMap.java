@@ -4,6 +4,9 @@ import edu.moravian.graphics.DrawLocation;
 import edu.moravian.graphics.Drawable;
 import edu.moravian.graphics.Sprite;
 import edu.moravian.math.Point2D;
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import org.jgrapht.Graph;
 
 /**
@@ -12,7 +15,7 @@ import org.jgrapht.Graph;
  */
 public class WorldMap implements Drawable {
     
-    public WorldMap(String mapDirLocation) {
+    public WorldMap(ArrayList<WorldCell> topography, BufferedImage appearance, Dimension size) {
         // TODO implement me
     }
     

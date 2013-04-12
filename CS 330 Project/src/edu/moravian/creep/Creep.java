@@ -9,7 +9,8 @@ import java.awt.Shape;
  *
  * @author moore
  */
-public interface Creep {
+public interface Creep
+{
 
     public Shape get_dims();
 
@@ -22,9 +23,9 @@ public interface Creep {
      * @param par0
      * @return
      */
-public void respondToColission(Projectile projectile);
+    public void respondToColission(Projectile projectile);
 
-public boolean isDead();
+    public boolean isDead();
 
-public int healthRemaining();
+    public int healthRemaining();
 }

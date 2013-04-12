@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class MapBuilder {
 
-    protected static ArrayList<WorldCell> buildMap(String mapDirLocation)
+    protected static WorldMap buildMap(String mapDirLocation)
     {
         // TODO implement me
         return null;
