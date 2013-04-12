@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.moravian.creep;
 
 import edu.moravian.math.Point2D;
@@ -29,4 +25,6 @@ public interface Creep {
 public void respondToColission(Projectile projectile);
 
 public boolean isDead();
+
+public int healthRemaining();
 }
