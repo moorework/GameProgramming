@@ -3,6 +3,7 @@ package edu.moravian.projectile;
 import edu.moravian.Ball;
 import edu.moravian.creep.Creep;
 import edu.moravian.graphics.DrawLocation;
+import edu.moravian.graphics.GraphicsIDHolder;
 import edu.moravian.graphics.Sprite;
 import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
@@ -13,8 +14,14 @@ import edu.moravian.math.Vector2D;
  */
 public class BasicBullet extends Projectile {
 
-    public BasicBullet(Creep target_in, int damage_in, double speedscale_in) {
+Point2D pos;     
+double speedScale; 
+int damage;
+    
+    public BasicBullet(Creep target_in, int damage_in, double speedscale_in, Point2D origin) {
         super(target_in, damage_in, speedscale_in);
+        pos = origin;
+        
     }
 
     @Override
@@ -28,18 +35,18 @@ public class BasicBullet extends Projectile {
     }
 
     @Override
-    public int getGraphicsID() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public GraphicsIDHolder getGraphicsID() {
+      return GraphicsIDHolder.BASICBULLET;
     }
 
     @Override
     public Point2D getPos() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return pos;
     }
 
     @Override
     public DrawLocation getDrawLocation() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return DrawLocation.CENTER;
     }
 
     @Override

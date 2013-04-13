@@ -22,11 +22,13 @@ public abstract class Projectile  implements Drawable{
     private double speedscale;
     private Point2D pos;
     private Vector2D dir;
+    private boolean flying ;
 
     public Projectile(Creep target_in, int damage_in, double speedscale_in) {
         target = target_in;
         damage = damage_in;
         speedscale = speedscale_in;
+        flying = true;
     }
 
     public abstract Ball get_dims();
@@ -44,4 +46,9 @@ public abstract class Projectile  implements Drawable{
     }
 
     public abstract void update();
+
+    public boolean isDone()
+    {
+       return flying;
+    }
 }

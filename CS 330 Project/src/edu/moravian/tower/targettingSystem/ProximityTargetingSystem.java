@@ -28,6 +28,7 @@ public class ProximityTargetingSystem extends TargetingSystem
             return null;
         }
 
+        //TODO is this right?
         double champDist = temp.getPosition().minus(temp.getPosition()).magnitude();
         for (Creep potential : potentialTargets)
         {

@@ -1,18 +1,18 @@
 package edu.moravian;
 
 
-import edu.moravian.creep.Creep;
+import edu.moravian.tower.TowerManager;
+import edu.moravian.creep.CreepManager;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
+import edu.moravian.projectile.BulletManager;
 
-import edu.moravian.tower.Tower;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.LinkedList;
-import org.w3c.dom.Entity;
+
 
 //TODO make sure the coordinates are world coordinates 
 /**
@@ -30,6 +30,10 @@ public class TowerDefenseGame implements KeyListener, Game
     private Color background;
     private Settings set;
     private boolean debug;
+    
+    private BulletManager projMan;
+private CreepManager creepMan;
+private TowerManager towMan;
 
 
 

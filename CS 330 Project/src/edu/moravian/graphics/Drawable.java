@@ -16,7 +16,7 @@ public interface Drawable {
      * 
      * @return the graphics id of the object
      */
-    public int getGraphicsID();
+    public GraphicsIDHolder getGraphicsID();
     
     /**
      * Retrieve a Point2D that describes the position of the drawable object.

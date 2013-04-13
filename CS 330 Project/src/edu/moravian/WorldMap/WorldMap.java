@@ -2,6 +2,7 @@ package edu.moravian.WorldMap;
 
 import edu.moravian.graphics.DrawLocation;
 import edu.moravian.graphics.Drawable;
+import edu.moravian.graphics.GraphicsIDHolder;
 import edu.moravian.graphics.Sprite;
 import edu.moravian.math.Point2D;
 import java.awt.Dimension;
@@ -55,7 +56,7 @@ public class WorldMap implements Drawable {
     }
 
     @Override
-    public int getGraphicsID()
+    public GraphicsIDHolder getGraphicsID()
     {
         throw new UnsupportedOperationException("Not supported yet.");
     }
