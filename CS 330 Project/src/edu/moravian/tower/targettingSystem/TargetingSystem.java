@@ -1,4 +1,4 @@
-package edu.moravian.tower;
+package edu.moravian.tower.targettingSystem;
 
 import edu.moravian.creep.Creep;
 import edu.moravian.math.Point2D;
@@ -24,6 +24,7 @@ public abstract class TargetingSystem {
      */
     protected boolean withinRange(Creep creep)
     {
+
         Point2D creepPos = creep.getPosition(); // get the position of the creep
         
         // determine the absolute distance between the creep and our position
