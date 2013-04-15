@@ -1,46 +1,47 @@
 package edu.moravian.WorldMap;
 
-import edu.moravian.math.Point2D;
-
 /**
  *
  * @author myles
  */
 public class TowerCell implements WorldCell {
-
+    private final boolean CAN_BE_OCCUPIED;
+    private final boolean IS_PATHABLE;
+    
+    private boolean isOccupied;
+    
+    public TowerCell()
+    {
+        CAN_BE_OCCUPIED = true;
+        IS_PATHABLE = false;
+        
+        isOccupied = false;
+    }
+    
     @Override
     public boolean canBeOccupied()
     {
-        return true;
+        return CAN_BE_OCCUPIED;
     }
     
     public boolean isOccupied()
     {
-        // TODO implement me
-        return false;
+        return isOccupied;
     }
     
-    public boolean setOccupied()
+    public void setOccupied()
     {
-        // TODO implement me
-        return false;
+        isOccupied = true;
     }
     
-    public boolean setUnOccupied()
+    public void setUnOccupied()
     {
-        // TODO implement me
-        return false;
-    }
-
-    @Override
-    public Point2D getCornerPoint()
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
+        isOccupied = false;
     }
 
     @Override
     public boolean isPathable()
     {
-        return false;
+        return IS_PATHABLE;
     }
 }

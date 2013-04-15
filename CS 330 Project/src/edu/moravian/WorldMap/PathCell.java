@@ -1,23 +1,23 @@
 package edu.moravian.WorldMap;
 
-import edu.moravian.math.Point2D;
-
 /**
  *
  * @author myles
  */
 public class PathCell implements WorldCell {
+    private final boolean CAN_BE_OCCUPIED;
+    private final boolean IS_PATHABLE;
 
+    public PathCell()
+    {
+        CAN_BE_OCCUPIED = false;
+        IS_PATHABLE = true;
+    }
+    
     @Override
     public boolean canBeOccupied()
     {
-        return false;
-    }
-
-    @Override
-    public Point2D getCornerPoint()
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return CAN_BE_OCCUPIED;
     }
 
     @Override
