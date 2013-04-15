@@ -1,6 +1,7 @@
 package edu.moravian.creep;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  *
@@ -8,40 +9,44 @@ import java.util.ArrayList;
  */
 public class CreepManager {
 
+    ArrayList<Creep> creepsAlive;
+    ArrayList<Creep> creepsDead;
+    
     public CreepManager(ArrayList<Creep> initialCreeps)
     {
-        // TODO implement me
+        this.creepsAlive = initialCreeps;
+        this.creepsDead = new ArrayList<Creep>();
     }
     
-    public CreepManager()
-    {
-        // TODO implement me
-    }
     
     public void addCreep(Creep newCreep)
     {
-        // TODO implement me
+      this.creepsAlive.add(newCreep);
     }
     
     public int getNumCreeps()
     {
-        // TODO implement me
-        return 0;
+return creepsAlive.size();
     }
     
     public Iterable<Creep> getCreeps()
     {
-        // TODO implement me
-        return null;
+     return (Iterable<Creep>) creepsAlive.iterator();
     }
     
     public void update(double delta)
     {
-        
+        for(Creep c : creepsAlive){
+            //TODO update?
+            
+            if(c.isDead()){
+                creepsDead.add(c);
+            }
+        }
     }
     
     private void pruneCreeps()
     {
-        
+     creepsAlive.removeAll(creepsDead);   
     }
 }

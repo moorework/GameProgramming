@@ -25,7 +25,7 @@ public class BulletManager
         {
             proj.update();
             if(proj.isDone()){
-                //TODO some code or whatever here 
+                deadBullets.add(proj);
             }
         }
         

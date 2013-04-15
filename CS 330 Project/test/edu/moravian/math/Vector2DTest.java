@@ -694,15 +694,7 @@ public class Vector2DTest
 
         assertEquals(4.2, vect.magnitude(), Vector2D.TOL);
 
-        /* try
-         {
-         vect.truncate(-1.0);
-         fail("Should have thrown exception");
-         }
-         catch (IllegalArgumentException e)
-         {//This is good}
-         }*/
-        //TODO truncate to illegal magnitude?
+
     }
 
     //Normalize tests

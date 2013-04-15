@@ -186,12 +186,7 @@ public class Point2DTest
         assertEquals(new Point2D(0, 4), foo);
     }
 
-    //TODO modequals negative number?
-    @Test
-    public void modEqualsZero()
-    {
- 
-    }
+
 
     @Test
     public void modEqualsBigWrap()

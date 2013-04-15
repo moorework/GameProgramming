@@ -8,6 +8,7 @@ import java.awt.List;
  */
 public class WaveCreator
 {
+    
 
     public WaveCreator(String fileLoc)
     {

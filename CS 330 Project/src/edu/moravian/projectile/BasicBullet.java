@@ -26,11 +26,13 @@ int damage;
 
     @Override
     public Ball get_dims() {
+        //TODO implement me
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void update() {
+        //TODO implement me
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -51,6 +53,7 @@ int damage;
 
     @Override
     public Sprite getCurrFrame() {
+        //TODO implement me
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

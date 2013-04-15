@@ -18,6 +18,8 @@ public class HardTargetingSystem extends TargetingSystem {
     public Creep determineTarget(Iterable<Creep> potentialTargets)
     {
         // determine which creep within range has the most health
+        
+        //Get one creep to have a point to start comparing them
         Creep temp;
         if (potentialTargets.iterator().hasNext())
         {
@@ -28,11 +30,11 @@ public class HardTargetingSystem extends TargetingSystem {
             return null;
         }
 
-        double champDist = temp.healthRemaining();
+        double champHealth = temp.healthRemaining();
         for (Creep potential : potentialTargets)
         {
             double tempDist = temp.healthRemaining();
-            if (tempDist < champDist && this.withinRange(potential))
+            if (tempDist < champHealth && this.withinRange(potential))
             {
                 temp = potential;
             }

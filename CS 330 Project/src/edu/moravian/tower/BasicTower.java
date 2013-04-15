@@ -19,17 +19,18 @@ import java.util.LinkedList;
  */
 public class BasicTower extends Tower
 {
+
     TargetingSystem tar;
-Timer time;
-BulletManager bulletman;
-double shotFrequency;
-double speedScale;
-int damage;
+    Timer time;
+    BulletManager bulletman;
+    double shotFrequency;
+    double speedScale;
+    int damage;
 
     public BasicTower(CreepManager man, BulletManager bul, Point2D pos)
     {
-        super(man,bul, pos);
-        
+        super(man, bul, pos);
+
         //TODO magic number
         tar = new ProximityTargetingSystem(100, pos);
         time = new Timer();
@@ -42,14 +43,15 @@ int damage;
     @Override
     public void update(double delta)
     {
-        
-        if(time.getDelta() > shotFrequency){
-         bulletman.shoot (new BasicBullet(tar.determineTarget(manager.getCreeps()), damage, speedScale, Position));
-         //TODO add interaction with bulletManager here
-          
+
+        if (time.getDelta() > shotFrequency)
+        {
+            bulletman.shoot(new BasicBullet(tar.determineTarget(manager.getCreeps()), damage, speedScale, Position));
+            //TODO add interaction with bulletManager here
+
         }
-       
-        
+
+
     }
 
     @Override

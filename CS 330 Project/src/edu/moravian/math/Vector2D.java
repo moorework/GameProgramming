@@ -12,8 +12,6 @@ import java.util.Random;
 public class Vector2D
 {
 
-    //TODO do not allow negative zeros 
-    //TODO or just eliminate them in comparisons 
     private double x;
     private double y;
     public static final Vector2D zero = new Vector2D(0, 0);
