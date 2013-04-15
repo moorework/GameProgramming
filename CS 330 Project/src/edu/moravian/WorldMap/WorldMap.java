@@ -5,9 +5,7 @@ import edu.moravian.graphics.Drawable;
 import edu.moravian.graphics.GraphicsIDHolder;
 import edu.moravian.graphics.Sprite;
 import edu.moravian.math.Point2D;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import org.jgrapht.Graph;
 
 /**
  *
@@ -39,7 +37,7 @@ public class WorldMap implements Drawable
      * @param mapWidth the width of the WorldMap in terms of the game world
      * @param mapHeight the height of the WorldMap in terms of the game world
      */
-    public WorldMap(String mapDirLocation, double mapWidth, double mapHeight) throws FileNotFoundException
+    public WorldMap(String mapDirLocation, double mapWidth, double mapHeight)
       {
         width = mapWidth;
         height = mapHeight;
@@ -61,7 +59,9 @@ public class WorldMap implements Drawable
 
         cellWidth = width / numHorizCells;
         cellHeight = height / numVertCells;
-      }
+        
+        setPathableCenterPoints();
+    }
 
     /**
      * Determines whether the cell corresponding to the provided game world Point
@@ -157,9 +157,26 @@ public class WorldMap implements Drawable
      * 
      * @return a Graph describing the navigable world
      */
-    public Graph<PathCell, Integer> getNavPath()
-      {
-        // TODO on hold - seems jGraphT is a collection of interfaces, not implemented classes
+    public NavPath<PathCell, Double> getNavPath()
+    {
+        NavPath<PathCell, Double> ret = new NavPath<PathCell, Double>();
+        
+        WorldCell cell;
+        PathCell pathCell;
+        for (int i = 0; i < topography.size(); i++) {
+            for (int k = 0; k < topography.get(0).size(); k++) {
+                cell = topography.get(i).get(k);
+                
+                if (cell.isPathable() == true) {
+                    pathCell = (PathCell) cell;
+                    
+                    // shit recursion
+                    ret.addVertex(pathCell);
+                }
+                
+            }
+        }
+        
         return null;
       }
 
@@ -228,5 +245,31 @@ public class WorldMap implements Drawable
 
         // matrices are row-by-column
         return topography.get(horizCellNum).get(vertCellNum);
-      }
-  }
+    }
+    
+    private void setPathableCenterPoints()
+    {
+        WorldCell cell;
+        
+        PathCell pathCell;
+        double centerX;
+        double centerY;
+        for (int i = 0; i < topography.size(); i++) {
+            for (int k = 0; k < topography.get(0).size(); k++) {
+                cell = topography.get(i).get(k);
+                
+                if (cell.isPathable() == true) {
+                    pathCell = (PathCell) cell;
+                    
+                    centerX = (i * cellWidth) + (cellWidth / 2.0);
+                    centerY = ((numVertCells - 1 - k) * cellHeight) + (cellHeight / 2.0);
+                    
+                    pathCell.setCenterPoint(new Point2D(centerX, centerY));
+                }
+            }
+        }
+    }
+    
+    private final Double CARDINAL_DIST = new Double(1.0);
+    private final Double DIAGONAL_DIST = new Double(Math.sqrt(2));
+}
