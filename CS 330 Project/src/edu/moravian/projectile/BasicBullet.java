@@ -31,8 +31,7 @@ int damage;
     }
 
     @Override
-    public void update() {
-        //TODO implement me
+    public void update(double delta) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

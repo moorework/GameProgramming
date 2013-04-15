@@ -11,19 +11,19 @@ import java.util.LinkedList;
 public class BulletManager
 {
 
-    LinkedList<Projectile> bullets;
+    private LinkedList<Projectile> bullets;
 
     public BulletManager(LinkedList<Projectile> bullets)
     {
         this.bullets = bullets;
     }
 
-    public void update()
+    public void update(double delta)
     {
         LinkedList<Projectile> deadBullets = new LinkedList<Projectile>();
         for (Projectile proj : bullets)
         {
-            proj.update();
+            proj.update(delta);
             if(proj.isDone()){
                 deadBullets.add(proj);
             }

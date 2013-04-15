@@ -45,7 +45,7 @@ public abstract class Projectile  implements Drawable{
         return damage;
     }
 
-    public abstract void update();
+    public abstract void update(double delta);
 
     public boolean isDone()
     {
