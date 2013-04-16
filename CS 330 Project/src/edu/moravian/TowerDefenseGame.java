@@ -1,11 +1,11 @@
 package edu.moravian;
 
-
 import edu.moravian.tower.TowerManager;
 import edu.moravian.creep.CreepManager;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
 import edu.moravian.projectile.BulletManager;
+import edu.moravian.tower.BasicTower;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,15 +13,13 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-
 //TODO make sure the coordinates are world coordinates 
 /**
  * This class encapsulates and holds all of the rules for the game
  *
  * @author moore
  */
-public class TowerDefenseGame implements KeyListener, Game
-  {
+public class TowerDefenseGame implements KeyListener, Game {
 
     private int worldWidth;
     private int worldHeight;
@@ -30,15 +28,12 @@ public class TowerDefenseGame implements KeyListener, Game
     private Color background;
     private Settings set;
     private boolean debug;
-    
     private BulletManager projMan;
-private CreepManager creepMan;
-private TowerManager towMan;
+    private CreepManager creepMan;
+    private TowerManager towMan;
+    private BasicTower t;
 
-
-
-    public TowerDefenseGame(int worldWidth, int worldHeight)
-      {
+    public TowerDefenseGame(int worldWidth, int worldHeight) {
 
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
@@ -53,44 +48,43 @@ private TowerManager towMan;
         endgame_met = false;
 
         background = set.getBackgroundColor();
-      
 
-        Rectangle rect = new Rectangle(100, 100);
+        towMan = new TowerManager();
+        towMan.addTower(new BasicTower(creepMan, projMan, new Point2D(500, 500)));
+
         
-   
-      }
+        
+        Rectangle rect = new Rectangle(100, 100);
+
+
+    }
 
     @Override
-    public void update()
-      {
+    public void update() {
         /*
          * In general we are trying to delegate logic to others 
          * and keep rules to ourself
          */
-
-
-      }
+    }
 
     @Override
-    public void draw(WorldGraphics2D Wg2D)
-      {
+    public void draw(WorldGraphics2D Wg2D) {
         Wg2D.setColor(background);
         Wg2D.fillRect(new Point2D(0, 0), worldWidth, worldHeight);
 
+        // t.draw(Wg2D);
+towMan.draw(Wg2D);
 
-
-      }
+    }
 
     @Override
-    public boolean done()
-      {
+    public boolean done() {
         return endgame_met;
-      }
+    }
 
     @Override
-    public void keyTyped(KeyEvent ke)
-      {
-      }
+    public void keyTyped(KeyEvent ke) {
+    }
 
     /**
      * This is where we handle input. If any future keyboard input needs to be
@@ -99,24 +93,13 @@ private TowerManager towMan;
      * @param ke
      */
     @Override
-    public void keyPressed(KeyEvent ke)
-      {
-        switch (ke.getKeyCode())
-          {
+    public void keyPressed(KeyEvent ke) {
+        switch (ke.getKeyCode()) {
 
-
-
-          }
-      }
+        }
+    }
 
     @Override
-    public void keyReleased(KeyEvent ke)
-      {
-      }
-
-
-
-
-    
-    
-  }
+    public void keyReleased(KeyEvent ke) {
+    }
+}

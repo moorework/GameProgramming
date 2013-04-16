@@ -226,20 +226,22 @@ class UserInterfaceController extends JFrame implements Runnable
                 // then an exception will be thrown.  We can simply ignore
                 // this exception and continue generating frames.
 
-                double sleeptime = time.getFPS() - time.getDelta();
-
-                if (sleeptime <= 0)
-                {
-                    sleeptime = 5;
-                }
-
-                try
-                {
-                    Thread.sleep((long) sleeptime);
-                }
-                catch (InterruptedException e)
-                {
-                }
+                
+                
+//                double sleeptime = time.getFPS() - time.getDelta();
+//
+//                if (sleeptime <= 0)
+//                {
+//                    sleeptime = 5;
+//                }
+//
+//                try
+//                {
+//                    Thread.sleep((long) sleeptime);
+//                }
+//                catch (InterruptedException e)
+//                {
+//                }
 
             }
         }

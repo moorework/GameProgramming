@@ -5,6 +5,7 @@ import edu.moravian.graphics.Drawable;
 import edu.moravian.graphics.GraphicsIDHolder;
 import edu.moravian.graphics.Sprite;
 import edu.moravian.math.Point2D;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import org.jgrapht.Graph;
 
@@ -38,7 +39,7 @@ public class WorldMap implements Drawable {
      * @param mapWidth the width of the WorldMap in terms of the game world
      * @param mapHeight the height of the WorldMap in terms of the game world
      */
-    public WorldMap(String mapDirLocation, double mapWidth, double mapHeight)
+    public WorldMap(String mapDirLocation, double mapWidth, double mapHeight) throws FileNotFoundException
     {
         width = mapWidth;
         height = mapHeight;
