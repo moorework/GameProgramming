@@ -10,6 +10,8 @@ import java.util.Scanner;
  * @author myles
  */
 public class MapBuilder {
+    private static final char PATH_CHAR = 'P';
+    private static final char TOWER_CHAR = 'T';
 
     protected static ArrayList<ArrayList<WorldCell>> getMapRepresentation(String mapDirLocation) throws FileNotFoundException
     {
@@ -47,6 +49,8 @@ public class MapBuilder {
         
         return 0;
     }
+    
+    //TODO test round one 
 
     private static ArrayList<WorldCell> translate(String first)
     {
@@ -54,10 +58,10 @@ public class MapBuilder {
         ArrayList<WorldCell> ret = new ArrayList<WorldCell>();
         for(char c:first.toCharArray()){
             switch(c){
-                case 'P':
+                case PATH_CHAR:
                     ret.add(new PathCell());
                     break;
-                case 'T':
+                case TOWER_CHAR:
                     ret.add(new TowerCell());
                     break;
                 default:

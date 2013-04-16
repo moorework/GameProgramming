@@ -36,4 +36,8 @@ public class BulletManager
     {
         bullets.add(basicBullet);
     }
+    
+    //TODO targetting system test
+    //TODO make sure the bullets seek properly
+    //TODO test the data driven crap 
 }
