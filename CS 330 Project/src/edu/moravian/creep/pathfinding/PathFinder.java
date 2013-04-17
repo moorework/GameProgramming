@@ -1,4 +1,4 @@
-package edu.moravian.creep;
+package edu.moravian.creep.pathfinding;
 
 import edu.moravian.WorldMap.PathCell;
 import edu.moravian.math.Point2D;

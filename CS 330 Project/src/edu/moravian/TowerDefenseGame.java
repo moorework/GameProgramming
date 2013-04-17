@@ -1,5 +1,7 @@
 package edu.moravian;
 
+import edu.moravian.WorldMap.PathCell;
+import edu.moravian.creep.BasicCreep;
 import edu.moravian.tower.TowerManager;
 import edu.moravian.creep.CreepManager;
 import edu.moravian.graphics.WorldGraphics2D;
@@ -31,7 +33,7 @@ public class TowerDefenseGame implements KeyListener, Game {
     private BulletManager projMan;
     private CreepManager creepMan;
     private TowerManager towMan;
-    private BasicTower t;
+    
 
     public TowerDefenseGame(int worldWidth, int worldHeight) {
 
@@ -49,11 +51,16 @@ public class TowerDefenseGame implements KeyListener, Game {
 
         background = set.getBackgroundColor();
 
+        projMan = new BulletManager(null);
+                
+        
         towMan = new TowerManager();
         towMan.addTower(new BasicTower(creepMan, projMan, new Point2D(500, 500)));
 
-        
-        
+        creepMan = new CreepManager(null);
+        creepMan.addCreep(new BasicCreep(new PathCell(), new Point2D(1000, 1000)));
+
+
         Rectangle rect = new Rectangle(100, 100);
 
 
@@ -65,6 +72,9 @@ public class TowerDefenseGame implements KeyListener, Game {
          * In general we are trying to delegate logic to others 
          * and keep rules to ourself
          */
+        
+        towMan.update(10);
+        creepMan.update(10);
     }
 
     @Override
@@ -73,7 +83,11 @@ public class TowerDefenseGame implements KeyListener, Game {
         Wg2D.fillRect(new Point2D(0, 0), worldWidth, worldHeight);
 
         // t.draw(Wg2D);
-towMan.draw(Wg2D);
+        towMan.draw(Wg2D);
+        
+        creepMan.draw(Wg2D);
+        
+        projMan.draw(Wg2D);
 
     }
 

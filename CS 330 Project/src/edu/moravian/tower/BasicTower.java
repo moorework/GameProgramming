@@ -19,13 +19,14 @@ import java.awt.Color;
  */
 public class BasicTower extends Tower {
 
-    TargetingSystem tar;
-    Timer time;
-    BulletManager bulletman;
-    double shotFrequency;
-    double speedScale;
-    int damage;
-    private static final int targetingRadius = 500;
+    private TargetingSystem tar;
+    private Timer time;
+    private BulletManager bulletman;
+    private double shotFrequency;
+    private double speedScale;
+    private int damage;
+    private static final int targetingRadius = 100;
+    private Point2D towerLoc;
 
     public BasicTower(CreepManager man, BulletManager bul, Point2D pos) {
         super(man, bul, pos);
@@ -33,19 +34,24 @@ public class BasicTower extends Tower {
         //TODO magic number
         tar = new ProximityTargetingSystem(targetingRadius, pos);
         time = new Timer();
-        shotFrequency = 4;
+        shotFrequency = 1;
         speedScale = 1;
         damage = 1;
         bulletman = bul;
+        time.tick();
+        towerLoc = pos;
     }
 
     @Override
     public void update(double delta) {
 
         if (time.getDelta() > shotFrequency) {
-            bulletman.shoot(new BasicBullet(tar.determineTarget(manager.getCreeps()), damage, speedScale, Position));
+            System.out.println("Shot out");
+            if (tar.hasTarget(manager.getCreeps())) {
+                bulletman.shoot(new BasicBullet(tar.determineTarget(manager.getCreeps()), damage, 1, Position));
+            }
             //TODO add interaction with bulletManager here
-
+            time.tick();
         }
     }
 
@@ -56,7 +62,7 @@ public class BasicTower extends Tower {
 
     @Override
     public Point2D getPos() {
-        return Position;
+        return towerLoc;
     }
 
     @Override
@@ -76,7 +82,7 @@ public class BasicTower extends Tower {
         Color col = w2d.getColor();
         w2d.setColor(Color.red);
         Point2D tenPos = new Point2D(Position.getX() - 5, Position.getY() + 5);
-           w2d.fillCircle(tenPos, 10, Color.CYAN);
+        w2d.fillCircle(tenPos, 10, Color.CYAN);
         //w2d.fillCircle(Position, 10, Color.cyan);
 
         Point2D fooPos = new Point2D(Position.getX() - targetingRadius / 4, Position.getY() + targetingRadius / 4);

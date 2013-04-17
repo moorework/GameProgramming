@@ -108,6 +108,7 @@ public class WorldGraphics2D {
     public void fillOval(Point2D loc, int i1, int i2) {
         Point2D temp = trans.worldtoScreen(loc);
         g2d.fillOval((int) temp.getX(), (int) temp.getY(), i1, i2);
+        
     }
 
     public void drawCircle(Point2D loc, int diameter, Color col) {

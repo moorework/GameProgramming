@@ -7,6 +7,7 @@ package edu.moravian.WorldMap;
 public class PathCell implements WorldCell {
     private final boolean CAN_BE_OCCUPIED;
     private final boolean IS_PATHABLE;
+    
 
     public PathCell()
     {

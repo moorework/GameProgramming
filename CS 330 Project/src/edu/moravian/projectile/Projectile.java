@@ -7,8 +7,10 @@ package edu.moravian.projectile;
 import edu.moravian.Ball;
 import edu.moravian.creep.Creep;
 import edu.moravian.graphics.Drawable;
+import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
+import java.awt.Color;
 import java.awt.Shape;
 
 /**
@@ -50,5 +52,9 @@ public abstract class Projectile  implements Drawable{
     public boolean isDone()
     {
        return flying;
+    }
+
+    void draw(WorldGraphics2D w2d) {
+        w2d.drawCircle(pos, damage, Color.red);
     }
 }

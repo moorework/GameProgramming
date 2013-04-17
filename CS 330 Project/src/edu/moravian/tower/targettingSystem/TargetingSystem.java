@@ -40,6 +40,18 @@ public abstract class TargetingSystem {
         else { // otherwise the result is negative, in which case the creep is
                // within range
             return true;
+        }              
+    }
+    
+    public boolean hasTarget(Iterable<Creep> potentialTargets){
+        boolean tar = false;
+        //TODO make this better
+        for(Creep temp: potentialTargets){
+            if(this.withinRange(temp)){
+                return true;
+            }                    
         }
+        return false;
+        
     }
 }
