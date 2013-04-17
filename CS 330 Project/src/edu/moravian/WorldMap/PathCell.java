@@ -38,4 +38,19 @@ public class PathCell implements WorldCell {
     {
         return centerPoint;
     }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof PathCell == false) {
+            return false;
+        }
+        
+        PathCell pc = (PathCell) o;
+        
+        if (pc.getCenterPoint() != centerPoint) {
+            return false;
+        }
+        
+        return true;
+    }
 }

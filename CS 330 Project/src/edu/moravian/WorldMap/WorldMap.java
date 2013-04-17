@@ -38,7 +38,7 @@ public class WorldMap implements Drawable
      * @param mapHeight the height of the WorldMap in terms of the game world
      */
     public WorldMap(String mapDirLocation, double mapWidth, double mapHeight)
-      {
+    {
         width = mapWidth;
         height = mapHeight;
 
@@ -157,9 +157,9 @@ public class WorldMap implements Drawable
      * 
      * @return a Graph describing the navigable world
      */
-    public NavPath<PathCell, Double> getNavPath()
+    public NavPath getNavPath()
     {
-        NavPath<PathCell, Double> ret = new NavPath<PathCell, Double>();
+        NavPath ret = new NavPath();
         
         WorldCell cell;
         PathCell pathCell;
@@ -170,7 +170,7 @@ public class WorldMap implements Drawable
                 if (cell.isPathable() == true) {
                     pathCell = (PathCell) cell;
                     
-                    // shit recursion
+                    // shit recursion, not done
                     ret.addVertex(pathCell);
                 }
                 

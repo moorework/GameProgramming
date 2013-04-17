@@ -1,25 +1,22 @@
 package edu.moravian.WorldMap;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import org.jgrapht.EdgeFactory;
-import org.jgrapht.WeightedGraph;
 
 /**
  *
  * @author myles
  */
-public class NavPath<V, E> implements WeightedGraph {
-    private HashMap<V, ArrayList<Node>> adjacencyList;
+public class NavPath {
+    private HashMap<PathCell, ArrayList<Node>> adjacencyList;
     
     private class Node {
-        protected V vertex;
-        protected E edge;
+        protected PathCell vertex;
+        protected Double edge;
         
-        protected Node(V v, E e) {
+        protected Node(PathCell v, Double e) {
             vertex = v;
             edge = e;
         }
@@ -27,45 +24,19 @@ public class NavPath<V, E> implements WeightedGraph {
     
     public NavPath()
     {
-        adjacencyList = new HashMap<V, ArrayList<Node>>();
+        adjacencyList = new HashMap<PathCell, ArrayList<Node>>();
     }
 
-    @Override
-    public void setEdgeWeight(Object e, double d)
+    
+    public void addEdge(PathCell v, PathCell v1)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Double edge = new Double(1);
+        
+        addEdge(v, v1, edge);
     }
 
-    @Override
-    public Set getAllEdges(Object v, Object v1)
+    public boolean addEdge(PathCell vertexFrom, PathCell vertexTo, Double edge)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Object getEdge(Object v, Object v1)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public EdgeFactory getEdgeFactory()
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Object addEdge(Object v, Object v1)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public boolean addEdge(Object v, Object v1, Object e)
-    {
-        V vertexFrom = (V) v;
-        V vertexTo = (V) v1;
-        E edge = (E) e;
         
         if (adjacencyList.containsKey(vertexFrom) == false) {
             
@@ -80,22 +51,17 @@ public class NavPath<V, E> implements WeightedGraph {
         return true;
     }
 
-    @Override
-    public boolean addVertex(Object v)
+    
+    public boolean addVertex(PathCell newVertex)
     {
-        V newVertex = (V) v;
-        
         adjacencyList.put(newVertex, new ArrayList<Node>());
         
         return true;
     }
 
-    @Override
-    public boolean containsEdge(Object v, Object v1)
+    
+    public boolean containsEdge(PathCell vertexFrom, PathCell vertexTo)
     {
-        V vertexFrom = (V) v;
-        V vertexTo = (V) v;
-        
         if (adjacencyList.containsKey(vertexFrom) == false) {
             return false;
         }
@@ -113,10 +79,9 @@ public class NavPath<V, E> implements WeightedGraph {
         return false;
     }
 
-    @Override
-    public boolean containsEdge(Object e)
+    
+    public boolean containsEdge(Double edge)
     {
-        E edge = (E) e;
         
         for (ArrayList<Node> nodes : adjacencyList.values()) {
             for (Node n : nodes) {
@@ -129,92 +94,72 @@ public class NavPath<V, E> implements WeightedGraph {
         return false;
     }
 
-    @Override
-    public boolean containsVertex(Object v)
-    {
-        V vertex = (V) v;
-        
+    
+    public boolean containsVertex(PathCell vertex)
+    {   
         return adjacencyList.containsKey(vertex);
     }
 
-    @Override
-    public Set edgeSet()
+    
+    public Set edgesOf(PathCell v)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Set edgesOf(Object v)
-    {
-        V vertex = (V) v;
         
-        HashSet<V> ret = new HashSet<V>();
+        HashSet<PathCell> ret = new HashSet<PathCell>();
         
-        for (Node n : adjacencyList.get(vertex)) {
+        for (Node n : adjacencyList.get(v)) {
             ret.add(n.vertex);
         }
         
         return ret;
     }
-
-    @Override
-    public boolean removeAllEdges(Collection clctn)
+    
+    public Double removeEdge(PathCell vertexFrom, PathCell vertexTo)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        ArrayList<Node> peers = adjacencyList.get(vertexFrom);
+        
+        Node n;
+        int removalIndex = 0;
+        boolean remove = false;
+        for (int i = 0; i < peers.size(); i++) {
+            n = peers.get(i);
+            
+            if (n.vertex.equals(vertexTo)) {
+                removalIndex = i;
+                remove = true;
+            }
+        }
+        
+        if (remove == true) {
+            return peers.remove(removalIndex).edge;
+        }
+        
+        return null;
     }
-
-    @Override
-    public Set removeAllEdges(Object v, Object v1)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public boolean removeAllVertices(Collection clctn)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Object removeEdge(Object v, Object v1)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public boolean removeEdge(Object e)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public boolean removeVertex(Object v)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
+    
     public Set vertexSet()
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return adjacencyList.keySet();
     }
 
-    @Override
-    public Object getEdgeSource(Object e)
+    
+    public double getEdgeWeight(PathCell vertexFrom, PathCell vertexTo)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Object getEdgeTarget(Object e)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public double getEdgeWeight(Object e)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (adjacencyList.containsKey(vertexFrom) == false) {
+            return 0;
+        }
+        
+        ArrayList<Node> peers = adjacencyList.get(vertexFrom);
+        
+        PathCell currCell;
+        for (Node n : peers) {
+            currCell = n.vertex;
+            
+            if (currCell.equals(vertexTo)) {
+                return n.edge;
+            }
+        }
+        
+        return 0;
     }
     
 }
