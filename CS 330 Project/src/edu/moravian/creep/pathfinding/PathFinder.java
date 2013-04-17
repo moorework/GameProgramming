@@ -1,5 +1,6 @@
 package edu.moravian.creep.pathfinding;
 
+import edu.moravian.WorldMap.NavGraph;
 import edu.moravian.WorldMap.PathCell;
 import edu.moravian.math.Point2D;
 import org.jgrapht.Graph;
@@ -10,7 +11,7 @@ import org.jgrapht.Graph;
  */
 public class PathFinder {
 
-    public static Path generatePath(Graph<PathCell, Integer> navGraph, Point2D targetPoint) {
+    public static Path generatePath(NavGraph navGraph, Point2D targetPoint, Point2D startingPoint) {
         // TODO implement me
         return null;
     }

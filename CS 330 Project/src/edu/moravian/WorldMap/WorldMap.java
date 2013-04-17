@@ -157,9 +157,9 @@ public class WorldMap implements Drawable
      * 
      * @return a Graph describing the navigable world
      */
-    public NavPath getNavPath()
+    public NavGraph getNavPath()
     {
-        NavPath ret = new NavPath();
+        NavGraph ret = new NavGraph();
         
         WorldCell cell;
         PathCell pathCell;

@@ -8,6 +8,11 @@ import edu.moravian.math.Point2D;
  */
 public class Path {
     
+    public boolean hasNextWayPoint() {
+        // TODO implement me
+        return false;
+    }
+    
     public Point2D getNextWayPoint() {
         // TODO implement me
         return null;

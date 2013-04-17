@@ -9,7 +9,7 @@ import java.util.Set;
  *
  * @author myles
  */
-public class NavPath {
+public class NavGraph {
     private HashMap<PathCell, ArrayList<Node>> adjacencyList;
     
     private class Node {
@@ -22,7 +22,7 @@ public class NavPath {
         }
     }
     
-    public NavPath()
+    public NavGraph()
     {
         adjacencyList = new HashMap<PathCell, ArrayList<Node>>();
     }
@@ -35,20 +35,23 @@ public class NavPath {
         addEdge(v, v1, edge);
     }
 
-    public boolean addEdge(PathCell vertexFrom, PathCell vertexTo, Double edge)
+    public void addEdge(PathCell vertexFrom, PathCell vertexTo, Double edge)
     {
         
         if (adjacencyList.containsKey(vertexFrom) == false) {
             
             this.addVertex(vertexFrom);
+        }
+        
+        if (adjacencyList.containsKey(vertexTo) == false) {
             this.addVertex(vertexTo);
         }
         
         Node n = new Node(vertexTo, edge);
+        Node nBack = new Node(vertexFrom, edge);
             
         adjacencyList.get(vertexFrom).add(n);
-        
-        return true;
+        adjacencyList.get(vertexTo).add(nBack);
     }
 
     
