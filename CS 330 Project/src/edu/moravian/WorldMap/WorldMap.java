@@ -162,23 +162,69 @@ public class WorldMap implements Drawable
         NavGraph ret = new NavGraph();
         
         WorldCell cell;
-        PathCell pathCell;
-        for (int i = 0; i < topography.size(); i++) {
-            for (int k = 0; k < topography.get(0).size(); k++) {
-                cell = topography.get(i).get(k);
+        PathCell pathCell = null;
+        boolean pathCellFound = false;
+        
+        // find an initial PathCell to generate our graph from; we assume that
+        // all PathCells are ultimately contiguous
+        int numRows = topography.size();
+        int numColumns = topography.get(0).size();
+        int numCells = numRows * numColumns;
+        int cellNum = 0;
+        int i = 0;
+        int j = 0;
+        while (pathCellFound && cellNum < numCells) {
+            i = cellNum / numColumns; // row index
+            j = cellNum % numRows; // column index
+            
+            cell = topography.get(i).get(j);
+            
+            if (cell.isPathable() == true) {
+                pathCell = (PathCell) cell;
+                pathCellFound = true;
+            }
+            
+            cellNum++;
+        }
+        
+        return computePathCell(ret, pathCell, 0, i, j);
+    }
+    
+    private NavGraph computePathCell(NavGraph graph, PathCell pred, double edgeWeight, int rowL, int colL) {
+        if (rowL >= topography.size()) {
+            return graph;
+        }
+        else if (colL >= topography.get(0).size()) {
+            return graph;
+        }
+        
+        WorldCell cell = topography.get(rowL).get(colL);
+        PathCell pCell;
+        
+        if (cell.isPathable() == false) {
+            return graph;
+        }
+        else {
+            pCell = (PathCell) cell;
+        }
+        
+        graph.addEdge(pred, pCell, edgeWeight);
+        
+        for (int i = rowL - 1; i <= rowL + 1; i++) {
+            for (int j = colL - 1; j <= colL + 1; j++) {
                 
-                if (cell.isPathable() == true) {
-                    pathCell = (PathCell) cell;
-                    
-                    // shit recursion, not done
-                    ret.addVertex(pathCell);
+                if (i != rowL && j != colL) {
+                    return computePathCell(graph, pCell, DIAGONAL_DIST, i, j);
+                }
+                else {
+                    return computePathCell(graph, pCell, CARDINAL_DIST, i, j);
                 }
                 
             }
         }
         
-        return null;
-      }
+        return graph;
+    }
 
     @Override
     public Point2D getPos()

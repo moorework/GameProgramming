@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
  *
  * @author myles
  */
-public class NavPathTest {
+public class NavGraphTest {
     
     @Test
     public void testProperVertexAdding() {
