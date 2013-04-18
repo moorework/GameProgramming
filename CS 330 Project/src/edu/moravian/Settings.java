@@ -54,64 +54,6 @@ public class Settings
         return 60;
       }
 
-    /**
-     *
-     * @return The default chase time in seconds
-     */
-    public double getDefaultChaseEnergyLevel()
-      {
-        return 7;
-      }
-
-    /**
-     *
-     * @return returns the default food reserves in seconds
-     */
-    public double getDefaultFoodReserves()
-      {
-        return 10;
-      }
-
-    //This is just a safe point that is always inside the world
-    public Point2D getSafePoint()
-      {
-        return new Point2D(100, 100);
-      }
-
-    public double getChaseSpeed()
-      {
-        return 1;
-      }
-
-    public Point2D getPlayerPosInit()
-      {
-        return new Point2D(200, 0);
-      }
-
-    public Vector2D getPlayerMovementDown()
-      {
-        return new Vector2D(0, 30);
-      }
-
-    public Vector2D getPlayerMovementUp()
-      {
-        return new Vector2D(0, -30);
-      }
-
-    public Vector2D getPlayerMovementRight()
-      {
-        return new Vector2D(30, 0);
-      }
-
-    public Vector2D getPlayerMovementLeft()
-      {
-        return new Vector2D(-30, 0);
-      }
-
-    public double getDefaultEatTime()
-      {
-        return 4;
-      }
 
     boolean getDebug()
       {
@@ -123,10 +65,6 @@ public class Settings
         debug = !debug;
       }
 
-    public double getDefaultSleepTime()
-      {
-        return 2;
-      }
 
     public void setResolution(Dimension resolution)
       {

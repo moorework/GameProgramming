@@ -2,6 +2,7 @@ package edu.moravian.creep;
 
 import edu.moravian.graphics.WorldGraphics2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -30,8 +31,8 @@ public class CreepManager {
         return creepsAlive.size();
     }
 
-    public Iterable<Creep> getCreeps() {
-        return (Iterable<Creep>) creepsAlive.iterator();
+    public Iterator<Creep> getCreeps() {
+        return  creepsAlive.iterator();
     }
 
     public void update(double delta) {

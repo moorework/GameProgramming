@@ -25,7 +25,7 @@ public class BasicTower extends Tower {
     private double shotFrequency;
     private double speedScale;
     private int damage;
-    private static final int targetingRadius = 100;
+    private static final int targetingRadius = 400;
     private Point2D towerLoc;
 
     public BasicTower(CreepManager man, BulletManager bul, Point2D pos) {
@@ -34,21 +34,26 @@ public class BasicTower extends Tower {
         //TODO magic number
         tar = new ProximityTargetingSystem(targetingRadius, pos);
         time = new Timer();
-        shotFrequency = 1;
+        shotFrequency = 2;
         speedScale = 1;
         damage = 1;
         bulletman = bul;
         time.tick();
         towerLoc = pos;
+        manager =  man;
     }
 
     @Override
     public void update(double delta) {
 
         if (time.getDelta() > shotFrequency) {
-            System.out.println("Shot out");
+     
+     
             if (tar.hasTarget(manager.getCreeps())) {
-                bulletman.shoot(new BasicBullet(tar.determineTarget(manager.getCreeps()), damage, 1, Position));
+           
+                System.out.println("Shot out ");
+                BasicBullet bul = new BasicBullet(tar.determineTarget(manager.getCreeps()), damage, 1, this.getPos());
+                bulletman.shoot(bul);
             }
             //TODO add interaction with bulletManager here
             time.tick();

@@ -5,12 +5,9 @@
 package edu.moravian.tower;
 
 import edu.moravian.projectile.BulletManager;
-import edu.moravian.creep.Creep;
 import edu.moravian.creep.CreepManager;
 import edu.moravian.graphics.Drawable;
 import edu.moravian.math.Point2D;
-import edu.moravian.math.Vector2D;
-import java.awt.Shape;
 
 /**
  *

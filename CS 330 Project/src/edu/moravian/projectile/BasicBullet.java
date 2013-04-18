@@ -7,52 +7,62 @@ import edu.moravian.graphics.GraphicsIDHolder;
 import edu.moravian.graphics.Sprite;
 import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
+import java.awt.Color;
+import javax.swing.text.Position;
 
 /**
  *
  * @author James Moore (moore.work@live.com)
  */
-public class BasicBullet extends Projectile {
+public class BasicBullet extends Projectile
+  {
 
-Point2D pos;     
-double speedScale; 
-int damage;
-    
-    public BasicBullet(Creep target_in, int damage_in, double speedscale_in, Point2D origin) {
-        super(target_in, damage_in, speedscale_in);
-        pos = origin;
-        
-    }
+    public BasicBullet(Creep target_in, int damage_in, double speedscale_in, Point2D origin)
+      {
+        super(origin, target_in, damage_in, speedscale_in);
+      }
 
     @Override
-    public Ball get_dims() {
-        //TODO implement me
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    public Ball get_dims()
+      {
+        //TODO magic number
+        return new Ball(pos, getVelocity(), 100, 100, Color.yellow, 1);
+      }
 
     @Override
-    public void update(double delta) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public GraphicsIDHolder getGraphicsID() {
-      return GraphicsIDHolder.BASICBULLET;
-    }
-
-    @Override
-    public Point2D getPos() {
-        return pos;
-    }
-
-    @Override
-    public DrawLocation getDrawLocation() {
-        return DrawLocation.CENTER;
-    }
-
-    @Override
-    public Sprite getCurrFrame() {
-        //TODO implement me
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    public void update(double delta)
+      {
+        target.respondToColission(this);
+        //TODO MN
+        Vector2D direction = target.getPosition().minus(this.pos).getNormalized();
+        pos = pos.scalePlus(1, direction);
+if(target.isDead()){
+    this.doneVar = true;
 }
+      }
+
+    @Override
+    public GraphicsIDHolder getGraphicsID()
+      {
+        return GraphicsIDHolder.BASICBULLET;
+      }
+
+    @Override
+    public Point2D getPos()
+      {
+        return this.getPosition();
+      }
+
+    @Override
+    public DrawLocation getDrawLocation()
+      {
+        return DrawLocation.CENTER;
+      }
+
+    @Override
+    public Sprite getCurrFrame()
+      {
+        //TODO implement me
+        throw new UnsupportedOperationException("Not supported yet.");
+      }
+  }

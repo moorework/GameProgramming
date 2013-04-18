@@ -45,7 +45,7 @@ public class BasicCreep implements Creep, Drawable {
         appearance = new Rectangle(100, 100);
         // movement = new Vector2D(10, 10);
 
-
+this.movement = objective.minus(this.getPos());
 
     }
 
@@ -74,10 +74,11 @@ public class BasicCreep implements Creep, Drawable {
     @Override
     public void respondToColission(Projectile projectile) {
         Ball one = new Ball(position, movement, 1, this.get_dims().getBounds().width / 2, Color.yellow, 1);
+Ball two = projectile.get_dims();
 
-
-        if (CollisionDetector.twoSpheresColliding(one, projectile.get_dims())) {
-            System.out.println("HIT");
+        if (CollisionDetector.twoSpheresColliding(one, two)) {
+           //TODO implement health system.
+            dead = true;
 
         }
 
@@ -104,7 +105,7 @@ public class BasicCreep implements Creep, Drawable {
 
     @Override
     public Point2D getPos() {
-        throw new UnsupportedOperationException("Not supported yet.");
+     return this.getPosition();
     }
 
     @Override

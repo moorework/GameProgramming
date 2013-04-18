@@ -19,18 +19,19 @@ import java.awt.Shape;
  */
 public abstract class Projectile  implements Drawable{
 
-    private Creep target;
+    protected Creep target;
     private int damage;
     private double speedscale;
-    private Point2D pos;
+    protected Point2D pos;
     private Vector2D dir;
-    private boolean flying ;
+    protected boolean doneVar ;
 
-    public Projectile(Creep target_in, int damage_in, double speedscale_in) {
+    public Projectile(Point2D position, Creep target_in, int damage_in, double speedscale_in) {
         target = target_in;
         damage = damage_in;
         speedscale = speedscale_in;
-        flying = true;
+        doneVar = false;
+        pos = position;
     }
 
     public abstract Ball get_dims();
@@ -40,7 +41,7 @@ public abstract class Projectile  implements Drawable{
     }
 
     public Vector2D getVelocity() {
-        return dir;
+        return this.pos.minus(target.getPosition());
     }
 
     public int getDamage() {
@@ -51,10 +52,11 @@ public abstract class Projectile  implements Drawable{
 
     public boolean isDone()
     {
-       return flying;
+       return doneVar;
     }
 
     void draw(WorldGraphics2D w2d) {
-        w2d.drawCircle(pos, damage, Color.red);
+        //TODO circle 
+        w2d.drawCircle(pos, 100, Color.red);
     }
 }

@@ -2,56 +2,75 @@ package edu.moravian.tower.targettingSystem;
 
 import edu.moravian.creep.Creep;
 import edu.moravian.math.Point2D;
+import java.util.Iterator;
 
 /**
  *
  * @author myles
  */
-public abstract class TargetingSystem {
+public abstract class TargetingSystem
+  {
+
     private int visionRadius;
     private Point2D position;
-    
+
     public TargetingSystem(int radius, Point2D pos)
-    {
+      {
         visionRadius = radius;
         position = pos;
-    }
-    
-    public abstract Creep determineTarget(Iterable<Creep> potentialTargets);
-    
+      }
+
+    public abstract Creep determineTarget(Iterator<Creep> potentialTargets);
+
     /*
      * Determines whethet a creep is within the range of the targeting system.
      */
     protected boolean withinRange(Creep creep)
-    {
+      {
 
         Point2D creepPos = creep.getPosition(); // get the position of the creep
-        
+
         // determine the absolute distance between the creep and our position
-        double distance = creepPos.minus(creepPos).magnitude();
+        double distance = creepPos.minus(this.getPosition()).magnitude();
         // subtract our viewing radius from the distance...
         distance = distance - visionRadius;
-        
+
         // if the result is positive, then the creep is outside of our area of
         // sight
-        if (distance > 0) {
+        if (distance > 0)
+          {
             return false;
-        }
-        else { // otherwise the result is negative, in which case the creep is
-               // within range
+          } 
+        else
+          { // otherwise the result is negative, in which case the creep is
+            // within range
             return true;
-        }              
-    }
-    
-    public boolean hasTarget(Iterable<Creep> potentialTargets){
-        boolean tar = false;
+          }
+      }
+
+    public boolean hasTarget(Iterator<Creep> potentialTargets)
+      {    
         //TODO make this better
-        for(Creep temp: potentialTargets){
-            if(this.withinRange(temp)){
+
+        while (potentialTargets.hasNext())
+          {
+            Creep tmp = potentialTargets.next();
+            if (this.withinRange(tmp))
+              {
                 return true;
-            }                    
-        }
+              }
+
+          }
+
         return false;
-        
-    }
-}
+
+      }
+
+    public Point2D getPosition()
+      {
+        return position;
+      }
+    
+    
+    
+  }
