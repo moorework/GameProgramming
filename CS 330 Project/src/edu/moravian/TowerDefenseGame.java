@@ -1,5 +1,8 @@
 package edu.moravian;
 
+import edu.moravian.SM.NullState;
+import edu.moravian.SM.RunningState;
+import edu.moravian.SM.TD_StateMach;
 import edu.moravian.WorldMap.PathCell;
 import edu.moravian.creep.BasicCreep;
 import edu.moravian.creep.CreepManager;
@@ -20,8 +23,7 @@ import java.awt.event.KeyListener;
  *
  * @author moore
  */
-public class TowerDefenseGame implements KeyListener, Game
-  {
+public class TowerDefenseGame implements KeyListener, Game {
 
     private int worldWidth;
     private int worldHeight;
@@ -29,16 +31,16 @@ public class TowerDefenseGame implements KeyListener, Game
     private final Point2D center_point;
     private Color background;
     private Settings set;
-   
     private BulletManager projMan;
     private CreepManager creepMan;
     private TowerManager towMan;
-      /*
-         * In general we are trying to delegate logic to others 
-         * and keep rules to ourself
-         */
-    public TowerDefenseGame(int worldWidth, int worldHeight)
-      {
+    TD_StateMach stateMac;
+    /*
+     * In general we are trying to delegate logic to others 
+     * and keep rules to ourself
+     */
+
+    public TowerDefenseGame(int worldWidth, int worldHeight) {
 
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
@@ -56,30 +58,28 @@ public class TowerDefenseGame implements KeyListener, Game
         projMan = new BulletManager(null);
 
         creepMan = new CreepManager(null);
-        creepMan.addCreep(new BasicCreep(new Point2D(0,0), new Point2D(500, 500)));
-        creepMan.addCreep(new BasicCreep(new Point2D(1000,0), new Point2D(500, 500)));
+        creepMan.addCreep(new BasicCreep(new Point2D(0, 0), new Point2D(500, 500)));
+        creepMan.addCreep(new BasicCreep(new Point2D(1000, 0), new Point2D(500, 500)));
 
 
 
         towMan = new TowerManager();
         towMan.addTower(new BasicTower(creepMan, projMan, new Point2D(500, 500)));
 
-
-      }
+        stateMac = new TD_StateMach(this, towMan, projMan, creepMan);
+        stateMac.setGlobalState(new RunningState());
+        stateMac.setGameState(new NullState());
+    }
 
     @Override
-    public void update()
-      {
-  
+    public void update() {
+
 //TODO make double not 10
-         towMan.update(10);
-        creepMan.update(10);
-        projMan.update(10);
-      }
+        stateMac.update();
+    }
 
     @Override
-    public void draw(WorldGraphics2D Wg2D)
-      {
+    public void draw(WorldGraphics2D Wg2D) {
         Wg2D.setColor(background);
         Wg2D.fillRect(new Point2D(0, 0), worldWidth, worldHeight);
 
@@ -89,18 +89,16 @@ public class TowerDefenseGame implements KeyListener, Game
 
         projMan.draw(Wg2D);
 
-      }
+    }
 
     @Override
-    public boolean done()
-      {
+    public boolean done() {
         return endgame_met;
-      }
+    }
 
     @Override
-    public void keyTyped(KeyEvent ke)
-      {
-      }
+    public void keyTyped(KeyEvent ke) {
+    }
 
     /**
      * This is where we handle input. If any future keyboard input needs to be
@@ -109,17 +107,35 @@ public class TowerDefenseGame implements KeyListener, Game
      * @param ke
      */
     @Override
-    public void keyPressed(KeyEvent ke)
-      {
-        switch (ke.getKeyCode())
-          {
-            case KeyEvent.VK_SPACE:
+    public void keyPressed(KeyEvent ke) {
+        switch (ke.getKeyCode()) {
+            case KeyEvent.VK_Q:
                 endgame_met = true;
-          }
-      }
+                break;
+            case KeyEvent.VK_SPACE:
+                System.out.println("Space");
+                
+                stateMac.pause();
+                break;
+            default:
+                break;
+        }
+    }
 
     @Override
-    public void keyReleased(KeyEvent ke)
-      {
-      }
-  }
+    public void keyReleased(KeyEvent ke) {
+    }
+
+    //TODO may want to redo whole state driven design 
+    public BulletManager getProjMan() {
+        return projMan;
+    }
+
+    public CreepManager getCreepMan() {
+        return creepMan;
+    }
+
+    public TowerManager getTowMan() {
+        return towMan;
+    }
+}
