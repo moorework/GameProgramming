@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
- *
+ *  This clas manages the living and dead creeps.  It automatically trims the creeps on their deaths 
  * @author myles
  */
 public class CreepManager {
@@ -48,6 +48,7 @@ public class CreepManager {
     }
 
     private void pruneCreeps() {
+        //TODO change this to a state change when appropriate 
         creepsAlive.removeAll(creepsDead);
     }
     
