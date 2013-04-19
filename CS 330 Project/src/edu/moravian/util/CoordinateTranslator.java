@@ -22,12 +22,22 @@ public class CoordinateTranslator
         this.worldHeight = worldHeight;
       }
 
+    /**
+     * Translate a screen coordinate to a world coordinate 
+     * @param screenPoint
+     * @return 
+     */
     public Point2D screenToWorld(Point2D screenPoint)
       {
         return new Point2D((screenPoint.getX() / screenWidth) * worldWidth,
                 (1 - screenPoint.getY() / screenHeight) * worldHeight);
       }
 
+    /**
+     * Translate a world coordinate to a screen coordinate 
+     * @param worldPoint
+     * @return 
+     */
     public Point2D worldtoScreen(Point2D worldPoint)
       {
         return new Point2D(worldPoint.getX() / worldWidth * screenWidth,

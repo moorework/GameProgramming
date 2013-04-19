@@ -26,16 +26,15 @@ public class TowerManager {
     
     public void update(double delta){
         for(Tower t : towers){
-            //TODO is this delta usage correct?
+            
             t.update(delta);
         }
     }
     
-    //TODO draw
     public void draw(WorldGraphics2D g2d){
         for(Tower t: towers){
            ((BasicTower)t).draw(g2d);
         }
-    }
-    
+    }    
 }
+//TODO add the actual drawing system 

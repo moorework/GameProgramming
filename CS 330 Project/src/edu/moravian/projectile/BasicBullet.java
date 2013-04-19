@@ -16,6 +16,9 @@ import javax.swing.text.Position;
  */
 public class BasicBullet extends Projectile
   {
+    //TODO magic number
+
+    private static final int Radius = 100;
 
     public BasicBullet(Creep target_in, int damage_in, double speedscale_in, Point2D origin)
       {
@@ -25,8 +28,8 @@ public class BasicBullet extends Projectile
     @Override
     public Ball get_dims()
       {
-        //TODO magic number
-        return new Ball(pos, getVelocity(), 100, 100, Color.yellow, 1);
+
+        return new Ball(pos, getVelocity(), 1, Radius, Color.yellow, 1);
       }
 
     @Override
@@ -35,10 +38,11 @@ public class BasicBullet extends Projectile
         target.respondToColission(this);
         //TODO MN
         Vector2D direction = target.getPosition().minus(this.pos).getNormalized();
-        pos = pos.scalePlus(1, direction);
-if(target.isDead()){
-    this.doneVar = true;
-}
+        pos = pos.scalePlus(this.speedscale, direction);
+        if (target.isDead())
+          {
+            this.doneVar = true;
+          }
       }
 
     @Override

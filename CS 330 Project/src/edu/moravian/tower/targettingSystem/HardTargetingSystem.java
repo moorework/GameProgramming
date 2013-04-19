@@ -46,3 +46,4 @@ public class HardTargetingSystem extends TargetingSystem
 
       }
   }
+//Try sorting by health remaining 

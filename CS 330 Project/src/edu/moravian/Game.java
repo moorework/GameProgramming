@@ -1,9 +1,6 @@
 package edu.moravian;
 
-
 import edu.moravian.graphics.WorldGraphics2D;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 /**
  * This interface defines the required elements for any game that uses

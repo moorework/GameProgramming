@@ -19,17 +19,13 @@ public class WaveCreator
 
     public WaveCreator(String fileLoc) throws FileNotFoundException
     {
-        //TODO have someone other than game be responsible for spawning?
         /*
          * Ok this is the documentation of the creep file system
          */
         //TODO create ini files with documentaiton inside of them 
 
-        //TODO create a better waves system
-
         waves = new LinkedList<Wave>();
         //read me some creep data
-        //TODO implement me
 
         File f = new File(fileLoc);
         Scanner s = new Scanner(f);
@@ -54,7 +50,7 @@ public class WaveCreator
 
     //TODO implement me
     public boolean hasNextWave()
-    {
+    { 
         return false;
     }
 

@@ -1,5 +1,6 @@
 package edu.moravian.tower;
 
+import edu.moravian.creep.Creep;
 import edu.moravian.creep.CreepManager;
 import edu.moravian.graphics.DrawLocation;
 import edu.moravian.graphics.GraphicsIDHolder;
@@ -14,21 +15,25 @@ import edu.moravian.util.Timer;
 import java.awt.Color;
 
 /**
+ * This tower shoots a basic homing projectile
  *
  * @author James Moore (moore.work@live.com)
  */
-public class BasicTower extends Tower {
+public class BasicTower extends Tower
+  {
 
     private TargetingSystem tar;
     private Timer time;
     private BulletManager bulletman;
     private double shotFrequency;
-    private double speedScale;
     private int damage;
+    private int speedScale;
+    //TODO factor out magic number 
     private static final int targetingRadius = 400;
     private Point2D towerLoc;
 
-    public BasicTower(CreepManager man, BulletManager bul, Point2D pos) {
+    public BasicTower(CreepManager man, BulletManager bul, Point2D pos)
+      {
         super(man, bul, pos);
 
         //TODO magic number
@@ -40,50 +45,61 @@ public class BasicTower extends Tower {
         bulletman = bul;
         time.tick();
         towerLoc = pos;
-        manager =  man;
-    }
+        manager = man;
+      }
 
     @Override
-    public void update(double delta) {
+    public void update(double delta)
+      {
 
-        if (time.getDelta() > shotFrequency) {
-     
-     
-            if (tar.hasTarget(manager.getCreeps())) {
-           
-                System.out.println("Shot out ");
-                BasicBullet bul = new BasicBullet(tar.determineTarget(manager.getCreeps()), damage, 1, this.getPos());
+        //If we have not shot recently 
+        //FIXME if there is an issue with a newly spawed tower
+        if (time.getDelta() > shotFrequency)
+          {
+
+            if (tar.hasTarget(manager.getCreeps()))
+              {
+
+                //TODO magic number here 
+                Creep target = tar.determineTarget(manager.getCreeps());
+                BasicBullet bul = new BasicBullet(target, damage, 1, this.getPos());
                 bulletman.shoot(bul);
-            }
-            //TODO add interaction with bulletManager here
+              }
+
+            //Reset the time 
             time.tick();
-        }
-    }
+
+          }
+      }
 
     @Override
-    public GraphicsIDHolder getGraphicsID() {
+    public GraphicsIDHolder getGraphicsID()
+      {
         return GraphicsIDHolder.BASICTOWER;
-    }
+      }
 
     @Override
-    public Point2D getPos() {
+    public Point2D getPos()
+      {
         return towerLoc;
-    }
+      }
 
     @Override
-    public DrawLocation getDrawLocation() {
+    public DrawLocation getDrawLocation()
+      {
         return DrawLocation.CENTER;
-    }
+      }
 
     @Override
-    public Sprite getCurrFrame() {
+    public Sprite getCurrFrame()
+      {
+        //TODO implement me 
         throw new UnsupportedOperationException("Not supported yet.");
-    }
+      }
 
     //TODO get rid of me, I am simply a testing method 
-    public void draw(WorldGraphics2D w2d) {
-
-
+    public void draw(WorldGraphics2D w2d)
+      {
         Color col = w2d.getColor();
         w2d.setColor(Color.red);
         Point2D tenPos = new Point2D(Position.getX() - 5, Position.getY() + 5);
@@ -95,5 +111,5 @@ public class BasicTower extends Tower {
         w2d.fillCircle(Position, 1, Color.white);
         w2d.setColor(col);
 
-    }
-}
+      }
+  }

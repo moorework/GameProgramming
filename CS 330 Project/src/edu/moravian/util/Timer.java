@@ -13,7 +13,7 @@ public class Timer
     double frameLength;
 
    /**
-    * 
+    * Creates a new Timer 
     */
     public Timer()
     {

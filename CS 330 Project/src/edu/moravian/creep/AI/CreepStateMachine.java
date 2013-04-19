@@ -15,7 +15,6 @@ public class CreepStateMachine
 
     public void update()
     {
-          // TODO implement me
         /*
          * The problem we face here is that changing states is gonna get really 
          * messy if we keep it here 
@@ -25,8 +24,6 @@ public class CreepStateMachine
 
     public void RevertToPreviousState()
     {
-          // TODO implement me
         current_state = previous_state;
-        //TODO may queue of previous states 
     }
 }

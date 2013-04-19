@@ -10,9 +10,7 @@ import java.awt.Shape;
  * @author moore
  */
 public interface Creep
-{
-        
-    
+{    
     public void update(double delta);
 
     public Shape get_dims();

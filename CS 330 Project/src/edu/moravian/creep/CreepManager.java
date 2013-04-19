@@ -9,53 +9,75 @@ import java.util.LinkedList;
  *
  * @author myles
  */
-public class CreepManager {
+public class CreepManager
+  {
 
     ArrayList<Creep> creepsAlive;
     ArrayList<Creep> creepsDead;
 
-    public CreepManager(ArrayList<Creep> initialCreeps) {
-        if(initialCreeps != null){
-        this.creepsAlive = initialCreeps;
-        }else{
+    public CreepManager()
+      {
+        creepsAlive = new ArrayList<Creep>();
+        creepsDead = new ArrayList<Creep>();
+      }
+
+    public CreepManager(ArrayList<Creep> initialCreeps)
+      {
+        if (initialCreeps != null)
+          {
+            this.creepsAlive = initialCreeps;
+          }
+        else
+          {
             creepsAlive = new ArrayList<Creep>();
-        }
+          }
         this.creepsDead = new ArrayList<Creep>();
-    }
+      }
 
-    public void addCreep(Creep newCreep) {
+    public void addCreep(Creep newCreep)
+      {
         this.creepsAlive.add(newCreep);
-    }
+      }
 
-    public int getNumCreeps() {
+    public int getNumCreeps()
+      {
         return creepsAlive.size();
-    }
+      }
 
-    public Iterator<Creep> getCreeps() {
-        return  creepsAlive.iterator();
-    }
+    public Iterator<Creep> getCreeps()
+      {
+        return creepsAlive.iterator();
+      }
 
-    public void update(double delta) {
-       
+    public void update(double delta)
+      {
+
         pruneCreeps();
-        
-        for (Creep c : creepsAlive) {
+
+        for (Creep c : creepsAlive)
+          {
             //TODO update?
             c.update(delta);
-            if (c.isDead()) {
+            if (c.isDead())
+              {
                 creepsDead.add(c);
-            }
-        }
-    }
+              }
+          }
+        
+        pruneCreeps();
+      }
 
-    private void pruneCreeps() {
+    private void pruneCreeps()
+      {
         creepsAlive.removeAll(creepsDead);
-    }
-    
-    public void draw (WorldGraphics2D w2d){
-       for(Creep cr: creepsAlive){
+      }
 
-           ((BasicCreep)cr).draw(w2d);
-       }
-    }
-}
+    //TODO Remove this, this is only testing 
+    public void draw(WorldGraphics2D w2d)
+      {
+        for (Creep cr : creepsAlive)
+          {
+            ((BasicCreep) cr).draw(w2d);
+          }
+      }
+  }

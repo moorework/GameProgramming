@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.moravian.projectile;
 
 import edu.moravian.Ball;
@@ -21,7 +17,7 @@ public abstract class Projectile  implements Drawable{
 
     protected Creep target;
     private int damage;
-    private double speedscale;
+    protected double speedscale;
     protected Point2D pos;
     private Vector2D dir;
     protected boolean doneVar ;
@@ -60,3 +56,5 @@ public abstract class Projectile  implements Drawable{
         w2d.drawCircle(pos, 100, Color.red);
     }
 }
+
+//TODO make sure that there arn't duplicate get velo methods

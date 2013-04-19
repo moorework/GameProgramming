@@ -19,6 +19,7 @@ public class ProximityTargetingSystem extends TargetingSystem
     @Override
     public Creep determineTarget(Iterator<Creep> potentialTargets)
       {
+        //Get a creep to work with 
         Creep temp;
         if (potentialTargets.hasNext())
           {
@@ -29,8 +30,10 @@ public class ProximityTargetingSystem extends TargetingSystem
             return null;
           }
 
-        //TODO is this right?
+        //Get a distance between a creep and the tower 
         double champDist = temp.getPosition().minus(this.getPosition()).magnitude();
+        
+        //Find the shortest distance 
         while (potentialTargets.hasNext())
           {
             Creep potential = potentialTargets.next();
@@ -44,3 +47,4 @@ public class ProximityTargetingSystem extends TargetingSystem
 
       }
   }
+//TODO we should implement a system that targets the furthest along 

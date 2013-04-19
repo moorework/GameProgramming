@@ -2,7 +2,6 @@ package edu.moravian.graphics;
 
 import edu.moravian.graphics.filters.SpriteFilter;
 import edu.moravian.math.Point2D;
-
 import java.util.ArrayList;
 
 /**

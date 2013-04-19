@@ -54,18 +54,6 @@ public class Settings
         return 60;
       }
 
-
-    boolean getDebug()
-      {
-        return false;
-      }
-
-    void setDebug()
-      {
-        debug = !debug;
-      }
-
-
     public void setResolution(Dimension resolution)
       {
         res =resolution;

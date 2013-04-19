@@ -1,16 +1,12 @@
 package edu.moravian.graphics;
 
 import edu.moravian.Settings;
-import edu.moravian.util.CoordinateTranslator;
-import edu.moravian.graphics.Sprite;
 import edu.moravian.math.Point2D;
-import edu.moravian.math.Vector2D;
+import edu.moravian.util.CoordinateTranslator;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.image.BufferedImage;
 
 /**
@@ -54,11 +50,14 @@ public class WorldGraphics2D {
 
     }
 
-    public void drawLine(Point2D start, Point2D end) {
+    public void drawLine(Point2D start_in, Point2D end_in) {      
+        Point2D start = trans.worldtoScreen(start_in);
+        Point2D end = trans.worldtoScreen(end_in);
         g2d.drawLine((int) start.getX(), (int) start.getY(), (int) end.getX(), (int) end.getY());
     }
 
-    public void drawImage(BufferedImage apearance, Point2D location, Object object) {
+    public void drawImage(BufferedImage apearance, Point2D location_in, Object object) {
+        Point2D location = trans.worldtoScreen(location_in);
         g2d.drawImage(apearance, (int) location.getX(), (int) location.getY(), null);
     }
 
