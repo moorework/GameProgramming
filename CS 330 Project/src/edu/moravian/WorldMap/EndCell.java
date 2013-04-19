@@ -1,4 +1,3 @@
-
 package edu.moravian.WorldMap;
 
 /**
@@ -7,16 +6,21 @@ package edu.moravian.WorldMap;
  */
 public class EndCell implements WorldCell {
 
-    @Override
-    public boolean isPathable()
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
+    private final boolean CAN_BE_OCCUPIED;
+    private final boolean IS_PATHABLE;
+
+    public EndCell() {
+        CAN_BE_OCCUPIED = false;
+        IS_PATHABLE = true;
+    }
 
     @Override
-    public boolean canBeOccupied()
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
+    public boolean canBeOccupied() {
+        return CAN_BE_OCCUPIED;
+    }
 
+    @Override
+    public boolean isPathable() {
+        return true;
+    }
 }

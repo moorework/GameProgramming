@@ -1,22 +1,26 @@
-
 package edu.moravian.WorldMap;
 
 /**
  *
  * @author James Moore (moore.work@live.com)
  */
-public class StartCell implements WorldCell{
+public class StartCell implements WorldCell {
+
+    private final boolean CAN_BE_OCCUPIED;
+    private final boolean IS_PATHABLE;
+
+    public StartCell() {
+        CAN_BE_OCCUPIED = false;
+        IS_PATHABLE = true;
+    }
 
     @Override
-    public boolean isPathable()
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
+    public boolean canBeOccupied() {
+        return CAN_BE_OCCUPIED;
+    }
 
     @Override
-    public boolean canBeOccupied()
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
+    public boolean isPathable() {
+        return true;
+    }
 }

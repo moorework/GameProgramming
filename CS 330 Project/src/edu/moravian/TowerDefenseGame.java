@@ -56,7 +56,9 @@ public class TowerDefenseGame implements KeyListener, Game
         projMan = new BulletManager(null);
 
         creepMan = new CreepManager(null);
-        creepMan.addCreep(new BasicCreep(new PathCell(), new Point2D(1000, 1000)));
+        creepMan.addCreep(new BasicCreep(new Point2D(0,0), new Point2D(500, 500)));
+        creepMan.addCreep(new BasicCreep(new Point2D(1000,0), new Point2D(500, 500)));
+
 
 
         towMan = new TowerManager();
@@ -70,7 +72,7 @@ public class TowerDefenseGame implements KeyListener, Game
       {
   
 //TODO make double not 10
-        towMan.update(10);
+         towMan.update(10);
         creepMan.update(10);
         projMan.update(10);
       }

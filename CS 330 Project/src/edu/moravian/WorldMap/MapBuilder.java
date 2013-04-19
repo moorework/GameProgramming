@@ -53,7 +53,7 @@ public class MapBuilder
         //TODO pull out appearenceID at some point; last line of file?
         // TODO pull out starting and ending points of the map
 
-        return null;
+        return ret;
       }
 
     protected static int getAppearenceID(String mapDirLocation)
