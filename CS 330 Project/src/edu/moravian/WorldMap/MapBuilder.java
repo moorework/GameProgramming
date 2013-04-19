@@ -41,11 +41,10 @@ public class MapBuilder
         while (s.hasNextLine())
           {
             String temp = s.nextLine();
-            if (temp.length() != first.length())
-              {
-                throw new IllegalArgumentException("Lines must all contain same number of charactars");
-              }
-
+            if (temp.length() != first.length()){
+                throw new IllegalArgumentException("Lines must all contain same number of characters");
+            }
+            
             ret.add(translate(temp));
 
           }

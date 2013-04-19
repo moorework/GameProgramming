@@ -44,16 +44,32 @@ public class WorldMap implements Drawable
         width = mapWidth;
         height = mapHeight;
 
-        topography = MapBuilder.getMapRepresentation(mapDirLocation);
+        try {
+            // retrieve the backing data for the WorldMap from the MapBuilder
+            // based on the external directory location provided to us
+            topography = MapBuilder.getMapRepresentation(mapDirLocation);
+        }
+        catch (Exception ex) {
+            // well shit
+            System.out.println("MapBuilder did not find external file: " + ex);
+        }
+        // retrieve the visual information from the MapBuilder
         appearenceID = MapBuilder.getAppearenceID(mapDirLocation);
 
-        numHorizCells = topography.size();
-        numVertCells = topography.get(0).size();
+        numHorizCells = topography.size(); // number of rows
+        numVertCells = topography.get(0).size(); // number of columns
 
         cellWidth = width / numHorizCells;
         cellHeight = height / numVertCells;
       }
 
+    /**
+     * Determines whether the cell corresponding to the provided game world Point
+     * is currently occupied.
+     * 
+     * @param pointToCheck a world Point that describes a cell on the WorldMap
+     * @return true if occupied, false if unoccupied or unoccupy-able
+     */
     public boolean isOccupied(Point2D pointToCheck)
       {
         WorldCell pointCell = convertPointToCell(pointToCheck);
@@ -74,6 +90,13 @@ public class WorldMap implements Drawable
           }
       }
 
+    /**
+     * Set the cell corresponding to the provided world Point as being occupied.
+     * Behavior is not defined for situations in which the described cell cannot
+     * be occupied.
+     * 
+     * @param pointToOccupy a world Point corresponding to a cell to be occupied.
+     */
     public void setOccupied(Point2D pointToOccupy)
       {
         // we presumptuously cast the WorldCell corresponding to the provided
@@ -85,8 +108,15 @@ public class WorldMap implements Drawable
         pointCell.setOccupied();
       }
 
-    public void setUnnocupied(Point2D pointToUnOccupy)
-      {
+    /**
+     * Set the cell corresponding to the provided world Point as being unoccupied.
+     * Behavior is not defined for situations in which the described cell cannot
+     * be occupied in the first place.
+     * 
+     * @param pointToUnOccupy a world Point corresponding to a cell to be unoccupied.
+     */
+    public void setUnnoccupied(Point2D pointToUnOccupy)
+    {
         // we presumptuously cast the WorldCell corresponding to the provided
         // WorldPoint to a TowerCell on the basis that the client should have
         // ensured that the location is both occupiable and unoccupied. If they
@@ -99,9 +129,10 @@ public class WorldMap implements Drawable
     /**
      * Get the game world point that describes the upper-left hand corner of the
      * cell corresponding to the provided Point2D.
-     *
-     * @param pointLocation
-     * @return
+     * 
+     * @param pointLocation a world Point describing the cell who's corner point
+     *                      is to be retrieved
+     * @return the top-left corner-point of the cell
      */
     public Point2D getCornerPoint(Point2D pointLocation)
       {
@@ -120,6 +151,12 @@ public class WorldMap implements Drawable
         return new Point2D(cornerPointX, cornerPointY);
       }
 
+    /**
+     * Retrieves a NavPath that describes the navigable space within the WorldMap
+     * for use in computing AI navigational paths.
+     * 
+     * @return a Graph describing the navigable world
+     */
     public Graph<PathCell, Integer> getNavPath()
       {
         // TODO on hold - seems jGraphT is a collection of interfaces, not implemented classes

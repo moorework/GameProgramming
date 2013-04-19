@@ -1,5 +1,7 @@
 package edu.moravian.WorldMap;
 
+import edu.moravian.math.Point2D;
+
 /**
  *
  * @author myles
@@ -7,7 +9,7 @@ package edu.moravian.WorldMap;
 public class PathCell implements WorldCell {
     private final boolean CAN_BE_OCCUPIED;
     private final boolean IS_PATHABLE;
-    
+    private Point2D centerPoint;
 
     public PathCell()
     {
@@ -24,6 +26,16 @@ public class PathCell implements WorldCell {
     @Override
     public boolean isPathable()
     {
-        return true;
+        return IS_PATHABLE;
+    }
+    
+    protected void setCenterPoint(Point2D centerPoint)
+    {
+        this.centerPoint = centerPoint;
+    }
+    
+    public Point2D getCenterPoint()
+    {
+        return centerPoint;
     }
 }
