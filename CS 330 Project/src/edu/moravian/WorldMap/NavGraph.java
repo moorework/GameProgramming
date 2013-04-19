@@ -1,6 +1,7 @@
 package edu.moravian.WorldMap;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -110,7 +111,7 @@ public class NavGraph {
     }
 
     
-    public Set edgesOf(PathCell v)
+    public Set<PathCell> edgesOf(PathCell v)
     {
         
         HashSet<PathCell> ret = new HashSet<PathCell>();
@@ -145,7 +146,7 @@ public class NavGraph {
         return null;
     }
     
-    public Set vertexSet()
+    public Collection<PathCell> vertexSet()
     {
         return adjacencyList.keySet();
     }
