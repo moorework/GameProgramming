@@ -48,12 +48,6 @@ public class NavGraph {
             this.addVertex(vertexTo);
         }
         
-        for (Node n : adjacencyList.get(vertexFrom)) {
-            if (n.vertex.equals(vertexTo)) {
-                return;
-            }
-        }
-        
         Node n = new Node(vertexTo, edge);
         Node nBack = new Node(vertexFrom, edge);
             

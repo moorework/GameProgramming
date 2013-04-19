@@ -29,7 +29,7 @@ public class PathCell implements WorldCell {
         return IS_PATHABLE;
     }
     
-    protected void setCenterPoint(Point2D centerPoint)
+    public void setCenterPoint(Point2D centerPoint)
     {
         this.centerPoint = centerPoint;
     }
