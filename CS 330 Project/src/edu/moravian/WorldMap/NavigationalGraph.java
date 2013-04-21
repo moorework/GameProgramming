@@ -70,6 +70,16 @@ public class NavigationalGraph {
                 return true;
             }
         }
+        
+        pNeighbors = vertices.get(p1);
+        
+        for (Node n : pNeighbors)
+        {
+            if (n.vertex.equals(p))
+            {
+                return true;
+            }
+        }
 
         return false;
     }

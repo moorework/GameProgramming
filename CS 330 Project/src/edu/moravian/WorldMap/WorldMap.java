@@ -52,6 +52,31 @@ public class WorldMap implements Drawable
 
         cellWidth = width / numHorizCells;
         cellHeight = height / numVertCells;
+        
+        // set PathCell center points
+        WorldCell wCell;
+        PathCell pCell;
+        double halfCellWidth = cellWidth / 2.0;
+        double halfCellHeight = cellHeight / 2.0;
+        double centerX;
+        double centerY;
+        int topographySize = topography.size();
+        for (int i = 0; i < topographySize; i++) {
+            for (int j = 0; j < topographySize; j++) {
+                wCell = topography.get(i).get(j);
+                
+                if (wCell.isPathable()) {
+                    
+                    pCell = (PathCell) wCell;
+                    
+                    // take into account that World starts in lower left corner
+                    centerX = halfCellWidth + ((topographySize - 1 - i) * cellWidth);
+                    centerY = halfCellHeight + ((topographySize - 1 - j) * cellHeight);
+                    
+                    pCell.setCenterPoint(new Point2D(centerX, centerY));
+                }
+            }
+        }
       }
 
     public boolean isOccupied(Point2D pointToCheck)
@@ -120,11 +145,63 @@ public class WorldMap implements Drawable
         return new Point2D(cornerPointX, cornerPointY);
       }
 
-    public Graph<PathCell, Integer> getNavPath()
+    public NavigationalGraph getNavPath()
       {
-        // TODO on hold - seems jGraphT is a collection of interfaces, not implemented classes
-        return null;
+        NavigationalGraph ret = new NavigationalGraph();
+        
+        WorldCell wCell;
+        int row = 0;
+        int col = 0;
+        boolean foundPathCell = false;
+        while (foundPathCell == false) {
+            wCell = topography.get(row).get(col);
+            
+            if (wCell.isPathable()) {
+                foundPathCell = true;
+            }
+            else {
+                row++;
+                col++;
+            }
+        }
+        
+        return computeVertex(ret, null, row, col, 0);
       }
+    
+    private NavigationalGraph computeVertex(NavigationalGraph navGraph, PathCell pred, int row, int col, double edgeWeight) {
+        WorldCell thisCell = topography.get(row).get(col);
+        PathCell pCell;
+        
+        // base cases
+        if (thisCell.isPathable() == false) {
+            return navGraph;
+        }
+        
+        pCell = (PathCell) thisCell;
+        
+        // if we've already visited this cell from the predecessor...
+        if (navGraph.containsEdge(pCell, pred)) {
+            // then we don't have to compute its position in the graph again
+            return navGraph;
+        }
+        
+        if (pred != null) {
+            navGraph.addEdge(pCell, pred, edgeWeight);
+        }
+        
+        for (int i = row - 1; i <= row + 1; i++) {
+            for (int j = col - 1; j <= col + 1; j++) {
+                if (i != row && j != col) {
+                    return computeVertex(navGraph, pCell, i, j, DIAGONAL_WEIGHT);
+                }
+                else {
+                    return computeVertex(navGraph, pCell, i, j, CARDINAL_WEIGHT);
+                }
+            }
+        }
+        
+        return navGraph;
+    }
 
     @Override
     public Point2D getPos()
@@ -192,4 +269,7 @@ public class WorldMap implements Drawable
         // matrices are row-by-column
         return topography.get(horizCellNum).get(vertCellNum);
       }
+    
+    private final double CARDINAL_WEIGHT = 1;
+    private final double DIAGONAL_WEIGHT = Math.sqrt(2);
   }
