@@ -10,6 +10,8 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 
@@ -262,7 +264,7 @@ class UserInterfaceController extends JFrame implements Runnable
         }
     }
 
-    private class inputHandler implements KeyListener
+    private class inputHandler implements KeyListener, MouseListener
     {
 
         @Override
@@ -281,6 +283,36 @@ class UserInterfaceController extends JFrame implements Runnable
         public void keyReleased(KeyEvent e)
         {
             ((TowerDefenseGame) game).keyReleased(e);
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent me)
+        {
+            ((TowerDefenseGame)game).mouseClicked(me);
+        }
+
+        @Override
+        public void mousePressed(MouseEvent me)
+        {
+         
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent me)
+        {
+            
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent me)
+        {
+            
+        }
+
+        @Override
+        public void mouseExited(MouseEvent me)
+        {
+            
         }
     }
 }

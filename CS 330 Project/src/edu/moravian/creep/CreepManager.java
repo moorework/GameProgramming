@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- *  This clas manages the living and dead creeps.  It automatically trims the creeps on their deaths 
+ *  This class manages the living and dead creeps.  It automatically trims the creeps on their deaths 
  * @author myles
  */
 public class CreepManager

@@ -5,12 +5,15 @@
 package edu.moravian.SM;
 
 import edu.moravian.TowerDefenseGame;
+import edu.moravian.math.Point2D;
+import java.awt.Color;
+import java.awt.Dimension;
 
 /**
  *
  * @author moore
  */
-public class NullState  implements TowerDefenseGameState{
+public class PauseState  implements TowerDefenseGameState{
 
     @Override
     public void Enter(TowerDefenseGame ag) {
@@ -29,7 +32,7 @@ public class NullState  implements TowerDefenseGameState{
 
     @Override
     public void draw(edu.moravian.graphics.WorldGraphics2D par0)
-    {
+    { par0.fillRect(new Point2D(0,par0.getTrans().getScreenHeight()),new Dimension(10000,10000), new Color(10, 10, 10, 100));   
         
     }
     

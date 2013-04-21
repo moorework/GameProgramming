@@ -19,4 +19,8 @@ public interface TowerDefenseGameState
     public void Execute(TowerDefenseGame ag);
 
     public void Leave(TowerDefenseGame ag);
+    
+    //TODO temporary testing method 
+    
+    public void draw(edu.moravian.graphics.WorldGraphics2D par0);
 }

@@ -1,5 +1,6 @@
 package edu.moravian;
 
+import edu.moravian.SM.MainMenu;
 import edu.moravian.SM.NullState;
 import edu.moravian.SM.RunningState;
 import edu.moravian.SM.TD_StateMach;
@@ -16,6 +17,8 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 //TODO make sure the coordinates are world coordinates 
 /**
@@ -23,7 +26,7 @@ import java.awt.event.KeyListener;
  *
  * @author moore
  */
-public class TowerDefenseGame implements KeyListener, Game {
+public class TowerDefenseGame implements KeyListener, Game, MouseListener {
 
     private int worldWidth;
     private int worldHeight;
@@ -89,6 +92,7 @@ public class TowerDefenseGame implements KeyListener, Game {
 
         projMan.draw(Wg2D);
 
+        stateMac.draw(Wg2D);
     }
 
     @Override
@@ -113,10 +117,14 @@ public class TowerDefenseGame implements KeyListener, Game {
                 endgame_met = true;
                 break;
             case KeyEvent.VK_SPACE:
-                System.out.println("Space");
                 
                 stateMac.pause();
                 break;
+            case KeyEvent.VK_M:
+                stateMac.setGlobalState(new MainMenu());
+                break;
+                
+                
             default:
                 break;
         }
@@ -138,4 +146,41 @@ public class TowerDefenseGame implements KeyListener, Game {
     public TowerManager getTowMan() {
         return towMan;
     }
+
+    public TD_StateMach getStateMac()
+    {
+        return stateMac;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent me)
+    {
+      stateMac.mouseClicked(me);
+    }
+
+    @Override
+    public void mousePressed(MouseEvent me)
+    {
+        
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent me)
+    {
+        
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent me)
+    {
+        
+    }
+
+    @Override
+    public void mouseExited(MouseEvent me)
+    {
+        
+    }
+    
+    
 }

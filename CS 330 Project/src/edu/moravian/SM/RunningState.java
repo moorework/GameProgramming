@@ -6,8 +6,14 @@ package edu.moravian.SM;
 
 import edu.moravian.TowerDefenseGame;
 import edu.moravian.creep.CreepManager;
+import edu.moravian.graphics.WorldGraphics2D;
+import edu.moravian.math.Point2D;
 import edu.moravian.projectile.BulletManager;
 import edu.moravian.tower.TowerManager;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Composite;
+import java.awt.Dimension;
 
 /**
  *
@@ -37,5 +43,13 @@ public class RunningState implements TowerDefenseGameState {
     @Override
     public void Leave(TowerDefenseGame ag) {
         System.out.println("Done running for now");
+    }
+
+    @Override
+    public void draw(WorldGraphics2D par0)
+    {
+
+        
+              //par0.fillRect(new Point2D(0,par0.getTrans().getScreenHeight()),new Dimension(1000,10000), new Color(10, 10, 10, 100));
     }
 }
