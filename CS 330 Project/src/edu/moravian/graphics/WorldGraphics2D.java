@@ -35,6 +35,7 @@ public class WorldGraphics2D {
 
     public void fillRect(Point2D location, int worldWidth, int worldHeight) {
         Point2D lower_left = trans.worldtoScreen(location);
+        
         g2d.fillRect((int) lower_left.getX(), (int) lower_left.getY(), worldWidth, worldHeight);
     }
 
@@ -45,7 +46,10 @@ public class WorldGraphics2D {
     public void drawString(String string, Point2D point, Color c) {
         Color old = g2d.getColor();
         g2d.setColor(c);
-        g2d.drawString(string, (int) point.getX(), (int) point.getY());
+        
+        Point2D pixelPoint = trans.worldtoScreen(point);
+        
+        g2d.drawString(string, (int) pixelPoint.getX(), (int) pixelPoint.getY());
         g2d.setColor(old);
 
     }

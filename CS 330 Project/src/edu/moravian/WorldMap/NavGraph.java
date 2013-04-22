@@ -36,24 +36,23 @@ public class NavGraph {
         addEdge(v, v1, edge);
     }
 
-    public void addEdge(PathCell vertexFrom, PathCell vertexTo, Double edge)
+    public void addEdge(PathCell p1, PathCell p2, Double edge)
     {
-        
-        if (adjacencyList.containsKey(vertexFrom) == false) {
-            
-            this.addVertex(vertexFrom);
+        if (adjacencyList.containsKey(p1) == false) {
+            this.addVertex(p1);
         }
         
-        if (adjacencyList.containsKey(vertexTo) == false) {
-            this.addVertex(vertexTo);
+        if (adjacencyList.containsKey(p2) == false) {
+            this.addVertex(p2);
         }
         
-        Node n = new Node(vertexTo, edge);
-        Node nBack = new Node(vertexFrom, edge);
+        Node n = new Node(p2, edge);
+        Node nBack = new Node(p1, edge);
             
-        adjacencyList.get(vertexFrom).add(n);
-        adjacencyList.get(vertexTo).add(nBack);
+        adjacencyList.get(p1).add(n);
+        adjacencyList.get(p2).add(nBack);
     }
+    
 
     
     public boolean addVertex(PathCell newVertex)

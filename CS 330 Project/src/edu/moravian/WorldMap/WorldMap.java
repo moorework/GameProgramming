@@ -169,17 +169,20 @@ public class WorldMap implements Drawable
         // all PathCells are ultimately contiguous
         int numRows = topography.size();
         int numColumns = topography.get(0).size();
-        int numCells = numRows * numColumns;
-        int cellNum = 0;
-        int i = 0;
-        int j = 0;
+        int numCells = numRows * numColumns; // max index if matrix is one-dimensional array
+        int cellNum = 0; // counter through the matrix as a one-dimensional array
+        int i = 0; // row index
+        int j = 0; // column index
         while (pathCellFound && cellNum < numCells) {
             i = cellNum / numColumns; // row index
             j = cellNum % numRows; // column index
             
-            cell = topography.get(i).get(j);
+            cell = topography.get(i).get(j); // get the cell described
             
+            // if the cell described is a PathCell...
             if (cell.isPathable() == true) {
+                // then we've located a PathCell from which to start our NavGraph
+                // generation
                 pathCell = (PathCell) cell;
                 pathCellFound = true;
             }
@@ -187,42 +190,58 @@ public class WorldMap implements Drawable
             cellNum++;
         }
         
+        // recurse to develop graph
         return computePathCell(ret, pathCell, 0, i, j);
     }
     
     private NavGraph computePathCell(NavGraph graph, PathCell pred, double edgeWeight, int rowL, int colL) {
+        // if this cell is vertically outside of the WorldMap...
         if (rowL >= topography.size()) {
+            // it's not part of the graph
             return graph;
         }
+        // if this cell is horizontally outside of the WorldMap...
         else if (colL >= topography.get(0).size()) {
+            // it's not part of the graph
             return graph;
         }
         
+        // get the WorldCell being operated upon
         WorldCell cell = topography.get(rowL).get(colL);
         PathCell pCell;
         
+        // if the cell is noth a PathCell...
         if (cell.isPathable() == false) {
+            // it is not relevent to the NavGraph
             return graph;
         }
+        // otherwise, it must be a PathCell
         else {
-            pCell = (PathCell) cell;
+            pCell = (PathCell) cell; // so we'll convert it
         }
         
+        // we can now add an edge between ourselves and our predecessor
         graph.addEdge(pred, pCell, edgeWeight);
         
-        for (int i = rowL - 1; i <= rowL + 1; i++) {
-            for (int j = colL - 1; j <= colL + 1; j++) {
+        // recurse on each of the 8 cells around us...
+        for (int i = rowL - 1; i <= rowL + 1; i++) { // row
+            for (int j = colL - 1; j <= colL + 1; j++) { // col
                 
+                // if the row and column indices describe a cell diagonal from us...
                 if (i != rowL && j != colL) {
+                    // then it has a diagonal edge weight
                     return computePathCell(graph, pCell, DIAGONAL_DIST, i, j);
                 }
                 else {
+                    // otherwise the new cell is in a cardinal direction (N,S,E,W)
+                    // from us and thus has a cardinal edge weight
                     return computePathCell(graph, pCell, CARDINAL_DIST, i, j);
                 }
                 
             }
         }
         
+        // return the newly modified NavGraph
         return graph;
     }
 

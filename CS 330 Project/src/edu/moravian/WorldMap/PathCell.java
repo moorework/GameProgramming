@@ -53,4 +53,12 @@ public class PathCell implements WorldCell {
         
         return true;
     }
+
+    @Override
+    public String toString()
+    {
+        return this.getCenterPoint().toString();
+    }
+    
+    
 }
