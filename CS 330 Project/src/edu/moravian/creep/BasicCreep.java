@@ -6,6 +6,7 @@ package edu.moravian.creep;
 
 import edu.moravian.Ball;
 import edu.moravian.CollisionDetector;
+import edu.moravian.CollisionEngine;
 import edu.moravian.WorldMap.PathCell;
 import edu.moravian.WorldMap.WorldMap;
 import edu.moravian.graphics.DrawLocation;
@@ -58,7 +59,7 @@ public class BasicCreep implements Creep, Drawable
      */
     public BasicCreep(PathCell path, Point2D objective_in)
     {
-        health = 1;
+        health = 2;
         dead = false;
         currLoc = path;
         this.objective = objective_in;
@@ -105,7 +106,9 @@ public class BasicCreep implements Creep, Drawable
         Ball one = new Ball(position, new Vector2D(0,0), 1, this.get_dims().getBounds().width / 2, Color.yellow, 1);
         Ball two = projectile.get_dims();
 
-        if (CollisionDetector.twoSpheresColliding(one, two))
+        
+//        if (CollisionDetector.twoSpheresColliding(one, two))
+        if(CollisionEngine.testForCollision(one, two, 1))
         {   
             System.out.println(health);
             health -= projectile.getDamage();
@@ -156,7 +159,7 @@ public class BasicCreep implements Creep, Drawable
     {
      
 
-        w2d.fillCircle(position, this.get_dims().getBounds().height / 2, new Color(100*health,100,100));
+        w2d.fillCircle(position, this.get_dims().getBounds().height, new Color(100*health,100,100));
     }
 }
 //TODO get rid of confliting interface
