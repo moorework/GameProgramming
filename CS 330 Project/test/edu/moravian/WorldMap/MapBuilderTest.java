@@ -102,6 +102,16 @@ public class MapBuilderTest {
         for (int i = 0; i < map.get(2).size(); i++) {
             assertTrue(map.get(0).get(i) instanceof TowerCell);
         }
+    }
 
+    @Test
+    public void noDataFile() {
+        String filedir = "ddd";
+        try {
+            MapBuilder.getMapRepresentation(filedir);
+            fail("Mapbuilder should throw exception on lack of file");
+        } catch (FileNotFoundException e) {
+            //This should be the case 
+        }
     }
 }

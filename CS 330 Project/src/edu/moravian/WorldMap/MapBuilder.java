@@ -29,18 +29,15 @@ public class MapBuilder {
     private static Point2D cachedStartingPoint;
     private static Point2D cachedEndingPoint;
 
-    
-    public static void main(String[] args) throws FileNotFoundException, IOException{
-        Settings.getInstance().setResolution(new Dimension(800,600));
-        
-        BufferedImage buf = createImageReppresentation(getMapRepresentation("foo"));
-     
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+
+
+        BufferedImage buf = createImageReppresentation(getMapRepresentation("foo"), new Dimension(800, 600));
+
         File outputFile = new File("image.png");
-    ImageIO.write(buf, "PNG", outputFile);
+        ImageIO.write(buf, "PNG", outputFile);
     }
-            
-    
-    
+
     protected static ArrayList<ArrayList<WorldCell>> getMapRepresentation(String mapDirLocation) throws FileNotFoundException {
 
         //TODO test if there is no file
@@ -53,12 +50,12 @@ public class MapBuilder {
 
         ArrayList<ArrayList<WorldCell>> ret = new ArrayList<ArrayList<WorldCell>>();
 
-        String first = s.nextLine();
+        String first = s.nextLine().toUpperCase().trim();
 
         ret.add(translate(first));
 
         while (s.hasNextLine()) {
-            String temp = s.nextLine();
+            String temp = s.nextLine().toUpperCase().trim();
             if (temp.length() != first.length()) {
                 throw new IllegalArgumentException("Lines must all contain same number of charactars");
             }
@@ -68,7 +65,7 @@ public class MapBuilder {
         }
 
         //TODO pull out appearenceID at some point; last line of file?
-
+//TODO move the start off screen?
 
         return ret;
     }
@@ -90,7 +87,7 @@ public class MapBuilder {
 
     //TODO test round one 
     private static ArrayList<WorldCell> translate(String first) {
-        //TODO store translation values elsewhere?
+
         ArrayList<WorldCell> ret = new ArrayList<WorldCell>();
         for (char c : first.toCharArray()) {
             switch (c) {
@@ -113,10 +110,17 @@ public class MapBuilder {
         return ret;
     }
 
-    private static BufferedImage createImageReppresentation(ArrayList<ArrayList<WorldCell>> ret) {
-        Dimension res = Settings.getInstance().getResolution();
+    //TODO draw grid lines?
+    
+    /**
+     * Creates an image representation of the map based on the map given
+     * @param ret
+     * @return 
+     */
+    private static BufferedImage createImageReppresentation(ArrayList<ArrayList<WorldCell>> ret, Dimension res) {
+      
         int blockWidth = res.width / ret.get(0).size();
-        int blockHeight = res.height / ret.get(0).size();
+        int blockHeight = res.height / ret.size();
 
 
         BufferedImage buf = new BufferedImage(res.width, res.height, BufferedImage.TYPE_INT_RGB);
@@ -127,7 +131,7 @@ public class MapBuilder {
 
                 for (int k = 0; k < blockWidth; k++) {
                     for (int l = 0; l < blockHeight; l++) {
-                        buf.setRGB(k + i * blockWidth, l + j * blockHeight, translateColor(ret.get(i).get(j)));
+                        buf.setRGB(k + j * blockWidth, l + i * blockHeight, translateColor(ret.get(i).get(j)));
                     }
                 }
 
@@ -139,11 +143,10 @@ public class MapBuilder {
     }
 
     private static int translateColor(WorldCell t) {
+        //FUTURE make this data driven 
         if (t instanceof PathCell) {
             return Color.red.getRed();
         } else if (t instanceof StartCell) {
-
-
             return Color.black.getRGB();
         } else if (t instanceof EndCell) {
 
@@ -158,3 +161,4 @@ public class MapBuilder {
     }
 }
 //TODO make a map verifier 
+//FUTURE add comments inside the data file 
