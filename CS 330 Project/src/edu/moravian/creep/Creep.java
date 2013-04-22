@@ -24,7 +24,7 @@ public interface Creep
      * @param par0
      * @return
      */
-    public void respondToColission(Projectile projectile);
+    public boolean respondToColission(Projectile projectile);
 
     public boolean isDead();
 

@@ -35,14 +35,16 @@ public class BasicBullet extends Projectile
     @Override
     public void update(double delta)
       {
-        target.respondToColission(this);
-        //TODO MN
-        Vector2D direction = target.getPosition().minus(this.pos).getNormalized();
-        pos = pos.scalePlus(this.speedscale, direction);
-        if (target.isDead())
+        
+
+        if (target.respondToColission(this))
           {
             this.doneVar = true;
-          }
+          }else{
+                    //TODO MN
+        Vector2D direction = target.getPosition().minus(this.pos).getNormalized();
+        pos = pos.scalePlus(this.speedscale, direction);
+        }
       }
 
     @Override

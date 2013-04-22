@@ -29,13 +29,13 @@ public class BasicTower extends Tower
     private int damage;
     private int speedScale;
     //TODO factor out magic number 
-    private static final int targetingRadius = 400;
+   
     private Point2D towerLoc;
 
-    public BasicTower(CreepManager man, BulletManager bul, Point2D pos)
+    public BasicTower(CreepManager man, BulletManager bul, Point2D pos, int radius)
       {
-        super(man, bul, pos);
-
+        super(man, bul, pos, radius);
+          System.out.println(targetingRadius);
         //TODO magic number
         tar = new ProximityTargetingSystem(targetingRadius, pos);
         time = new Timer();
@@ -105,7 +105,8 @@ public class BasicTower extends Tower
         Point2D tenPos = new Point2D(Position.getX() - 5, Position.getY() + 5);
         w2d.fillCircle(tenPos, 10, Color.CYAN);
         //w2d.fillCircle(Position, 10, Color.cyan);
-
+          
+        
         Point2D fooPos = new Point2D(Position.getX() - targetingRadius / 4, Position.getY() + targetingRadius / 4);
         w2d.drawCircle(fooPos, targetingRadius, Color.CYAN);
         w2d.fillCircle(Position, 1, Color.white);

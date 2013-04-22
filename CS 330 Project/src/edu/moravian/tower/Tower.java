@@ -16,13 +16,14 @@ import edu.moravian.math.Point2D;
 public abstract class Tower implements Drawable
 {
 
-    CreepManager manager;
-    Point2D Position;
-
-    public Tower(CreepManager manager, BulletManager bul, Point2D Position)
+    protected CreepManager manager;
+   protected Point2D Position;
+ protected   int targetingRadius;
+    public Tower(CreepManager manager, BulletManager bul, Point2D Position, int targetRadius)
     {
         this.manager = manager;
         this.Position = Position;
+        targetingRadius = targetRadius;
     }
 
     public abstract void update(double delta);

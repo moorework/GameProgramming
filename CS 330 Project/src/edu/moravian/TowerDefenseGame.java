@@ -62,12 +62,13 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener {
 
         creepMan = new CreepManager(null);
         creepMan.addCreep(new BasicCreep(new Point2D(0, 0), new Point2D(500, 500)));
-        creepMan.addCreep(new BasicCreep(new Point2D(1000, 0), new Point2D(500, 500)));
+        creepMan.addCreep(new BasicCreep(new Point2D(500, 000), new Point2D(500, 500)));
 
 
 
         towMan = new TowerManager();
-        towMan.addTower(new BasicTower(creepMan, projMan, new Point2D(500, 500)));
+        towMan.addTower(new BasicTower(creepMan, projMan, new Point2D(500, 500), 500));
+        towMan.addTower(new BasicTower(creepMan, projMan, new Point2D(500, 100), 100));
 
         stateMac = new TD_StateMach(this, towMan, projMan, creepMan);
         stateMac.setGlobalState(new RunningState());
