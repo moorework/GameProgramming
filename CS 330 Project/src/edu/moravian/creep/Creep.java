@@ -17,6 +17,7 @@ public interface Creep
 
     public Point2D getPosition();
 
+
     public Vector2D getDirection();
 
     /**
@@ -29,4 +30,6 @@ public interface Creep
     public boolean isDead();
 
     public int healthRemaining();
+
+    public Object getPos();
 }

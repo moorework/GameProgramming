@@ -27,7 +27,7 @@ public class WorldMap implements Drawable
     private double cellWidth; // the width (in game world terms) of each cell
     private double cellHeight; // the height (in game world terms) of each cell
 
-    //TODO how do we want to pass in start and end pts?
+
     /**
      * A WorldMap is a discrete representation of a Tower Defense map, which is
      * treated as a large grid. The map thus treats all interactions with it as
@@ -205,9 +205,11 @@ public class WorldMap implements Drawable
 
     @Override
     public Point2D getPos()
-      {//TODO close enough, right?
+      {
         return new Point2D(0, 0);
       }
+    
+    //TODO make sure to test the map quality
 
     @Override
     public DrawLocation getDrawLocation()

@@ -16,7 +16,13 @@ public class WaveCreator
 
     LinkedList<Wave> waves;
     private static final int NUM_ATTRIBUTES = 7;
-
+//TODO make sure this breaks correctly 
+    
+    /**
+     * Creates a series of wave objects that hold waves of creeps.  
+     * @param fileLoc
+     * @throws FileNotFoundException 
+     */
     public WaveCreator(String fileLoc) throws FileNotFoundException
     {
         /*
@@ -43,25 +49,35 @@ public class WaveCreator
             waves.add(parseWave(pieces[i]));
         }
 
-
-
-
     }
 
-    //TODO implement me
+    /**
+     * Makes sure there is another wave availible.
+     * @return 
+     */
     public boolean hasNextWave()
     { 
-        return false;
+        return waves.size() > 1;
     }
 
-    //TODO implement me
-    public List getNextWave()
+    /**
+     * Pops a wave off the wave list.  Beware of not having a next wave
+     * @return 
+     */
+    public Wave getNextWave()
     {
-        return null;
+        return waves.getFirst();
     }
 
+    /**
+     * A string that represents one wave.  A series of N atributes deliniated by
+     * commas.  
+     * @param oneWave
+     * @return 
+     */
     private Wave parseWave(String oneWave)
     {
+        //Got that polymorphism, hater
         String[] creeps = oneWave.split(System.getProperty("line.separator"));
         Wave ret = new Wave();
 

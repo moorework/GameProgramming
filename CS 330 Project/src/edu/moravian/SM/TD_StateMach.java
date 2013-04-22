@@ -15,7 +15,8 @@ import java.awt.event.MouseListener;
 /**
  * @author James Moore (moore.work@live.com)
  */
-public class TD_StateMach implements MouseListener {
+public class TD_StateMach implements MouseListener
+{
 
     private TowerDefenseGame game;
     private TowerDefenseGameState globalState;
@@ -26,7 +27,8 @@ public class TD_StateMach implements MouseListener {
     private boolean pause;
     private RunningState mainState;
 
-    public TD_StateMach(TowerDefenseGame game_in, TowerManager tm, BulletManager pm, CreepManager cm) {
+    public TD_StateMach(TowerDefenseGame game_in, TowerManager tm, BulletManager pm, CreepManager cm)
+    {
         game = game_in;
         towMan = tm;
         bulMan = pm;
@@ -37,13 +39,20 @@ public class TD_StateMach implements MouseListener {
         mainState = new RunningState();
     }
 
-    public void setGameState(TowerDefenseGameState new_state) {
+    /**
+     * Exit the old state (running it's exit method) and enters the new state.
+     *
+     * @param new_state
+     */
+    public void setGameState(TowerDefenseGameState new_state)
+    {
         gameState.Leave(game);
         gameState = new_state;
         gameState.Enter(game);
     }
 
-    public void update() {
+    public void update()
+    {
         /*
          * The problem we face here is that changing states is gonna get really 
          * messy if we keep it here 
@@ -53,26 +62,31 @@ public class TD_StateMach implements MouseListener {
 
     }
 
-    public void RevertToPreviousState() {
-        //TODO may want queue of previous states 
-    }
-
-    public void setGlobalState(TowerDefenseGameState state_in) {
+    /**
+     * Exit the old state (running it's exit method) and enters the new state.
+     *
+     * @param new_state
+     */
+    public void setGlobalState(TowerDefenseGameState state_in)
+    {
         globalState.Leave(game);
         globalState = state_in;
         globalState.Enter(game);
     }
 
-    public void pause() {
-        if(pause){
+    public void pause()
+    {
+        if (pause)
+        {
             mainState = (RunningState) globalState;
             this.setGlobalState(new PauseState());
-        } else
+        }
+        else
         {
             this.setGlobalState(mainState);
         }
-        
-        pause  = !pause;
+
+        pause = !pause;
     }
 
     public TowerDefenseGameState getGlobalState()
@@ -89,82 +103,83 @@ public class TD_StateMach implements MouseListener {
     {
         globalState.draw(Wg2D);
         gameState.draw(Wg2D);
-                
+
     }
 
     @Override
     public void mouseClicked(MouseEvent me)
     {
-        
     }
 
     @Override
     public void mousePressed(MouseEvent me)
     {
-        
     }
 
     @Override
     public void mouseReleased(MouseEvent me)
     {
-        
     }
 
     @Override
     public void mouseEntered(MouseEvent me)
     {
-        
     }
 
     @Override
     public void mouseExited(MouseEvent me)
     {
-      
     }
-    
 
-    
     /**
      * This allows the easy creation of managers for time based game metrics.
      *
      */
-    private class TimeBasedMeter {
+    private class TimeBasedMeter
+    {
 
         Timer time;
         private double offset;
         private double cutoff;
 
-        public TimeBasedMeter(double cutoff) {
+        public TimeBasedMeter(double cutoff)
+        {
             this.cutoff = cutoff;
             offset = 0;
             time = new Timer();
         }
 
-        public void pause() {
+        public void pause()
+        {
             offset += time.getDelta();
         }
 
-        public void unPause() {
+        public void unPause()
+        {
             time.tick();
         }
 
-        public boolean isDueForReset() {
+        public boolean isDueForReset()
+        {
             return (time.getDelta() + offset) > cutoff;
         }
 
-        public void reset() {
+        public void reset()
+        {
             time.tick();
             offset = 0;
         }
 
-        public void reset(int scale) {
+        public void reset(int scale)
+        {
             time.tick();
             offset = 0;
             offset += scale;
 
         }
 
-        public double getOffset() {
+        public double getOffset()
+        {
             return offset;
         }
     }

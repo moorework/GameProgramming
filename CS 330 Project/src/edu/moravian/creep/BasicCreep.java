@@ -101,7 +101,7 @@ public class BasicCreep implements Creep, Drawable
     @Override
     public boolean respondToColission(Projectile projectile)
     {
-        //TODO make sure ball is ok
+
         Ball one = new Ball(position, movement, 1, this.get_dims().getBounds().width / 2, Color.yellow, 1);
         Ball two = projectile.get_dims();
 
@@ -162,4 +162,3 @@ public class BasicCreep implements Creep, Drawable
 //TODO get rid of confliting interface
 //TODO do we still want this frame stuff?
 //TODO make sure that the corner stuff is implemneted 
-//TODO make this project good 

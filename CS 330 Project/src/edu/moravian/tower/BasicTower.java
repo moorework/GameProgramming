@@ -20,7 +20,7 @@ import java.awt.Color;
  * @author James Moore (moore.work@live.com)
  */
 public class BasicTower extends Tower
-  {
+{
 
     private TargetingSystem tar;
     private Timer time;
@@ -29,13 +29,12 @@ public class BasicTower extends Tower
     private int damage;
     private int speedScale;
     //TODO factor out magic number 
-   
     private Point2D towerLoc;
 
     public BasicTower(CreepManager man, BulletManager bul, Point2D pos, int radius)
-      {
+    {
         super(man, bul, pos, radius);
-          System.out.println(targetingRadius);
+
         //TODO magic number
         tar = new ProximityTargetingSystem(targetingRadius, pos);
         time = new Timer();
@@ -46,71 +45,72 @@ public class BasicTower extends Tower
         time.tick();
         towerLoc = pos;
         manager = man;
-      }
+    }
 
     @Override
     public void update(double delta)
-      {
+    {
 
         //If we have not shot recently 
         //FIXME if there is an issue with a newly spawed tower
         if (time.getDelta() > shotFrequency)
-          {
+        {
 
             if (tar.hasTarget(manager.getCreeps()))
-              {
+            {
 
                 //TODO magic number here 
                 Creep target = tar.determineTarget(manager.getCreeps());
-                BasicBullet bul = new BasicBullet(target, damage, 1, this.getPos());
+                //TODO another magic number
+                BasicBullet bul = new BasicBullet(target, damage, 1, this.getPos(), 100);
                 bulletman.shoot(bul);
-              }
+            }
 
             //Reset the time 
             time.tick();
 
-          }
-      }
+        }
+    }
 
     @Override
     public GraphicsIDHolder getGraphicsID()
-      {
+    {
         return GraphicsIDHolder.BASICTOWER;
-      }
+    }
 
     @Override
     public Point2D getPos()
-      {
+    {
         return towerLoc;
-      }
+    }
 
     @Override
     public DrawLocation getDrawLocation()
-      {
+    {
         return DrawLocation.CENTER;
-      }
+    }
 
     @Override
     public Sprite getCurrFrame()
-      {
+    {
         //TODO implement me 
         throw new UnsupportedOperationException("Not supported yet.");
-      }
+    }
 
     //TODO get rid of me, I am simply a testing method 
     public void draw(WorldGraphics2D w2d)
-      {
+    {
         Color col = w2d.getColor();
         w2d.setColor(Color.red);
         Point2D tenPos = new Point2D(Position.getX() - 5, Position.getY() + 5);
         w2d.fillCircle(tenPos, 10, Color.CYAN);
         //w2d.fillCircle(Position, 10, Color.cyan);
-          
-        
+
+
         Point2D fooPos = new Point2D(Position.getX() - targetingRadius / 4, Position.getY() + targetingRadius / 4);
         w2d.drawCircle(fooPos, targetingRadius, Color.CYAN);
         w2d.fillCircle(Position, 1, Color.white);
         w2d.setColor(col);
 
-      }
-  }
+    }
+}

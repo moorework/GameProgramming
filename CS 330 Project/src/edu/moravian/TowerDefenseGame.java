@@ -20,7 +20,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-//TODO make sure the coordinates are world coordinates 
+
 /**
  * This class encapsulates and holds all of the rules for the game
  *
@@ -78,7 +78,7 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener {
     @Override
     public void update() {
 
-//TODO make double not 10
+
         stateMac.update();
     }
 
