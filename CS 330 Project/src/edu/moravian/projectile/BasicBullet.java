@@ -23,13 +23,12 @@ public class BasicBullet extends Projectile implements Drawable
     public BasicBullet(Creep target_in, int damage_in, double speedscale_in, Point2D origin, int bulletRadius)
     {
         super(origin, target_in, damage_in, speedscale_in);
-        int Radius = bulletRadius;
+         Radius = bulletRadius;
     }
 
     @Override
     public Ball get_dims()
     {
-
         return new Ball(pos, getVelocity(), 1, Radius, Color.yellow, 1);
     }
 

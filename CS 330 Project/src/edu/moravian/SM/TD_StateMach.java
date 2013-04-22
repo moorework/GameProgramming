@@ -27,6 +27,13 @@ public class TD_StateMach implements MouseListener
     private boolean pause;
     private RunningState mainState;
 
+/**
+ * This class holds all of the information about the game's state.  
+ * @param game_in
+ * @param tm
+ * @param pm
+ * @param cm 
+ */
     public TD_StateMach(TowerDefenseGame game_in, TowerManager tm, BulletManager pm, CreepManager cm)
     {
         game = game_in;

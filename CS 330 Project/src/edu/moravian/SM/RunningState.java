@@ -7,16 +7,12 @@ package edu.moravian.SM;
 import edu.moravian.TowerDefenseGame;
 import edu.moravian.creep.CreepManager;
 import edu.moravian.graphics.WorldGraphics2D;
-import edu.moravian.math.Point2D;
 import edu.moravian.projectile.BulletManager;
 import edu.moravian.tower.TowerManager;
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Dimension;
 
 /**
- *
+ * This state is the main running state in the game.  This is a global state,
+ * game states shall layer on top of this to modify the behavior. 
  * @author moore
  */
 public class RunningState implements TowerDefenseGameState {
@@ -35,6 +31,7 @@ public class RunningState implements TowerDefenseGameState {
 
     @Override
     public void Execute(TowerDefenseGame ag) {
+        //TODO this needs to be delta
         towMan.update(10);
         bulMan.update(10);
         creMan.update(10);

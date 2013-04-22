@@ -64,8 +64,6 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener {
         creepMan.addCreep(new BasicCreep(new Point2D(0, 0), new Point2D(500, 500)));
         creepMan.addCreep(new BasicCreep(new Point2D(500, 000), new Point2D(500, 500)));
 
-
-
         towMan = new TowerManager();
         towMan.addTower(new BasicTower(creepMan, projMan, new Point2D(500, 500), 500));
         towMan.addTower(new BasicTower(creepMan, projMan, new Point2D(500, 100), 100));
@@ -77,7 +75,8 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener {
 
     @Override
     public void update() {
-
+        //Delegate the game's behavior to the state machine
+        //It holds all the revlevant crap
 
         stateMac.update();
     }

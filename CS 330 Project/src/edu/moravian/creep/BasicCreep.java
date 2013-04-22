@@ -39,7 +39,7 @@ public class BasicCreep implements Creep, Drawable
     //TODO remove this basic test code 
     public BasicCreep(Point2D origin, Point2D objective_in)
     {
-        health = 1;
+        health = 2;
         dead = false;
         currLoc = new PathCell();
         position = origin;

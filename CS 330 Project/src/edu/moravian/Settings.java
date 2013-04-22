@@ -79,5 +79,6 @@ public class Settings
         return 1;
     }
     
+    public int getCreepLowestHealth(){return 0;}
     
   }
