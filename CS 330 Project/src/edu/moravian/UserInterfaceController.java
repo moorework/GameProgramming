@@ -8,11 +8,15 @@ import java.awt.DisplayMode;
 import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.LayoutManager;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 /**
@@ -83,8 +87,11 @@ class UserInterfaceController extends JFrame implements Runnable
         inputHandler input = new inputHandler();
 
         this.addKeyListener(input);
-
+        
+        
         time = new Timer();
+        
+        
     }
 
     /**
@@ -193,6 +200,8 @@ class UserInterfaceController extends JFrame implements Runnable
                 // Note that drawRect will only fillRect the rectangle outline
                 g.fillRect(0, 0, width, height);
 
+                
+                
 
                 // Tell the game to fillRect itself using the graphics context
                 game.draw(new WorldGraphics2D(g));

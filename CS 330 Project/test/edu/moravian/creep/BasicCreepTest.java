@@ -63,6 +63,10 @@ public class BasicCreepTest
     @Test
     public void testRespondToColission()
     {
+        
+        cr = new BasicCreep(new Point2D(1, 1), new Point2D(100, 100));
+        
+        
         int healthBeg = cr.healthRemaining();
 
         if (healthBeg <= 1)
@@ -72,7 +76,8 @@ public class BasicCreepTest
         
         assertFalse(cr.isDead());
         
-        cr.respondToColission(new BasicBullet(cr, healthBeg, 10000, Point2D.zero, 1000));
+        
+        cr.respondToColission(new BasicBullet(cr, healthBeg, 1, Point2D.zero, 1000));
         
         assertFalse(cr.isDead());
         

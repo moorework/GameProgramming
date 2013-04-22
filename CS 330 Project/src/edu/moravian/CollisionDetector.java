@@ -17,7 +17,9 @@ public class CollisionDetector
      */
     public static boolean twoSpheresColliding(Ball ballA, Ball ballB)
     {
-        //double distance = Math.sqrt(Math.pow(ballA.getCenter().getX() - ballB.getCenter().getX(), 2)    + Math.pow(ballA.getCenter().getY() - ballB.getCenter().getY(), 2));
+        //double distance = Math.sqrt(Math.pow(ballA.getCenter().getX() - 
+        //ballB.getCenter().getX(), 2)    + Math.pow(ballA.getCenter().getY()
+        //- ballB.getCenter().getY(), 2));
         double distanceSQ = Math.pow(ballA.getCenter().getX() - ballB.getCenter().getX(), 2)
                 + Math.pow(ballA.getCenter().getY() - ballB.getCenter().getY(), 2);
         //Get the distance between the two centers 
@@ -27,9 +29,11 @@ public class CollisionDetector
 
         Vector2D movecAtoB = ballA.getVelocity();
         
+        double distBetween = movecAtoB.magnitudeSq();
+        double otherval = (distanceSQ - (sumRadii * sumRadii));
 
         //If the movement vectors is smaller than the distance between the two bodies..
-        if (movecAtoB.magnitude() < (distanceSQ - (sumRadii * sumRadii)))
+        if (movecAtoB.magnitudeSq() < (distanceSQ - (sumRadii * sumRadii)))
         {
             //We ain't colliding
             return false;

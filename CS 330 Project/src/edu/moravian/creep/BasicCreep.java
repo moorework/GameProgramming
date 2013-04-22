@@ -102,7 +102,7 @@ public class BasicCreep implements Creep, Drawable
     public boolean respondToColission(Projectile projectile)
     {
 
-        Ball one = new Ball(position, movement, 1, this.get_dims().getBounds().width / 2, Color.yellow, 1);
+        Ball one = new Ball(position, new Vector2D(0,0), 1, this.get_dims().getBounds().width / 2, Color.yellow, 1);
         Ball two = projectile.get_dims();
 
         if (CollisionDetector.twoSpheresColliding(one, two))

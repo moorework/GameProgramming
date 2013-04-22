@@ -32,7 +32,7 @@ public class MapBuilder {
     public static void main(String[] args) throws FileNotFoundException, IOException {
 
 
-        BufferedImage buf = createImageReppresentation(getMapRepresentation("foo"), new Dimension(800, 600));
+        BufferedImage buf = createImageReppresentation(getMapRepresentation("maps/basicMap"), new Dimension(800, 600));
 
         File outputFile = new File("image.png");
         ImageIO.write(buf, "PNG", outputFile);
