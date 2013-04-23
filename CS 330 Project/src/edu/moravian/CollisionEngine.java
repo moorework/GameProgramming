@@ -197,13 +197,13 @@ public class CollisionEngine {
         }
 
         double numerator = -(1 + epsilon) * vDotN;
-        double denominator = (1 / a.getSize() + 1 / b.getSize());
+        double denominator = (1 / a.getMass() + 1 / b.getMass());
         double j = numerator / denominator;
 
-        Vector2D deltaA = collisionNormal.times(j / a.getSize());
+        Vector2D deltaA = collisionNormal.times(j / a.getMass());
         a.getVelocity().plusEquals(deltaA);
 
-        Vector2D deltaB = collisionNormal.times(j / b.getSize());
+        Vector2D deltaB = collisionNormal.times(j / b.getMass());
         b.getVelocity().minusEquals(deltaB);
 
 

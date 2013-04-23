@@ -13,7 +13,7 @@ public class ProximityTargetingSystem extends TargetingSystem
 
     public ProximityTargetingSystem(int radius, Point2D pos)
       {
-        super(radius, pos);
+        super(radius, pos, TargettingType.PROXIMITY);
       }
 
     @Override

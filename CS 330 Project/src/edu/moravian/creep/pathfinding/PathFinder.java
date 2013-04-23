@@ -191,22 +191,31 @@ public class PathFinder {
     }
 
     private static class BetterPriorityQueue {
-
         LinkedList<PathCell> list;
         PathCellNodeComparator comparator;
+        
+        boolean queuePrioritized;
         
         public BetterPriorityQueue(PathCellNodeComparator comparator_in)
         {
             list = new LinkedList<PathCell>();
             comparator = comparator_in;
+            
+            queuePrioritized = false;
         }
         
         public void offer(PathCell cell){
             list.add(cell);
+            
+            queuePrioritized = false;
         }
         
         public PathCell getSomeShit(){
-            Collections.sort(list, comparator);
+            if (queuePrioritized = false) {
+                Collections.sort(list, comparator);
+                queuePrioritized = true;
+            }
+            
             return list.pop();
         }
 
