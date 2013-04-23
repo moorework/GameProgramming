@@ -81,4 +81,6 @@ public class Settings
     
     public int getCreepLowestHealth(){return 0;}
     
+    
+    public double getDrawablePercentage(){return .10;}
   }

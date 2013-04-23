@@ -226,7 +226,7 @@ public class PathFinderTest {
         shortestPathB.add(new Point2D(15, -1));
         shortestPathB.add(new Point2D(25, -1));
         shortestPathB.add(new Point2D(25, 2));
-        shortestPa thB.add(new Point2D(40, 2));
+        shortestPathB.add(new Point2D(40, 2));
         shortestPathB.add(complexGoalCell.getCenterPoint());
         
         

@@ -4,8 +4,6 @@ import edu.moravian.SM.MainMenu;
 import edu.moravian.SM.NullState;
 import edu.moravian.SM.RunningState;
 import edu.moravian.SM.TD_StateMach;
-import edu.moravian.WorldMap.PathCell;
-import edu.moravian.creep.BasicCreep;
 import edu.moravian.creep.CreepManager;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
@@ -14,12 +12,10 @@ import edu.moravian.tower.BasicTower;
 import edu.moravian.tower.TowerManager;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 
 /**
  * This class encapsulates and holds all of the rules for the game
@@ -61,8 +57,8 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener {
         projMan = new BulletManager(null);
 
         creepMan = new CreepManager(null);
-        creepMan.addCreep(new BasicCreep(new Point2D(0, 0), new Point2D(500, 500)));
-        creepMan.addCreep(new BasicCreep(new Point2D(500, 000), new Point2D(500, 500)));
+        //creepMan.addCreep(new BasicCreep(new NavGraph(),new Point2D(0, 0), new Point2D(500, 500)));
+//creepMan.addCreep(new BasicCreep(new Point2D(500, 000), new Point2D(500, 500)));
 
         towMan = new TowerManager();
         towMan.addTower(new BasicTower(creepMan, projMan, new Point2D(500, 500), 500));
@@ -117,14 +113,14 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener {
                 endgame_met = true;
                 break;
             case KeyEvent.VK_SPACE:
-                
+
                 stateMac.pause();
                 break;
             case KeyEvent.VK_M:
                 stateMac.setGlobalState(new MainMenu());
                 break;
-                
-                
+
+
             default:
                 break;
         }
@@ -147,40 +143,28 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener {
         return towMan;
     }
 
-    public TD_StateMach getStateMac()
-    {
+    public TD_StateMach getStateMac() {
         return stateMac;
     }
 
     @Override
-    public void mouseClicked(MouseEvent me)
-    {
-      stateMac.mouseClicked(me);
+    public void mouseClicked(MouseEvent me) {
+        stateMac.mouseClicked(me);
     }
 
     @Override
-    public void mousePressed(MouseEvent me)
-    {
-        
+    public void mousePressed(MouseEvent me) {
     }
 
     @Override
-    public void mouseReleased(MouseEvent me)
-    {
-        
+    public void mouseReleased(MouseEvent me) {
     }
 
     @Override
-    public void mouseEntered(MouseEvent me)
-    {
-        
+    public void mouseEntered(MouseEvent me) {
     }
 
     @Override
-    public void mouseExited(MouseEvent me)
-    {
-        
+    public void mouseExited(MouseEvent me) {
     }
-    
-    
 }
