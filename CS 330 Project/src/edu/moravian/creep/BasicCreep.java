@@ -8,8 +8,6 @@ import edu.moravian.creep.pathfinding.Path;
 import edu.moravian.creep.pathfinding.PathFinder;
 import edu.moravian.graphics.DrawLocation;
 import edu.moravian.graphics.Drawable;
-import edu.moravian.graphics.GraphicsIDHolder;
-import edu.moravian.graphics.Sprite;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
@@ -43,6 +41,7 @@ public class BasicCreep implements Creep, Drawable {
     
     // visual data
     private Shape appearance;
+    private int imageID;
     
     // details regarding health
     private boolean dead;
@@ -50,7 +49,8 @@ public class BasicCreep implements Creep, Drawable {
 
     
     //TODO remove this basic test code 
-    public BasicCreep(NavGraph navigationalGraph, Point2D origin, Point2D objective_in, double speed, int initHealth) {
+    public BasicCreep(NavGraph navigationalGraph, Point2D origin, Point2D objective_in,
+                        double speed, int initHealth, int imageID) {
         navGraph = navigationalGraph;
         // generate our initial path as defined by the properties of the nav graph
         path = PathFinder.generatePath(navGraph, origin, objective_in);
@@ -61,6 +61,7 @@ public class BasicCreep implements Creep, Drawable {
         
         position = origin;
         appearance = new Rectangle(100, 100);
+        this.imageID = imageID;
         
         // compute an initial heading
         currObjective = path.getNextWayPoint();
@@ -152,8 +153,8 @@ public class BasicCreep implements Creep, Drawable {
     }
 
     @Override
-    public GraphicsIDHolder getGraphicsID() {
-        return GraphicsIDHolder.BASICCREEP;
+    public int getGraphicsID() {
+        return imageID;
     }
 
     @Override
@@ -163,12 +164,7 @@ public class BasicCreep implements Creep, Drawable {
 
     @Override
     public DrawLocation getDrawLocation() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Sprite getCurrFrame() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return DrawLocation.CENTER;
     }
 
     public void draw(WorldGraphics2D w2d) {

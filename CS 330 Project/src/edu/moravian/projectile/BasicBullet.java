@@ -3,12 +3,9 @@ package edu.moravian.projectile;
 import edu.moravian.Ball;
 import edu.moravian.creep.Creep;
 import edu.moravian.graphics.DrawLocation;
-import edu.moravian.graphics.GraphicsIDHolder;
-import edu.moravian.graphics.Sprite;
 import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
 import java.awt.Color;
-import javax.swing.text.Position;
 
 /**
  *
@@ -16,13 +13,11 @@ import javax.swing.text.Position;
  */
 public class BasicBullet extends Projectile
   {
-    //TODO magic number
-
     private static final int Radius = 100;
 
-    public BasicBullet(Creep target_in, int damage_in, double speedscale_in, Point2D origin)
+    public BasicBullet(Creep target_in, int damage_in, double speedscale_in, Point2D origin, int imageID)
       {
-        super(origin, target_in, damage_in, speedscale_in);
+        super(origin, target_in, damage_in, speedscale_in, imageID);
       }
 
     @Override
@@ -38,7 +33,9 @@ public class BasicBullet extends Projectile
         target.respondToColision(this);
         //TODO MN
         Vector2D direction = target.getPosition().minus(this.pos).getNormalized();
-        pos = pos.scalePlus(this.speedscale, direction);
+        
+        pos = pos.scalePlus(this.speedscale * delta, direction);
+        
         if (target.isDead())
           {
             this.doneVar = true;
@@ -46,9 +43,9 @@ public class BasicBullet extends Projectile
       }
 
     @Override
-    public GraphicsIDHolder getGraphicsID()
+    public int getGraphicsID()
       {
-        return GraphicsIDHolder.BASICBULLET;
+        return imageID;
       }
 
     @Override
@@ -61,12 +58,5 @@ public class BasicBullet extends Projectile
     public DrawLocation getDrawLocation()
       {
         return DrawLocation.CENTER;
-      }
-
-    @Override
-    public Sprite getCurrFrame()
-      {
-        //TODO implement me
-        throw new UnsupportedOperationException("Not supported yet.");
       }
   }

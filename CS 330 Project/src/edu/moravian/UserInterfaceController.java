@@ -2,6 +2,7 @@ package edu.moravian;
 
 import edu.moravian.graphics.VideoConfigurationException;
 import edu.moravian.graphics.WorldGraphics2D;
+import edu.moravian.util.DeltaTimer;
 import edu.moravian.util.Timer;
 import java.awt.Color;
 import java.awt.DisplayMode;
@@ -160,6 +161,18 @@ class UserInterfaceController extends JFrame implements Runnable
             // Now that the strategy is created, we safe a reference to it
             // so that we can fillRect (below)
             BufferStrategy bufStrat = this.getBufferStrategy();
+            
+            DeltaTimer deltaTimer = new DeltaTimer();
+            
+            // prev will be the time of the last frame.
+            double delta = 0;
+            // time since we last drew the FPS on-screen
+            double sinceLastFPSDraw = 0;
+            // to reduce the wild drawing of the FPS counter, we'll restrict
+            // updating it to once every 70 milliseconds
+            final double SPAN_BETWEEN_FPS_DRAWS = 70 / 1000.0;
+            // a String representing the FPS counter to be drawn on-screen
+            String framesPerSecond = "";
 
             // prev will be the time of the last frame.
             long prev = 0;
@@ -175,10 +188,22 @@ class UserInterfaceController extends JFrame implements Runnable
                 long currTime = System.currentTimeMillis();
                 long diff = (currTime - prev);
                 prev = currTime;
+                
+                // By getting the current time each frame, we can compute
+                // the program's frames per second.
+                deltaTimer.tick();
 
+                // retrieve the span of time necessary to process the last frame
+                // to use as a basis for computations for this frame
+                delta = deltaTimer.getDelta();
+                
+                // update the time since last we updated the FPS on-screen
+                sinceLastFPSDraw += delta;
+                
+                
                 // Tell the game object to update itself - i.e. to make itself
                 // ready for the next fillRect.
-                game.update();
+                game.update(delta);
 
                 // Drawing is done through a Graphics object.  You can think
                 // of this as the object representing the screen.
@@ -200,8 +225,13 @@ class UserInterfaceController extends JFrame implements Runnable
                 // designate the lower left of the text, and so anything
                 // written at (0,0) will end up being written above the
                 // viewable region.
-                g.setColor(Color.blue);
-                g.drawString("" + 1.0 / (diff / 1000.0), 0, 10);
+                g.setColor(Color.BLUE);
+                if (sinceLastFPSDraw >= SPAN_BETWEEN_FPS_DRAWS) {
+                    sinceLastFPSDraw = 0;
+
+                    framesPerSecond = "" + (int) (1.0 / (delta));
+                }
+                g.drawString(framesPerSecond, 0, 10);
 
 
                 // Free up any resources being used.

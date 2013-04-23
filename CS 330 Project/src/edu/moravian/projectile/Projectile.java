@@ -7,13 +7,12 @@ import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
 import java.awt.Color;
-import java.awt.Shape;
 
 /**
  *
  * @author moore
  */
-public abstract class Projectile  implements Drawable{
+public abstract class Projectile  implements Drawable {
 
     protected Creep target;
     private int damage;
@@ -21,13 +20,15 @@ public abstract class Projectile  implements Drawable{
     protected Point2D pos;
     private Vector2D dir;
     protected boolean doneVar ;
+    protected int imageID;
 
-    public Projectile(Point2D position, Creep target_in, int damage_in, double speedscale_in) {
+    public Projectile(Point2D position, Creep target_in, int damage_in, double speedscale_in, int imageID) {
         target = target_in;
         damage = damage_in;
         speedscale = speedscale_in;
         doneVar = false;
         pos = position;
+        this.imageID = imageID;
     }
 
     public abstract Ball get_dims();

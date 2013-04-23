@@ -1,8 +1,9 @@
 package edu.moravian;
 
-import edu.moravian.WorldMap.PathCell;
-import edu.moravian.creep.BasicCreep;
+import edu.moravian.WorldMap.WorldMap;
 import edu.moravian.creep.CreepManager;
+import edu.moravian.creep.Wave;
+import edu.moravian.creep.WaveCreator;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
 import edu.moravian.projectile.BulletManager;
@@ -10,7 +11,6 @@ import edu.moravian.tower.BasicTower;
 import edu.moravian.tower.TowerManager;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -26,13 +26,8 @@ public class TowerDefenseGame implements KeyListener, Game
     private int worldWidth;
     private int worldHeight;
     private boolean endgame_met;
-    private final Point2D center_point;
-    private Color background;
-    private Settings set;
-   
-    private BulletManager projMan;
-    private CreepManager creepMan;
-    private TowerManager towMan;
+    
+    TowerDefenseState currState;
       /*
          * In general we are trying to delegate logic to others 
          * and keep rules to ourself
@@ -43,51 +38,22 @@ public class TowerDefenseGame implements KeyListener, Game
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
 
-        center_point = new Point2D(worldWidth / 2, worldHeight / 2);
-
-
-        set = Settings.getInstance();
-        set.setWorldSize(new Dimension(worldWidth, worldHeight));
-
         endgame_met = false;
-
-        background = set.getBackgroundColor();
-
-        projMan = new BulletManager(null);
-
-        creepMan = new CreepManager(null);
-        creepMan.addCreep(new BasicCreep(new Point2D(0,0), new Point2D(500, 500)));
-        creepMan.addCreep(new BasicCreep(new Point2D(1000,0), new Point2D(500, 500)));
-
-
-
-        towMan = new TowerManager();
-        towMan.addTower(new BasicTower(creepMan, projMan, new Point2D(500, 500)));
-
-
+        
+        // TODO first state
       }
 
     @Override
-    public void update()
+    public void update(double delta)
       {
-  
-//TODO make double not 10
-         towMan.update(10);
-        creepMan.update(10);
-        projMan.update(10);
+          currState.update(delta);
       }
 
     @Override
     public void draw(WorldGraphics2D Wg2D)
       {
-        Wg2D.setColor(background);
+          
         Wg2D.fillRect(new Point2D(0, 0), worldWidth, worldHeight);
-
-        towMan.draw(Wg2D);
-
-        creepMan.draw(Wg2D);
-
-        projMan.draw(Wg2D);
 
       }
 

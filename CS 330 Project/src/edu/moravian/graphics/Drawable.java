@@ -16,7 +16,7 @@ public interface Drawable {
      * 
      * @return the graphics id of the object
      */
-    public GraphicsIDHolder getGraphicsID();
+    public int getGraphicsID();
     
     /**
      * Retrieve a Point2D that describes the position of the drawable object.
@@ -34,6 +34,4 @@ public interface Drawable {
      * @return the DrawLocation describing where the Drawable expects to be drawn
      */
     public DrawLocation getDrawLocation();
-
-    public Sprite getCurrFrame();
 }

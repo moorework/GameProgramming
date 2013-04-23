@@ -21,7 +21,10 @@ import java.awt.Color;
  */
 public class BasicTower extends Tower
   {
-
+    private final int BULLET_IMAGE_ID = 1;
+    
+    private int imageID;
+    
     private TargetingSystem tar;
     private Timer time;
     private BulletManager bulletman;
@@ -62,7 +65,7 @@ public class BasicTower extends Tower
 
                 //TODO magic number here 
                 Creep target = tar.determineTarget(manager.getCreeps());
-                BasicBullet bul = new BasicBullet(target, damage, 1, this.getPos());
+                BasicBullet bul = new BasicBullet(target, damage, 1, this.getPos(), BULLET_IMAGE_ID);
                 bulletman.shoot(bul);
               }
 
@@ -70,12 +73,14 @@ public class BasicTower extends Tower
             time.tick();
 
           }
+        
+        bulletman.update(delta);
       }
 
     @Override
-    public GraphicsIDHolder getGraphicsID()
+    public int getGraphicsID()
       {
-        return GraphicsIDHolder.BASICTOWER;
+        return imageID;
       }
 
     @Override
@@ -88,13 +93,6 @@ public class BasicTower extends Tower
     public DrawLocation getDrawLocation()
       {
         return DrawLocation.CENTER;
-      }
-
-    @Override
-    public Sprite getCurrFrame()
-      {
-        //TODO implement me 
-        throw new UnsupportedOperationException("Not supported yet.");
       }
 
     //TODO get rid of me, I am simply a testing method 

@@ -1,108 +1,120 @@
+
+
 package edu.moravian.creep;
 
-import edu.moravian.util.Timer;
-import java.awt.List;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.Properties;
 
 /**
  *
- * @author James Moore (moore.work@live.com)
+ * @author myles
  */
-public class WaveCreator
-{
-
+public class WaveCreator {
+    // property key data for macro wave file
+    private final String NUM_WAVES = "numWaves";
+    private final String NUM_WAVES_DEFAULT = "1";
+    private final String INIT_STRENGTH = "initStrength";
+    private final String INIT_STRENGTH_DEFAULT = "10";
+    private final String INIT_SPEED = "initSpeed";
+    private final String INIT_SPEED_DEFAULT = "15";
+    private final String STRENGTH_MULT = "strengthMult";
+    private final String STRENGTH_MULT_DEFAULT = "3";
+    private final String SPEED_MULT = "speedMult";
+    private final String SPEED_MULT_DEFAULT = "4";
+    private final String NUM_CREEPS = "numCreeps";
+    private final String NUM_CREEPS_DEFAULT = "8";
+    private final String IMAGE_ID = "creepImageID";
+    private final String IMAGE_ID_DEFAULT = "101";
+    
+    private Properties waveData; // data that describes all waves
+    
+    // each successive wave should be more difficult than the one that preceeded
+    // it; thus each wave's attributes are modified by the multipliers
+    private int numWaves;
+    private int initHealth;
+    private int initSpeed;
+    private int strengthMultiplier;
+    private double speedMultiplier;
+    private ArrayList<Integer> numCreeps;
+    private ArrayList<Integer> imageIDs;
+    
     LinkedList<Wave> waves;
-    private static final int NUM_ATTRIBUTES = 7;
-
-    public WaveCreator(String fileLoc) throws FileNotFoundException
-    {
-        /*
-         * Ok this is the documentation of the creep file system
-         */
-        //TODO create ini files with documentaiton inside of them 
-
+    
+    public WaveCreator(String waveDataDirectory) {
+        waveData = new Properties();
+        
+        try {
+            InputStream is = new FileInputStream(waveDataDirectory);
+            waveData.load(is);
+        }
+        catch(Exception ex) {
+            System.out.println("WaveCreator construction failed: " + ex);
+        }
+        
+        numCreeps = new ArrayList<Integer>();
+        imageIDs = new ArrayList<Integer>();
+        readInData();
+        
         waves = new LinkedList<Wave>();
-        //read me some creep data
-
-        File f = new File(fileLoc);
-        Scanner s = new Scanner(f);
-        String creepParse = "";
-        //TODO make this not tripe
-        while (s.hasNextLine())
-        {
-            creepParse += s.nextLine();
-        }
-        //Split them into indiviual waves
-        String[] pieces = creepParse.split("$");
-
-        for (int i = 0; i < pieces.length; i++)
-        {
-            waves.add(parseWave(pieces[i]));
-        }
-
-
-
-
+        createWaves();
     }
-
-    //TODO implement me
-    public boolean hasNextWave()
-    { 
-        return false;
-    }
-
-    //TODO implement me
-    public List getNextWave()
-    {
-        return null;
-    }
-
-    private Wave parseWave(String oneWave)
-    {
-        String[] creeps = oneWave.split(System.getProperty("line.separator"));
-        Wave ret = new Wave();
-
-        for (String individualCreep : creeps)
-        {
-            String[] parts = individualCreep.split(",");
-            int numCreeps = Integer.parseInt(parts[0]);
-            int creepType = Integer.parseInt(parts[1]);
-            double strengthMult = Double.parseDouble(parts[2]);
-            double speedMult = Double.parseDouble(parts[3]);
-            int numPerRow = Integer.parseInt(parts[4]);
-            double release_frequency = Double.parseDouble(parts[5]);
-
-            ret.addWave(numCreeps, creepType, strengthMult, speedMult, numPerRow, release_frequency);
-
+    
+    private void readInData() {
+        String numWaveVal = waveData.getProperty(NUM_WAVES, NUM_WAVES_DEFAULT);
+        numWaves = Integer.parseInt(numWaveVal);
+        
+        String initHealthVal = waveData.getProperty(INIT_STRENGTH, INIT_STRENGTH_DEFAULT);
+        initHealth = Integer.parseInt(initHealthVal);
+        
+        String initSpeedVal = waveData.getProperty(INIT_SPEED, INIT_SPEED_DEFAULT);
+        initSpeed = Integer.parseInt(initSpeedVal);
+        
+        String strengthMultiplierVal = waveData.getProperty(STRENGTH_MULT, STRENGTH_MULT_DEFAULT);
+        strengthMultiplier = Integer.parseInt(strengthMultiplierVal);
+        
+        String speedMultiplierVal = waveData.getProperty(SPEED_MULT, SPEED_MULT_DEFAULT);
+        speedMultiplier = Double.parseDouble(speedMultiplierVal);
+        
+        int tempNumCreeps;
+        for (int i = 1; i <= numWaves; i++) {
+            String numCreepsPerRowVal = waveData.getProperty(NUM_CREEPS + i, NUM_CREEPS_DEFAULT);
+            tempNumCreeps = Integer.parseInt(numCreepsPerRowVal);
+            
+            numCreeps.add(tempNumCreeps);
         }
-
-        return ret;
-
+        
+        int imageID;
+        String imageIDVal;
+        for (int i = 1; i <= numWaves; i++) {
+            imageIDVal = waveData.getProperty(IMAGE_ID + i, IMAGE_ID_DEFAULT);
+            
+            imageID = Integer.parseInt(imageIDVal);
+            
+            imageIDs.add(imageID);
+        }
     }
-
-    //TODO make this more extendable
-    //TODO do we want waves to control when they are released?
-    private class Wave
-    {
-
-    private    LinkedList<Creep> release_order;
-     private   LinkedList<Integer> release_quantity;
-     private   Timer time;
-
-        public Wave()
-        {
-
-            release_order = new LinkedList<Creep>();
-            release_quantity = new LinkedList<Integer>();
-            time = new Timer();
+    
+    private void createWaves() {
+        Wave freshWave;
+        int creepHealth;
+        double creepSpeed;
+        for (int i = 0; i < numWaves; i++) {
+            creepHealth = initHealth + (strengthMultiplier * i);
+            creepSpeed = initSpeed + (speedMultiplier * i);
+            
+            freshWave = new Wave(numCreeps.get(i), creepHealth, creepSpeed, imageIDs.get(i));
+            waves.add(freshWave);
         }
-
-        private void addWave(int numCreeps, int creepType, double strengthMult, double speedMult, int numPerRow, double release_frequency)
-        {
-            //TODO we need some way to index into creep type
-        }
+    }
+    
+    public boolean hasMoreWaves() {
+        return (waves.isEmpty() == false);
+    }
+    
+    public Wave getNextWave() {
+        return waves.poll();
     }
 }

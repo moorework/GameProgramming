@@ -1,36 +1,38 @@
+
 package edu.moravian;
 
 import edu.moravian.graphics.WorldGraphics2D;
 
 /**
- * This interface defines the required elements for any game that uses
- * the VideoController
- * 
- * @author mebjc01
+ *
+ * @author myles
  */
-public interface Game
-{
+public abstract class TowerDefenseState implements Game {
+    private TowerDefenseGame master;
+
+    public TowerDefenseState(TowerDefenseGame master) {
+        this.master = master;
+    }
+    
     /**
      * Update the Game state by one frame
      */
-    void update(double delta);
+    @Override
+    public abstract void update(double delta);
 
     /**
      * Draw the current state of the game
      *
      * @param g2d the graphics with which to draw
      */
-    void draw(WorldGraphics2D wG2d);
+    @Override
+    public abstract void draw(WorldGraphics2D wG2d);
 
     /**
      * Determine whether the game is complete (the program should
      * terminate)
      * @return true if the game is complete
      */
-    boolean done();
-
-
-
-
-
+    @Override
+    public abstract boolean done();
 }
