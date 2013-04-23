@@ -34,6 +34,7 @@ public class CreepManager
         this.creepsDead = new ArrayList<Creep>();
       }
 
+    
     public void addCreep(Creep newCreep)
       {
         this.creepsAlive.add(newCreep);

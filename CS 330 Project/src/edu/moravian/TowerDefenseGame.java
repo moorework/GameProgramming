@@ -4,6 +4,7 @@ import edu.moravian.SM.MainMenu;
 import edu.moravian.SM.NullState;
 import edu.moravian.SM.RunningState;
 import edu.moravian.SM.TD_StateMach;
+import edu.moravian.creep.BasicCreep;
 import edu.moravian.creep.CreepManager;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
@@ -22,7 +23,8 @@ import java.awt.event.MouseListener;
  *
  * @author moore
  */
-public class TowerDefenseGame implements KeyListener, Game, MouseListener {
+public class TowerDefenseGame implements KeyListener, Game, MouseListener
+{
 
     private int worldWidth;
     private int worldHeight;
@@ -33,13 +35,16 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener {
     private BulletManager projMan;
     private CreepManager creepMan;
     private TowerManager towMan;
-    TD_StateMach stateMac;
+    private TD_StateMach stateMac;
+    private int Xsize;
+    
     /*
      * In general we are trying to delegate logic to others 
      * and keep rules to ourself
      */
 
-    public TowerDefenseGame(int worldWidth, int worldHeight) {
+    public TowerDefenseGame(int worldWidth, int worldHeight)
+    {
 
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
@@ -57,6 +62,7 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener {
         projMan = new BulletManager(null);
 
         creepMan = new CreepManager(null);
+        
         //creepMan.addCreep(new BasicCreep(new NavGraph(),new Point2D(0, 0), new Point2D(500, 500)));
 //creepMan.addCreep(new BasicCreep(new Point2D(500, 000), new Point2D(500, 500)));
 
@@ -70,15 +76,18 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener {
     }
 
     @Override
-    public void update() {
+    public void update(double delt)
+    {
         //Delegate the game's behavior to the state machine
         //It holds all the revlevant crap
 
         stateMac.update();
+        
     }
 
     @Override
-    public void draw(WorldGraphics2D Wg2D) {
+    public void draw(WorldGraphics2D Wg2D)
+    {
         Wg2D.setColor(background);
         Wg2D.fillRect(new Point2D(0, 0), worldWidth, worldHeight);
 
@@ -89,15 +98,20 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener {
         projMan.draw(Wg2D);
 
         stateMac.draw(Wg2D);
+        
+        //Wg2D.fillRect(new Point2D(100,100), new Dimension(Xsize, 100), Color.cyan);
+        //Math.abs(Xsize ++);
     }
 
     @Override
-    public boolean done() {
+    public boolean done()
+    {
         return endgame_met;
     }
 
     @Override
-    public void keyTyped(KeyEvent ke) {
+    public void keyTyped(KeyEvent ke)
+    {
     }
 
     /**
@@ -107,8 +121,10 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener {
      * @param ke
      */
     @Override
-    public void keyPressed(KeyEvent ke) {
-        switch (ke.getKeyCode()) {
+    public void keyPressed(KeyEvent ke)
+    {
+        switch (ke.getKeyCode())
+        {
             case KeyEvent.VK_Q:
                 endgame_met = true;
                 break;
@@ -127,44 +143,56 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent ke) {
+    public void keyReleased(KeyEvent ke)
+    {
     }
 
     //TODO may want to redo whole state driven design 
-    public BulletManager getProjMan() {
+    public BulletManager getProjMan()
+    {
         return projMan;
     }
 
-    public CreepManager getCreepMan() {
+    public CreepManager getCreepMan()
+    {
         return creepMan;
     }
 
-    public TowerManager getTowMan() {
+    public TowerManager getTowMan()
+    {
         return towMan;
     }
 
-    public TD_StateMach getStateMac() {
+    public TD_StateMach getStateMac()
+    {
         return stateMac;
     }
 
     @Override
-    public void mouseClicked(MouseEvent me) {
+    public void mouseClicked(MouseEvent me)
+    {
         stateMac.mouseClicked(me);
     }
 
     @Override
-    public void mousePressed(MouseEvent me) {
+    public void mousePressed(MouseEvent me)
+    {
     }
 
     @Override
-    public void mouseReleased(MouseEvent me) {
+    public void mouseReleased(MouseEvent me)
+    {
     }
 
     @Override
-    public void mouseEntered(MouseEvent me) {
+    public void mouseEntered(MouseEvent me)
+    {
     }
 
     @Override
-    public void mouseExited(MouseEvent me) {
+    public void mouseExited(MouseEvent me)
+    {
     }
+
+
 }

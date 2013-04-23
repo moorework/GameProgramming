@@ -3,6 +3,7 @@ package edu.moravian;
 import edu.moravian.graphics.VideoConfigurationException;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
+import edu.moravian.util.DeltaTimer;
 import edu.moravian.util.Timer;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -30,7 +31,8 @@ import javax.swing.JFrame;
  * The class implements Runnable, and is intended to be used as a thread.
  *
  */
-class UserInterfaceController extends JFrame implements Runnable {
+class UserInterfaceController extends JFrame implements Runnable
+{
     // Convience references to the Graphics system
 
     private GraphicsEnvironment genv;
@@ -42,7 +44,7 @@ class UserInterfaceController extends JFrame implements Runnable {
     private Game game;
     private Timer time;
     private int clickableArea;
-    private Nipple reset;
+    private UI_ELEMENT reset;
 
     /**
      * Create an instance of the class with the specified screen configuration
@@ -56,7 +58,8 @@ class UserInterfaceController extends JFrame implements Runnable {
      * available or if fullscreen mode is not allowed
      */
     public UserInterfaceController(int width, int height, int depth, Game thugAim)
-            throws VideoConfigurationException {
+            throws VideoConfigurationException
+    {
         this.width = width;
         this.height = height;
         this.depth = depth;
@@ -69,11 +72,13 @@ class UserInterfaceController extends JFrame implements Runnable {
         genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
         gdev = genv.getDefaultScreenDevice();
 
-        if (!hasResolution(width, height, depth)) {
+        if (!hasResolution(width, height, depth))
+        {
             throw new VideoConfigurationException("unsupported resolution:");
         }
 
-        if (!hasFullScreen()) {
+        if (!hasFullScreen())
+        {
             throw new VideoConfigurationException("fullscreen unsupported");
         }
 
@@ -98,7 +103,7 @@ class UserInterfaceController extends JFrame implements Runnable {
 
         time = new Timer();
 
-        reset = new Nipple(new Point2D(5, 5), "Reset", Color.blue, Color.black, new Dimension(50, 50));
+        reset = new UI_ELEMENT(new Point2D(5, 5), "Reset", Color.blue, Color.black, new Dimension(50, 50));
 
     }
 
@@ -107,7 +112,8 @@ class UserInterfaceController extends JFrame implements Runnable {
      *
      * @return true if fullscreen is available
      */
-    private boolean hasFullScreen() {
+    private boolean hasFullScreen()
+    {
         return gdev.isFullScreenSupported();
     }
 
@@ -119,15 +125,18 @@ class UserInterfaceController extends JFrame implements Runnable {
      * @param bitDepth the desired color depth
      * @return true if the specifed resolution is available
      */
-    private boolean hasResolution(int width, int height, int bitDepth) {
+    private boolean hasResolution(int width, int height, int bitDepth)
+    {
         DisplayMode[] modes = gdev.getDisplayModes();
 
-        for (int i = 0; i < modes.length; i++) {
+        for (int i = 0; i < modes.length; i++)
+        {
             int w = modes[i].getWidth();
             int h = modes[i].getHeight();
             int b = modes[i].getBitDepth();
 
-            if (width == w && height == h && bitDepth == b) {
+            if (width == w && height == h && bitDepth == b)
+            {
                 return true;
             }
         }
@@ -141,8 +150,11 @@ class UserInterfaceController extends JFrame implements Runnable {
      * indicates it is done, the loop terminates.
      */
     @Override
-    public void run() {
-
+    public void run()
+    {
+        int avgCount = 0;
+        double avg = 0;
+        String avgFPS = "";
         // Save the old resolution so we can go back when we are done.
         DisplayMode oldMode = gdev.getDisplayMode();
 
@@ -154,7 +166,8 @@ class UserInterfaceController extends JFrame implements Runnable {
         // execute even if an unhandled exception causes the program to
         // terminate.  We use this to make sure we "clean up" the video
 
-        try {
+        try
+        {
             // Go full screen!  "this" is the object, which is a window
             gdev.setFullScreenWindow(this);
             // Change to our desired resolution
@@ -172,11 +185,24 @@ class UserInterfaceController extends JFrame implements Runnable {
             // so that we can fillRect (below)
             BufferStrategy bufStrat = this.getBufferStrategy();
 
+            DeltaTimer deltaTimer = new DeltaTimer();
+
+            // prev will be the time of the last frame.
+            double delta = 0;
+            // time since we last drew the FPS on-screen
+            double sinceLastFPSDraw = 0;
+            // to reduce the wild drawing of the FPS counter, we'll restrict
+            // updating it to once every 70 milliseconds
+            final double SPAN_BETWEEN_FPS_DRAWS = 70 / 1000.0;
+            // a String representing the FPS counter to be drawn on-screen
+            String framesPerSecond = "";
+
             // prev will be the time of the last frame.
             long prev = 0;
 
             // Keep going until the game says it is done
-            while (!game.done()) {
+            while (!game.done())
+            {
                 //Tick the timer 
                 time.tick();
 
@@ -186,9 +212,21 @@ class UserInterfaceController extends JFrame implements Runnable {
                 long diff = (currTime - prev);
                 prev = currTime;
 
+                // By getting the current time each frame, we can compute
+                // the program's frames per second.
+                deltaTimer.tick();
+
+                // retrieve the span of time necessary to process the last frame
+                // to use as a basis for computations for this frame
+                delta = deltaTimer.getDelta();
+
+                // update the time since last we updated the FPS on-screen
+                sinceLastFPSDraw += delta;
+
+
                 // Tell the game object to update itself - i.e. to make itself
                 // ready for the next fillRect.
-                game.update();
+                game.update(delta);
 
                 // Drawing is done through a Graphics object.  You can think
                 // of this as the object representing the screen.
@@ -213,8 +251,29 @@ class UserInterfaceController extends JFrame implements Runnable {
                 // designate the lower left of the text, and so anything
                 // written at (0,0) will end up being written above the
                 // viewable region.
-                g.setColor(Color.blue);
-                g.drawString("" + 1.0 / (diff / 1000.0), 5, height - 5);
+                g.setColor(Color.BLUE);
+                if (sinceLastFPSDraw >= SPAN_BETWEEN_FPS_DRAWS)
+                {
+                    sinceLastFPSDraw = 0;
+
+                    framesPerSecond = "" + (int) (1.0 / (delta));
+                }
+
+                g.drawString(framesPerSecond, 0, (height - 5));
+
+                if (avgCount < 100)
+                {
+                    avg += time.getFPS();
+                    //      System.out.println(avg);
+                    avgCount += 1;
+
+                }
+                else
+                {
+                    avgFPS = avg / 100 + "";
+                    avgCount = 0;
+                }
+                g.drawString(avgFPS, 100, (height - 5));
 
 
                 // Free up any resources being used.
@@ -244,7 +303,8 @@ class UserInterfaceController extends JFrame implements Runnable {
         } // A "finally" clause will always execute even if an unhandled
         // exception causes the program to terminate.  We use this to
         // make sure we "clean up" the video
-        finally {
+        finally
+        {
             // Before we exit, we want to change back to the original
             // video mode.
             gdev.setDisplayMode(oldMode);
@@ -257,56 +317,71 @@ class UserInterfaceController extends JFrame implements Runnable {
         }
     }
 
-    private class inputHandler implements KeyListener, MouseListener {
+    private class inputHandler implements KeyListener, MouseListener
+    {
 
         @Override
-        public void keyTyped(KeyEvent e) {
+        public void keyTyped(KeyEvent e)
+        {
             ((TowerDefenseGame) game).keyTyped(e);
         }
 
         @Override
-        public void keyPressed(KeyEvent e) {
+        public void keyPressed(KeyEvent e)
+        {
             ((TowerDefenseGame) game).keyPressed(e);
         }
 
         @Override
-        public void keyReleased(KeyEvent e) {
+        public void keyReleased(KeyEvent e)
+        {
             ((TowerDefenseGame) game).keyReleased(e);
         }
 
         @Override
-        public void mouseClicked(MouseEvent me) {
+        public void mouseClicked(MouseEvent me)
+        {
 
             //Interrupt the event here, query interactable state from game 
-            if (me.getY() < clickableArea) {
+            if (me.getY() < clickableArea)
+            {
 
 
-                if (reset.contains(new Point2D(me.getX(), me.getY()))) {
+                if (reset.contains(new Point2D(me.getX(), me.getY())))
+                {
+                    game = new TowerDefenseGame(width, height);
                 }
-            } else {
+            }
+            else
+            {
                 ((TowerDefenseGame) game).mouseClicked(me);
 
             }
         }
 
         @Override
-        public void mousePressed(MouseEvent me) {
+        public void mousePressed(MouseEvent me)
+        {
         }
 
         @Override
-        public void mouseReleased(MouseEvent me) {
+        public void mouseReleased(MouseEvent me)
+        {
         }
 
         @Override
-        public void mouseEntered(MouseEvent me) {
+        public void mouseEntered(MouseEvent me)
+        {
         }
 
         @Override
-        public void mouseExited(MouseEvent me) {
+        public void mouseExited(MouseEvent me)
+        {
         }
     }
 
-    private class Nipple {
+    private class UI_ELEMENT
+    {
 
         Point2D loc;
         String text;
@@ -314,7 +389,8 @@ class UserInterfaceController extends JFrame implements Runnable {
         Color colorBT;
         Dimension boxSize;
 
-        public Nipple(Point2D pt, String str, Color colText, Color colBack, Dimension size) {
+        public UI_ELEMENT(Point2D pt, String str, Color colText, Color colBack, Dimension size)
+        {
             loc = pt;
             text = str;
             colorMF = colText;
@@ -322,7 +398,8 @@ class UserInterfaceController extends JFrame implements Runnable {
             boxSize = size;
         }
 
-        public void draw(Graphics g) {
+        public void draw(Graphics g)
+        {
             Color old = g.getColor();
             g.setColor(colorMF);
             g.fillRect((int) loc.getX(), (int) loc.getY(), boxSize.width, boxSize.height);
@@ -331,7 +408,8 @@ class UserInterfaceController extends JFrame implements Runnable {
             g.setColor(old);
         }
 
-        public boolean contains(Point2D pt) {
+        public boolean contains(Point2D pt)
+        {
             return pt.getX() > loc.getX()
                     && (loc.getX() + boxSize.width) > pt.getX()
                     && pt.getY() > loc.getY()

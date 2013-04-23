@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Set;
 import javax.imageio.ImageIO;
@@ -26,8 +27,8 @@ public class MapBuilder {
     private static final char START_CHAR = 'S';
     private static final char END_CHAR = 'E';
     private static int cachedAppearenceID;
-    private static Point2D cachedStartingPoint;
-    private static Point2D cachedEndingPoint;
+    private static LinkedList<PathCell> cachedStartingPoints;
+    private static LinkedList<PathCell> cachedEndingPoints;
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
 
@@ -70,38 +71,51 @@ public class MapBuilder {
         return ret;
     }
 
-    protected static int getAppearenceID(String mapDirLocation) {
+    protected static int getAppearenceID()
+      {
 
         return cachedAppearenceID;
     }
 
-    protected static Point2D getStartingPoint(String mapDirLocation) {
+    protected static LinkedList<PathCell> getStartingPoints()
+      {
 
-        return cachedStartingPoint;
-    }
+        return cachedStartingPoints;
+      }
 
-    protected static Point2D getEndingPoint(String mapDirLocation) {
+    protected static LinkedList<PathCell> getEndingPoints()
+      {
 
-        return cachedEndingPoint;
-    }
+        return cachedEndingPoints;
+      }
 
     //TODO test round one 
-    private static ArrayList<WorldCell> translate(String first) {
-
+    private static ArrayList<WorldCell> translate(String first)
+      {
+          
+         TowerCell tCell;
+         PathCell pCell;
+        //TODO store translation values elsewhere?
         ArrayList<WorldCell> ret = new ArrayList<WorldCell>();
         for (char c : first.toCharArray()) {
             switch (c) {
                 case PATH_CHAR:
-                    ret.add(new PathCell());
+                    pCell = new PathCell();
+                    ret.add(pCell);
                     break;
                 case TOWER_CHAR:
-                    ret.add(new TowerCell());
+                    tCell = new TowerCell();
+                    ret.add(tCell);
                     break;
                 case START_CHAR:
-                    ret.add(new StartCell());
+                    pCell = new StartCell();
+                    cachedStartingPoints.add(pCell);
+                    ret.add(pCell);
                     break;
                 case END_CHAR:
-                    ret.add(new EndCell());
+                    pCell = new EndCell();
+                    cachedEndingPoints.add(pCell);
+                    ret.add(pCell);
                     break;
                 default:
                     throw new IllegalArgumentException("Data file must be composed of legal cells");

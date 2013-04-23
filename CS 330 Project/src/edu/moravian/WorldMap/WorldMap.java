@@ -2,10 +2,9 @@ package edu.moravian.WorldMap;
 
 import edu.moravian.graphics.DrawLocation;
 import edu.moravian.graphics.Drawable;
-import edu.moravian.graphics.GraphicsIDHolder;
-import edu.moravian.graphics.Sprite;
 import edu.moravian.math.Point2D;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  *
@@ -13,6 +12,7 @@ import java.util.ArrayList;
  */
 public class WorldMap implements Drawable
   {
+    private final int IMAGE_ID = 0;
 
     private ArrayList<ArrayList<WorldCell>> topography; // a matrix that describes the map
     // as a series of specialized cells
@@ -24,6 +24,9 @@ public class WorldMap implements Drawable
     private int numVertCells; // the number of cells representing the world vertically
     private double cellWidth; // the width (in game world terms) of each cell
     private double cellHeight; // the height (in game world terms) of each cell
+    
+    private LinkedList<PathCell> startingPoints;
+    private LinkedList<PathCell> endingPoints;
 
 
     /**
@@ -52,7 +55,7 @@ public class WorldMap implements Drawable
             System.out.println("MapBuilder did not find external file: " + ex);
         }
         // retrieve the visual information from the MapBuilder
-        appearenceID = MapBuilder.getAppearenceID(mapDirLocation);
+        appearenceID = MapBuilder.getAppearenceID();
 
         numHorizCells = topography.size(); // number of rows
         numVertCells = topography.get(0).size(); // number of columns
@@ -60,31 +63,11 @@ public class WorldMap implements Drawable
         cellWidth = width / numHorizCells;
         cellHeight = height / numVertCells;
         
-        // set PathCell center points
-        WorldCell wCell;
-        PathCell pCell;
-        double halfCellWidth = cellWidth / 2.0;
-        double halfCellHeight = cellHeight / 2.0;
-        double centerX;
-        double centerY;
-        int topographySize = topography.size();
-        for (int i = 0; i < topographySize; i++) {
-            for (int j = 0; j < topographySize; j++) {
-                wCell = topography.get(i).get(j);
-                
-                if (wCell.isPathable()) {
-                    
-                    pCell = (PathCell) wCell;
-                    
-                    // take into account that World starts in lower left corner
-                    centerX = halfCellWidth + ((topographySize - 1 - i) * cellWidth);
-                    centerY = halfCellHeight + ((topographySize - 1 - j) * cellHeight);
-                    
-                    pCell.setCenterPoint(new Point2D(centerX, centerY));
-                }
-            }
-        }
-      }
+        startingPoints = MapBuilder.getStartingPoints();
+        endingPoints = MapBuilder.getEndingPoints();
+        
+        setPathableCenterPoints();
+    }
 
     /**
      * Determines whether the cell corresponding to the provided game world Point
@@ -283,25 +266,7 @@ public class WorldMap implements Drawable
       }
 
     @Override
-    public GraphicsIDHolder getGraphicsID()
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    public Point2D getStartingPoint()
-      {
-        // TODO implement me
-        return null;
-      }
-
-    public Point2D getEndPoint()
-      {
-        // TODO implement me
-        return null;
-      }
-
-    @Override
-    public Sprite getCurrFrame()
+    public int getGraphicsID()
       {
         throw new UnsupportedOperationException("Not supported yet.");
       }
@@ -358,6 +323,26 @@ public class WorldMap implements Drawable
                 }
             }
         }
+    }
+    
+    public LinkedList<Point2D> getStartingPoints() {
+        LinkedList<Point2D> startPoints = new LinkedList<Point2D>();
+        
+        for (int i = 0; i < startingPoints.size(); i++) {
+            startPoints.add(startingPoints.get(i).getCenterPoint());
+        }
+        
+        return startPoints;
+    }
+    
+    public LinkedList<Point2D> getEndingPoints() {
+        LinkedList<Point2D> endPoints = new LinkedList<Point2D>();
+        
+        for (int i = 0; i < endingPoints.size(); i++) {
+            endPoints.add(endingPoints.get(i).getCenterPoint());
+        }
+        
+        return endPoints;
     }
     
     private final Double CARDINAL_DIST = new Double(1.0);

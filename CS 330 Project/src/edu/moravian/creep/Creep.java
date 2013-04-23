@@ -18,8 +18,13 @@ public interface Creep
     public Point2D getPosition();
 
     public Vector2D getDirection();
-    
-    public boolean respondToColission(Projectile projectile);
+
+    /**
+     *
+     * @param par0
+     * @return
+     */
+    public void respondToColision(Projectile projectile);
 
     public boolean isDead();
 

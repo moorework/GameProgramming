@@ -9,8 +9,11 @@ import java.util.ArrayList;
  * @author Myles
  */
 public class GraphicsManager {
+    private final String EXTERNAL_GRAPHICS_DATA_LOC = "graphicsData.properties";
+    
     // the objects that we're to fillRect
     private ArrayList<Drawable> graphics;
+    private GraphicsDatabase graphicsDatabase;
     // the filters that will be applied to everything we have
     private ArrayList<SpriteFilter> globalFilters;
     
@@ -22,6 +25,8 @@ public class GraphicsManager {
         graphics = new ArrayList<Drawable>();
         // instantiate the collection holding the global filters to be used on all images
         globalFilters = new ArrayList<SpriteFilter>();
+        
+        graphicsDatabase = new GraphicsDatabase(EXTERNAL_GRAPHICS_DATA_LOC);
     }
     
     /**
@@ -111,11 +116,12 @@ public class GraphicsManager {
         
         Sprite sprite; // the Drawable graphic that will be drawn to the World2D object
         
+        int imageID;
         // for all of the Drawable objects...
         for (Drawable toDraw : graphics) {
-            
+            imageID = toDraw.getGraphicsID();
             // retrieve the frame to be drawn to the World2D object
-            sprite = toDraw.getCurrFrame();
+            sprite = graphicsDatabase.getImage(imageID);
             
             // for each of our filters...
             for (SpriteFilter filter : globalFilters) {

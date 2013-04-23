@@ -10,14 +10,17 @@ import java.util.Iterator;
  */
 public abstract class TargetingSystem
   {
-
     private int visionRadius;
     private Point2D position;
+    
+    private final TargettingType targettingType;
 
-    public TargetingSystem(int radius, Point2D pos)
+    public TargetingSystem(int radius, Point2D pos, TargettingType targettingType)
       {
         visionRadius = radius;
         position = pos;
+        
+        this.targettingType = targettingType;
       }
 
     public abstract Creep determineTarget(Iterator<Creep> potentialTargets);
@@ -71,6 +74,8 @@ public abstract class TargetingSystem
         return position;
       }
     
-    
+    public TargettingType typeOfTower() {
+        return targettingType;
+    }
     
   }

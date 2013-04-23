@@ -1,21 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package edu.moravian.creep;
 
 import edu.moravian.Ball;
-import edu.moravian.CollisionDetector;
 import edu.moravian.CollisionEngine;
 import edu.moravian.WorldMap.NavGraph;
-import edu.moravian.WorldMap.PathCell;
-import edu.moravian.WorldMap.WorldMap;
 import edu.moravian.creep.pathfinding.Path;
 import edu.moravian.creep.pathfinding.PathFinder;
 import edu.moravian.graphics.DrawLocation;
 import edu.moravian.graphics.Drawable;
-import edu.moravian.graphics.GraphicsIDHolder;
-import edu.moravian.graphics.Sprite;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
@@ -23,72 +15,101 @@ import edu.moravian.projectile.Projectile;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
 
 /**
- *
+ * The raddest creep.
+ * 
  * @author moore
  */
-public class BasicCreep implements Creep, Drawable
-{
-    private final double WAYPOINT_TOL = 0.5;
+public class BasicCreep implements Creep, Drawable {
+    // defines the absolute difference that we are willing to accept between the
+    // creep and his current objective before we deem that objective to have
+    // been reached
+    private static final double DEST_DIST_TOLERANCE = 0.5;
     
-    private Path myPath;
-    private Point2D currWayPoint;
+    // navigational data
+    private NavGraph navGraph;
+    private Path path;
+    private Point2D currObjective;
     
     private Point2D objective;
+    
+    // locomotion
     private Point2D position;
-    private Vector2D movement;
+    private Vector2D heading;
+    private double speed;
+    
+    // visual data
     private Shape appearance;
+    private int imageID;
+    
+    // details regarding health
     private boolean dead;
     private int health;
 
     //TODO remove this basic test code 
-    public BasicCreep(NavGraph navGraph, Point2D origin, Point2D objective_in, double speed)
-    {
-        myPath = PathFinder.generatePath(navGraph, origin, objective_in);
-        currWayPoint = myPath.getNextWayPoint();
-        
-        health = 2;
-        dead = false;
-        position = origin;
+    public BasicCreep(NavGraph navigationalGraph, Point2D origin, Point2D objective_in,
+                        double speed, int initHealth, int imageID) {
+        navGraph = navigationalGraph;
+        // generate our initial path as defined by the properties of the nav graph
+        path = PathFinder.generatePath(navGraph, origin, objective_in);
         objective = objective_in;
-        appearance = new Rectangle(100, 100);
-        this.movement = currWayPoint.minus(position);
-        this.movement.normalize();
-        this.movement.timesEquals(speed);
-    }
-
-    //TODO where on the cell will a creep spawn
-    /**
-     * Creates a creep on a pathcell and gives it an objective. Must be a
-     * traversable cell, otherwise we got issues
-     *
-     * @param path The path cell on which the creep will spawn
-     * @param objective_in
-     */
-    public BasicCreep(PathCell path, Point2D objective_in)
-    {
-        health = 2;
+        
+        health = initHealth;
         dead = false;
-        this.objective = objective_in;
-
-        //TODO get position from path
-        position = new Point2D(100, 100);
-    
-
-        //TODO this needs to be fixed 
+        
+        position = origin;
         appearance = new Rectangle(100, 100);
-        // movement = new Vector2D(10, 10);
-        this.movement = objective.minus(position);
+        this.imageID = imageID;
+        
+        // compute an initial heading
+        currObjective = path.getNextWayPoint();
+        this.heading = currObjective.minus(position); // compute velocity from me to my objective
+        heading.normalize(); // normalizing gives us direction that we need to head,
+                             // dissacociates our velocity from the distance to the target
     }
-
 
     @Override
-    public void update(double delta)
-    {
-        if (position.minus(position).getX() < WAYPOINT_TOL && position.minus(position).getY() < WAYPOINT_TOL) {
-            position.scalePlus(delta, movement);
+    public void update(double delta) {
+        if (health <= 0) { // if the agent has died since the last update...
+            dead = true; // make a note of this
+            
+            return; // dead creeps don't have behavior (movement, etc.)
+        }
+        
+        // move the agent by a distance that reflects their speed in the direction
+        // of their heading, scaled by the delta to ensure consistent preformance
+        // across all platforms
+        position.scalePlus(delta * speed, heading);
+        
+        // update our objective if necessary given our recent movement
+        updateObjective();
+    }
+    
+    /*
+     * Update the creep's current objective, if necessary.
+     */
+    private void updateObjective()
+        {
+        // utilize the distance function to determine how far we are from our
+        // objective
+        double diffX = currObjective.getX() - position.getX();
+        double diffY = currObjective.getY() - position.getY();
+        
+        double diff = (diffX * diffX) + (diffY + diffY);
+        
+        // if our distance from the objective is insufficient for us to consider a
+        // new objective...
+        if (diff > DEST_DIST_TOLERANCE) {
+            return; // don't modify our objective
+        }
+        
+        // if we've reached this point then we have reached our objective and
+        // are in need of another
+        
+        if (path.hasNextWayPoint()) { // if our path DOES have a new objective for us...
+            // update our objective
+            currObjective = path.getNextWayPoint();
         }
     }
 
@@ -105,29 +126,22 @@ public class BasicCreep implements Creep, Drawable
     }
 
     @Override
-    public Vector2D getDirection()
-    {
-        return movement.getNormalized();
+    public Vector2D getDirection() {
+        return heading;
     }
 
     @Override
-    public boolean respondToColission(Projectile projectile)
-    {
-
-        Ball one = new Ball(position, new Vector2D(0,0), 1, this.get_dims().getBounds().width / 2, Color.yellow, 1);
+    public void respondToColision(Projectile projectile) {
+        //TODO make sure ball is ok
+        Ball one = new Ball(position, heading.times(speed), 1, this.get_dims().getBounds().width / 2, Color.yellow, 1);
         Ball two = projectile.get_dims();
 
-        
-//        if (CollisionDetector.twoSpheresColliding(one, two))
-        if(CollisionEngine.testForCollision(one, two, 1))
-        {   
-            System.out.println(health);
-            health -= projectile.getDamage();
-            
-            dead = health < 0;
-            return true;
+        int damage;
+        if (CollisionEngine.testForCollision(one, two, 1)) {
+            damage = projectile.getDamage();
+            health -= damage;
         }
-        return false;
+       
     }
 
     @Override
@@ -143,9 +157,8 @@ public class BasicCreep implements Creep, Drawable
     }
 
     @Override
-    public GraphicsIDHolder getGraphicsID()
-    {
-        return GraphicsIDHolder.BASICCREEP;
+    public int getGraphicsID() {
+        return imageID;
     }
 
     @Override
@@ -155,15 +168,8 @@ public class BasicCreep implements Creep, Drawable
     }
 
     @Override
-    public DrawLocation getDrawLocation()
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Sprite getCurrFrame()
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public DrawLocation getDrawLocation() {
+        return DrawLocation.CENTER;
     }
 
     public void draw(WorldGraphics2D w2d)

@@ -13,7 +13,7 @@ public class HardTargetingSystem extends TargetingSystem
 
     public HardTargetingSystem(int radius, Point2D pos)
       {
-        super(radius, pos);
+        super(radius, pos, TargettingType.HARD);
       }
 
     @Override

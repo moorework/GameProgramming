@@ -3,28 +3,22 @@ package edu.moravian.projectile;
 import edu.moravian.Ball;
 import edu.moravian.creep.Creep;
 import edu.moravian.graphics.DrawLocation;
-import edu.moravian.graphics.Drawable;
-import edu.moravian.graphics.GraphicsIDHolder;
-import edu.moravian.graphics.Sprite;
 import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
 import java.awt.Color;
-import javax.swing.text.Position;
 
 /**
  *
  * @author James Moore (moore.work@live.com)
  */
-public class BasicBullet extends Projectile implements Drawable
-{
+public class BasicBullet extends Projectile
+  {
+    private static final int Radius = 100;
 
-    private int Radius;
-
-    public BasicBullet(Creep target_in, int damage_in, double speedscale_in, Point2D origin, int bulletRadius)
-    {
-        super(origin, target_in, damage_in, speedscale_in);
-         Radius = bulletRadius;
-    }
+    public BasicBullet(Creep target_in, int damage_in, double speedscale_in, Point2D origin, int imageID)
+      {
+        super(origin, target_in, damage_in, speedscale_in, imageID);
+      }
 
     @Override
     public Ball get_dims()
@@ -34,26 +28,30 @@ public class BasicBullet extends Projectile implements Drawable
 
     @Override
     public void update(double delta)
-    {
-
-
-        if (target.respondToColission(this))
-        {
+      {
+        target.respondToColision(this);
+        //TODO MN
+        Vector2D direction = target.getPosition().minus(this.pos).getNormalized();
+        
+        pos = pos.scalePlus(this.speedscale * delta, direction);
+        
+        if (target.isDead())
+          {
             this.doneVar = true;
         }
         else
         {
 
-            Vector2D direction = target.getPosition().minus(this.pos).getNormalized();
+             direction = target.getPosition().minus(this.pos).getNormalized();
             pos = pos.scalePlus(this.speedscale, direction);
         }
     }
 
     @Override
-    public GraphicsIDHolder getGraphicsID()
-    {
-        return GraphicsIDHolder.BASICBULLET;
-    }
+    public int getGraphicsID()
+      {
+        return imageID;
+      }
 
     @Override
     public Point2D getPos()
@@ -65,12 +63,5 @@ public class BasicBullet extends Projectile implements Drawable
     public DrawLocation getDrawLocation()
     {
         return DrawLocation.CENTER;
-    }
-
-    @Override
-    public Sprite getCurrFrame()
-    {
-        //TODO implement me
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-}
+      }
+  }
