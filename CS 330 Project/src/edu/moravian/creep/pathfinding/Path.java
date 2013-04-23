@@ -8,35 +8,22 @@ import java.util.Collection;
  *
  * @author myles
  */
-public class Path
-{
-
-    private ArrayList<Point2D> waypoints;
-
-    @SuppressWarnings("unchecked")
-    public Path(Collection<Point2D> waypoints)
-    {
-        this.waypoints = (ArrayList) waypoints;
+public class Path {
+    private ArrayList<Point2D> wayPoints;
+    
+    public Path(Collection<Point2D> wayPoints) {
+        this.wayPoints = new ArrayList<Point2D>(wayPoints);
     }
-
-    /**
-     * Determines whether the path contains further waypoints.
-     *
-     * @return true if there is at least one more waypoint, false otherwise.
-     */
-    public boolean hasNextWayPoint()
-    {
-        return !waypoints.isEmpty();
+    
+    public boolean hasNextWayPoint() {
+        return wayPoints.isEmpty() == false;
     }
-
-    /**
-     * Retrieve the next waypoint on the Path. Note that each waypoint can only
-     * be retrieved once.
-     *
-     * @return the next waypoint on the path
-     */
-    public Point2D getNextWayPoint()
-    {
-        return waypoints.remove(0);
+    
+    public Point2D getNextWayPoint() {
+        return wayPoints.remove(0);
+    }
+    
+    public int numWayPoints() {
+        return wayPoints.size();
     }
 }

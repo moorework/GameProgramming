@@ -5,9 +5,7 @@ import edu.moravian.graphics.Drawable;
 import edu.moravian.graphics.GraphicsIDHolder;
 import edu.moravian.graphics.Sprite;
 import edu.moravian.math.Point2D;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import org.jgrapht.Graph;
 
 /**
  *
@@ -39,16 +37,25 @@ public class WorldMap implements Drawable
      * @param mapWidth the width of the WorldMap in terms of the game world
      * @param mapHeight the height of the WorldMap in terms of the game world
      */
-    public WorldMap(String mapDirLocation, double mapWidth, double mapHeight) throws FileNotFoundException
-      {
+    public WorldMap(String mapDirLocation, double mapWidth, double mapHeight)
+    {
         width = mapWidth;
         height = mapHeight;
 
-        topography = MapBuilder.getMapRepresentation(mapDirLocation);
+        try {
+            // retrieve the backing data for the WorldMap from the MapBuilder
+            // based on the external directory location provided to us
+            topography = MapBuilder.getMapRepresentation(mapDirLocation);
+        }
+        catch (Exception ex) {
+            // well shit
+            System.out.println("MapBuilder did not find external file: " + ex);
+        }
+        // retrieve the visual information from the MapBuilder
         appearenceID = MapBuilder.getAppearenceID(mapDirLocation);
 
-        numHorizCells = topography.size();
-        numVertCells = topography.get(0).size();
+        numHorizCells = topography.size(); // number of rows
+        numVertCells = topography.get(0).size(); // number of columns
 
         cellWidth = width / numHorizCells;
         cellHeight = height / numVertCells;
@@ -79,6 +86,13 @@ public class WorldMap implements Drawable
         }
       }
 
+    /**
+     * Determines whether the cell corresponding to the provided game world Point
+     * is currently occupied.
+     * 
+     * @param pointToCheck a world Point that describes a cell on the WorldMap
+     * @return true if occupied, false if unoccupied or unoccupy-able
+     */
     public boolean isOccupied(Point2D pointToCheck)
       {
         WorldCell pointCell = convertPointToCell(pointToCheck);
@@ -99,6 +113,13 @@ public class WorldMap implements Drawable
           }
       }
 
+    /**
+     * Set the cell corresponding to the provided world Point as being occupied.
+     * Behavior is not defined for situations in which the described cell cannot
+     * be occupied.
+     * 
+     * @param pointToOccupy a world Point corresponding to a cell to be occupied.
+     */
     public void setOccupied(Point2D pointToOccupy)
       {
         // we presumptuously cast the WorldCell corresponding to the provided
@@ -110,8 +131,15 @@ public class WorldMap implements Drawable
         pointCell.setOccupied();
       }
 
-    public void setUnnocupied(Point2D pointToUnOccupy)
-      {
+    /**
+     * Set the cell corresponding to the provided world Point as being unoccupied.
+     * Behavior is not defined for situations in which the described cell cannot
+     * be occupied in the first place.
+     * 
+     * @param pointToUnOccupy a world Point corresponding to a cell to be unoccupied.
+     */
+    public void setUnnoccupied(Point2D pointToUnOccupy)
+    {
         // we presumptuously cast the WorldCell corresponding to the provided
         // WorldPoint to a TowerCell on the basis that the client should have
         // ensured that the location is both occupiable and unoccupied. If they
@@ -124,9 +152,10 @@ public class WorldMap implements Drawable
     /**
      * Get the game world point that describes the upper-left hand corner of the
      * cell corresponding to the provided Point2D.
-     *
-     * @param pointLocation
-     * @return
+     * 
+     * @param pointLocation a world Point describing the cell who's corner point
+     *                      is to be retrieved
+     * @return the top-left corner-point of the cell
      */
     public Point2D getCornerPoint(Point2D pointLocation)
       {
@@ -145,62 +174,98 @@ public class WorldMap implements Drawable
         return new Point2D(cornerPointX, cornerPointY);
       }
 
-    public NavigationalGraph getNavPath()
-      {
-        NavigationalGraph ret = new NavigationalGraph();
+    /**
+     * Retrieves a NavPath that describes the navigable space within the WorldMap
+     * for use in computing AI navigational paths.
+     * 
+     * @return a Graph describing the navigable world
+     */
+    public NavGraph getNavPath()
+    {
+        NavGraph ret = new NavGraph();
         
-        WorldCell wCell;
-        int row = 0;
-        int col = 0;
-        boolean foundPathCell = false;
-        while (foundPathCell == false) {
-            wCell = topography.get(row).get(col);
+        WorldCell cell;
+        PathCell pathCell = null;
+        boolean pathCellFound = false;
+        
+        // find an initial PathCell to generate our graph from; we assume that
+        // all PathCells are ultimately contiguous
+        int numRows = topography.size();
+        int numColumns = topography.get(0).size();
+        int numCells = numRows * numColumns; // max index if matrix is one-dimensional array
+        int cellNum = 0; // counter through the matrix as a one-dimensional array
+        int i = 0; // row index
+        int j = 0; // column index
+        while (pathCellFound && cellNum < numCells) {
+            i = cellNum / numColumns; // row index
+            j = cellNum % numRows; // column index
             
-            if (wCell.isPathable()) {
-                foundPathCell = true;
+            cell = topography.get(i).get(j); // get the cell described
+            
+            // if the cell described is a PathCell...
+            if (cell.isPathable() == true) {
+                // then we've located a PathCell from which to start our NavGraph
+                // generation
+                pathCell = (PathCell) cell;
+                pathCellFound = true;
             }
-            else {
-                row++;
-                col++;
-            }
+            
+            cellNum++;
         }
         
-        return computeVertex(ret, null, row, col, 0);
-      }
+        // recurse to develop graph
+        return computePathCell(ret, pathCell, 0, i, j);
+    }
     
-    private NavigationalGraph computeVertex(NavigationalGraph navGraph, PathCell pred, int row, int col, double edgeWeight) {
-        WorldCell thisCell = topography.get(row).get(col);
+    private NavGraph computePathCell(NavGraph graph, PathCell pred, double edgeWeight, int rowL, int colL) {
+        // if this cell is vertically outside of the WorldMap...
+        if (rowL >= topography.size()) {
+            // it's not part of the graph
+            return graph;
+        }
+        // if this cell is horizontally outside of the WorldMap...
+        else if (colL >= topography.get(0).size()) {
+            // it's not part of the graph
+            return graph;
+        }
+        
+        // get the WorldCell being operated upon
+        WorldCell cell = topography.get(rowL).get(colL);
         PathCell pCell;
         
-        // base cases
-        if (thisCell.isPathable() == false) {
-            return navGraph;
+        // if the cell is noth a PathCell...
+        if (cell.isPathable() == false) {
+            // it is not relevent to the NavGraph
+            return graph;
+        }
+        // otherwise, it must be a PathCell
+        else {
+            pCell = (PathCell) cell; // so we'll convert it
         }
         
-        pCell = (PathCell) thisCell;
+        // we can now add an edge between ourselves and our predecessor
+        graph.addEdge(pred, pCell, edgeWeight);
         
-        // if we've already visited this cell from the predecessor...
-        if (navGraph.containsEdge(pCell, pred)) {
-            // then we don't have to compute its position in the graph again
-            return navGraph;
-        }
-        
-        if (pred != null) {
-            navGraph.addEdge(pCell, pred, edgeWeight);
-        }
-        
-        for (int i = row - 1; i <= row + 1; i++) {
-            for (int j = col - 1; j <= col + 1; j++) {
-                if (i != row && j != col) {
-                    return computeVertex(navGraph, pCell, i, j, DIAGONAL_WEIGHT);
+        // recurse on each of the 8 cells around us...
+        for (int i = rowL - 1; i <= rowL + 1; i++) { // row
+            for (int j = colL - 1; j <= colL + 1; j++) { // col
+                
+                // if the row and column indices describe a cell diagonal from us...
+                if (i != rowL && j != colL) {
+                    // then it has a diagonal edge weight
+                    return computePathCell(graph, pCell, DIAGONAL_DIST, i, j);
                 }
                 else {
-                    return computeVertex(navGraph, pCell, i, j, CARDINAL_WEIGHT);
+                    // otherwise the new cell is in a cardinal direction (N,S,E,W)
+                    // from us and thus has a cardinal edge weight
+                    return computePathCell(graph, pCell, CARDINAL_DIST, i, j);
                 }
+                
             }
         }
         
-        return navGraph;
+        // return the newly modified NavGraph
+        return graph;
     }
 
     @Override
@@ -270,8 +335,31 @@ public class WorldMap implements Drawable
 
         // matrices are row-by-column
         return topography.get(horizCellNum).get(vertCellNum);
-      }
+    }
     
-    private final double CARDINAL_WEIGHT = 1;
-    private final double DIAGONAL_WEIGHT = Math.sqrt(2);
-  }
+    private void setPathableCenterPoints()
+    {
+        WorldCell cell;
+        
+        PathCell pathCell;
+        double centerX;
+        double centerY;
+        for (int i = 0; i < topography.size(); i++) {
+            for (int k = 0; k < topography.get(0).size(); k++) {
+                cell = topography.get(i).get(k);
+                
+                if (cell.isPathable() == true) {
+                    pathCell = (PathCell) cell;
+                    
+                    centerX = (i * cellWidth) + (cellWidth / 2.0);
+                    centerY = ((numVertCells - 1 - k) * cellHeight) + (cellHeight / 2.0);
+                    
+                    pathCell.setCenterPoint(new Point2D(centerX, centerY));
+                }
+            }
+        }
+    }
+    
+    private final Double CARDINAL_DIST = new Double(1.0);
+    private final Double DIAGONAL_DIST = new Double(Math.sqrt(2));
+}

@@ -5,69 +5,110 @@
 package edu.moravian.WorldMap;
 
 import edu.moravian.math.Point2D;
+import java.util.ArrayList;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author Myles
+ * @author myles
  */
 public class NavGraphTest {
-
+    
     @Test
-    public void testAddRemoveVertex() {
-        NavigationalGraph navGraph = new NavigationalGraph();
+    public void testProperVertexAdding() {
+        PathCell pCell1 = new PathCell();
+        PathCell pCell2 = new PathCell();
         
-        PathCell pCell = new PathCell();
-        pCell.setCenterPoint(new Point2D(1.0, 2.0));
+        pCell1.setCenterPoint(new Point2D(50, 70));
+        pCell2.setCenterPoint(new Point2D(120.5, 1.1));
         
-        navGraph.addVertex(pCell);
+        NavGraph ngraph = new NavGraph();
         
-        assertTrue(navGraph.containsVertex(pCell));
+        ngraph.addVertex(pCell1);
+        ngraph.addVertex(pCell2);
         
-        navGraph.removeVertex(pCell);
+        ngraph.addEdge(pCell1, pCell2, 1.5);
         
-        assertTrue(navGraph.containsVertex(pCell) == false);
+        assertEquals(1.5, ngraph.getEdgeWeight(pCell1, pCell2), 0.0);
+        assertEquals(1.5, ngraph.getEdgeWeight(pCell2, pCell1), 0.0);
     }
     
     @Test
-    public void addEdgesRemoveTest() {
-        NavigationalGraph navGraph = new NavigationalGraph();
+    public void testBadVertexAdding() {
+        PathCell pCell1 = new PathCell();
+        PathCell pCell2 = new PathCell();
         
-        PathCell pCellA = new PathCell();
-        pCellA.setCenterPoint(new Point2D(1.0, 2.0));
+        pCell1.setCenterPoint(new Point2D(50, 70));
+        pCell2.setCenterPoint(new Point2D(120.5, 1.1));
         
-        PathCell pCellB = new PathCell();
-        pCellB.setCenterPoint(new Point2D(8.0, -1.0));
+        NavGraph ngraph = new NavGraph();
         
-        navGraph.addEdge(pCellA, pCellB, 1.0);
+        ngraph.addEdge(pCell1, pCell2, 1.5);
         
-        assertTrue(navGraph.containsVertex(pCellA));
-        assertTrue(navGraph.containsVertex(pCellB));
-        
-        assertTrue(navGraph.containsEdge(pCellA, pCellB));
-        assertTrue(navGraph.containsEdge(pCellB, pCellA));
-        
-        navGraph.removeEdge(pCellA, pCellB);
-        assertTrue(navGraph.containsEdge(pCellA, pCellB) == false);
-        assertTrue(navGraph.containsEdge(pCellB, pCellA) == false);
+        assertEquals(1.5, ngraph.getEdgeWeight(pCell1, pCell2), 0.0);
+        assertEquals(1.5, ngraph.getEdgeWeight(pCell2, pCell1), 0.0);
     }
     
     @Test
-    public void retrieveVerticesTest() {
-        NavigationalGraph navGraph = new NavigationalGraph();
+    public void testNaiveVertexAdding() {
+        PathCell pCell1 = new PathCell();
+        PathCell pCell2 = new PathCell();
         
-        PathCell pCellA = new PathCell();
-        pCellA.setCenterPoint(new Point2D(1.0, 2.0));
+        pCell1.setCenterPoint(new Point2D(50, 70));
+        pCell2.setCenterPoint(new Point2D(120.5, 1.1));
         
-        PathCell pCellB = new PathCell();
-        pCellB.setCenterPoint(new Point2D(8.0, -1.0));
+        NavGraph ngraph = new NavGraph();
         
-        navGraph.addVertex(pCellA);
-        navGraph.addVertex(pCellB);
+        ngraph.addEdge(pCell1, pCell2);
         
-        assertEquals(2, navGraph.vertexSet().size());
-        navGraph.addEdge(pCellA, pCellB, 1.0);
-        assertEquals(2, navGraph.vertexSet().size());
+        assertEquals(1.0, ngraph.getEdgeWeight(pCell1, pCell2), 0.0);
+        assertEquals(1.0, ngraph.getEdgeWeight(pCell2, pCell1), 0.0);
+    }
+    
+    @Test
+    public void testEdgesOf() {
+        PathCell pCell1 = new PathCell();
+        PathCell pCell2 = new PathCell();
+        PathCell pCell3 = new PathCell();
+        PathCell pCell4 = new PathCell();
+        PathCell pCell5 = new PathCell();
+        
+        pCell1.setCenterPoint(new Point2D(50, 70));
+        pCell2.setCenterPoint(new Point2D(120.5, 1.1));
+        pCell3.setCenterPoint(new Point2D(0, -2));
+        pCell4.setCenterPoint(new Point2D(-89, 12));
+        pCell5.setCenterPoint(new Point2D(100, 100));
+        
+        NavGraph ngraph = new NavGraph();
+        
+        ngraph.addEdge(pCell1, pCell2);
+        ngraph.addEdge(pCell1, pCell3);
+        ngraph.addEdge(pCell1, pCell4);
+        
+        ngraph.addEdge(pCell2, pCell3);
+        ngraph.addEdge(pCell3, pCell4);
+        
+        ngraph.addEdge(pCell4, pCell5);
+        
+        ArrayList<PathCell> neighborsToPCell1 = new ArrayList<PathCell>();
+        neighborsToPCell1.add(pCell2);
+        neighborsToPCell1.add(pCell3);
+        neighborsToPCell1.add(pCell4);
+        
+        for (PathCell pCell : ngraph.edgesOf(pCell1)) {
+            assertTrue(neighborsToPCell1.contains(pCell));
+        }
+        
+        ArrayList<PathCell> neighborsToPCell2 = new ArrayList<PathCell>();
+        neighborsToPCell1.add(pCell1);
+        neighborsToPCell1.add(pCell3);
+        for (PathCell pCell : ngraph.edgesOf(pCell2)) {
+            assertTrue(neighborsToPCell1.contains(pCell));
+        }
+        
+        for (PathCell pCell : ngraph.edgesOf(pCell5)) {
+            assertTrue(pCell.equals(pCell4));
+        }
     }
 }
