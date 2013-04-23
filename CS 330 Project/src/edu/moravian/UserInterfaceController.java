@@ -98,7 +98,7 @@ class UserInterfaceController extends JFrame implements Runnable {
 
         time = new Timer();
 
-        reset = new Nipple(new Point2D(50, 50), "POOP", Color.blue, Color.black, new Dimension(50, 50));
+        reset = new Nipple(new Point2D(5, 5), "Reset", Color.blue, Color.black, new Dimension(50, 50));
 
     }
 
@@ -214,7 +214,7 @@ class UserInterfaceController extends JFrame implements Runnable {
                 // written at (0,0) will end up being written above the
                 // viewable region.
                 g.setColor(Color.blue);
-                g.drawString("" + 1.0 / (diff / 1000.0), 0, 10);
+                g.drawString("" + 1.0 / (diff / 1000.0), 5, height - 5);
 
 
                 // Free up any resources being used.
