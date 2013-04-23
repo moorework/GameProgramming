@@ -195,6 +195,18 @@ class UserInterfaceController extends JFrame implements Runnable
             // Now that the strategy is created, we safe a reference to it
             // so that we can fillRect (below)
             BufferStrategy bufStrat = this.getBufferStrategy();
+            
+            DeltaTimer deltaTimer = new DeltaTimer();
+            
+            // prev will be the time of the last frame.
+            double delta = 0;
+            // time since we last drew the FPS on-screen
+            double sinceLastFPSDraw = 0;
+            // to reduce the wild drawing of the FPS counter, we'll restrict
+            // updating it to once every 70 milliseconds
+            final double SPAN_BETWEEN_FPS_DRAWS = 70 / 1000.0;
+            // a String representing the FPS counter to be drawn on-screen
+            String framesPerSecond = "";
 
             DeltaTimer deltaTimer = new DeltaTimer();
 
@@ -222,6 +234,10 @@ class UserInterfaceController extends JFrame implements Runnable
                 long currTime = System.currentTimeMillis();
                 long diff = (currTime - prev);
                 prev = currTime;
+                
+                // By getting the current time each frame, we can compute
+                // the program's frames per second.
+                deltaTimer.tick();
 
                 // By getting the current time each frame, we can compute
                 // the program's frames per second.

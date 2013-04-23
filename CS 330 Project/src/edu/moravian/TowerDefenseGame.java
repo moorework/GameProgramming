@@ -6,6 +6,8 @@ import edu.moravian.SM.RunningState;
 import edu.moravian.SM.TD_StateMach;
 import edu.moravian.creep.BasicCreep;
 import edu.moravian.creep.CreepManager;
+import edu.moravian.creep.Wave;
+import edu.moravian.creep.WaveCreator;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
 import edu.moravian.projectile.BulletManager;
@@ -48,12 +50,6 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener
 
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
-
-        center_point = new Point2D(worldWidth / 2, worldHeight / 2);
-
-
-        set = Settings.getInstance();
-        set.setWorldSize(new Dimension(worldWidth, worldHeight));
 
         endgame_met = false;
 
