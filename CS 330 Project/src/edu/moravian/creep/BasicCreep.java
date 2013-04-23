@@ -7,8 +7,11 @@ package edu.moravian.creep;
 import edu.moravian.Ball;
 import edu.moravian.CollisionDetector;
 import edu.moravian.CollisionEngine;
+import edu.moravian.WorldMap.NavGraph;
 import edu.moravian.WorldMap.PathCell;
 import edu.moravian.WorldMap.WorldMap;
+import edu.moravian.creep.pathfinding.Path;
+import edu.moravian.creep.pathfinding.PathFinder;
 import edu.moravian.graphics.DrawLocation;
 import edu.moravian.graphics.Drawable;
 import edu.moravian.graphics.GraphicsIDHolder;
@@ -28,8 +31,11 @@ import java.awt.geom.Ellipse2D;
  */
 public class BasicCreep implements Creep, Drawable
 {
-
-    private PathCell currLoc;
+    private final double WAYPOINT_TOL = 0.5;
+    
+    private Path myPath;
+    private Point2D currWayPoint;
+    
     private Point2D objective;
     private Point2D position;
     private Vector2D movement;
@@ -38,15 +44,19 @@ public class BasicCreep implements Creep, Drawable
     private int health;
 
     //TODO remove this basic test code 
-    public BasicCreep(Point2D origin, Point2D objective_in)
+    public BasicCreep(NavGraph navGraph, Point2D origin, Point2D objective_in, double speed)
     {
+        myPath = PathFinder.generatePath(navGraph, origin, objective_in);
+        currWayPoint = myPath.getNextWayPoint();
+        
         health = 2;
         dead = false;
-        currLoc = new PathCell();
         position = origin;
         objective = objective_in;
         appearance = new Rectangle(100, 100);
-        this.movement = objective.minus(position);
+        this.movement = currWayPoint.minus(position);
+        this.movement.normalize();
+        this.movement.timesEquals(speed);
     }
 
     //TODO where on the cell will a creep spawn
@@ -61,7 +71,6 @@ public class BasicCreep implements Creep, Drawable
     {
         health = 2;
         dead = false;
-        currLoc = path;
         this.objective = objective_in;
 
         //TODO get position from path
@@ -78,7 +87,9 @@ public class BasicCreep implements Creep, Drawable
     @Override
     public void update(double delta)
     {
-        this.position = position.scalePlus(1, objective.minus(position).getNormalized());
+        if (position.minus(position).getX() < WAYPOINT_TOL && position.minus(position).getY() < WAYPOINT_TOL) {
+            position.scalePlus(delta, movement);
+        }
     }
 
     @Override

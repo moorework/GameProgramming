@@ -55,22 +55,7 @@ public class PathCell implements WorldCell {
         return true;
     }
     
-    public void setCenterPoint(Point2D centerPoint) {
-        this.centerPoint = centerPoint;
-    }
+
     
-    public Point2D getCenterPoint() {
-        return centerPoint;
-    }
-    
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof PathCell == false) {
-            return false;
-        }
-        
-        PathCell pCell = (PathCell) o;
-        
-        return (pCell.getCenterPoint().equals(centerPoint));
-    }
+
 }

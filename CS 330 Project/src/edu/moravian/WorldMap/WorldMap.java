@@ -253,7 +253,7 @@ public class WorldMap implements Drawable
                 // if the row and column indices describe a cell diagonal from us...
                 if (i != rowL && j != colL) {
                     // then it has a diagonal edge weight
-                    return computePathCell(graph, pCell, DIAGONAL_DIST, i, j);
+                    //return computePathCell(graph, pCell, DIAGONAL_DIST, i, j);
                 }
                 else {
                     // otherwise the new cell is in a cardinal direction (N,S,E,W)
