@@ -20,7 +20,8 @@ import javax.imageio.ImageWriter;
  *
  * @author myles
  */
-public class MapBuilder {
+public class MapBuilder
+{
 
     private static final char PATH_CHAR = 'P';
     private static final char TOWER_CHAR = 'T';
@@ -30,7 +31,17 @@ public class MapBuilder {
     private static LinkedList<PathCell> cachedStartingPoints;
     private static LinkedList<PathCell> cachedEndingPoints;
 
-    public static void main(String[] args) throws FileNotFoundException, IOException {
+    public MapBuilder()
+    {
+        cachedStartingPoints = new LinkedList<PathCell>();
+        cachedEndingPoints = new LinkedList<PathCell>();
+    }
+
+    
+    
+    
+    public static void main(String[] args) throws FileNotFoundException, IOException
+    {
 
 
         BufferedImage buf = createImageReppresentation(getMapRepresentation("maps/basicMap"), new Dimension(800, 600));
@@ -39,7 +50,8 @@ public class MapBuilder {
         ImageIO.write(buf, "PNG", outputFile);
     }
 
-    protected static ArrayList<ArrayList<WorldCell>> getMapRepresentation(String mapDirLocation) throws FileNotFoundException {
+    public static ArrayList<ArrayList<WorldCell>> getMapRepresentation(String mapDirLocation) throws FileNotFoundException
+    {
 
         //TODO test if there is no file
 
@@ -55,9 +67,11 @@ public class MapBuilder {
 
         ret.add(translate(first));
 
-        while (s.hasNextLine()) {
+        while (s.hasNextLine())
+        {
             String temp = s.nextLine().toUpperCase().trim();
-            if (temp.length() != first.length()) {
+            if (temp.length() != first.length())
+            {
                 throw new IllegalArgumentException("Lines must all contain same number of charactars");
             }
 
@@ -72,33 +86,34 @@ public class MapBuilder {
     }
 
     protected static int getAppearenceID()
-      {
+    {
 
         return cachedAppearenceID;
     }
 
     protected static LinkedList<PathCell> getStartingPoints()
-      {
+    {
 
         return cachedStartingPoints;
-      }
+    }
 
     protected static LinkedList<PathCell> getEndingPoints()
-      {
+    {
 
         return cachedEndingPoints;
-      }
+    }
 
-    //TODO test round one 
     private static ArrayList<WorldCell> translate(String first)
-      {
-          
-         TowerCell tCell;
-         PathCell pCell;
+    {
+
+        TowerCell tCell;
+        PathCell pCell;
         //TODO store translation values elsewhere?
         ArrayList<WorldCell> ret = new ArrayList<WorldCell>();
-        for (char c : first.toCharArray()) {
-            switch (c) {
+        for (char c : first.toCharArray())
+        {
+            switch (c)
+            {
                 case PATH_CHAR:
                     pCell = new PathCell();
                     ret.add(pCell);
@@ -125,26 +140,31 @@ public class MapBuilder {
     }
 
     //TODO draw grid lines?
-    
     /**
      * Creates an image representation of the map based on the map given
+     *
      * @param ret
-     * @return 
+     * @return
      */
-    private static BufferedImage createImageReppresentation(ArrayList<ArrayList<WorldCell>> ret, Dimension res) {
-      
+        public static BufferedImage createImageReppresentation(ArrayList<ArrayList<WorldCell>> ret, Dimension res)
+    {
+
         int blockWidth = res.width / ret.get(0).size();
         int blockHeight = res.height / ret.size();
 
 
         BufferedImage buf = new BufferedImage(res.width, res.height, BufferedImage.TYPE_INT_RGB);
 
-        for (int i = 0; i < ret.size(); i++) {
-            for (int j = 0; j < ret.get(i).size(); j++) {
+        for (int i = 0; i < ret.size(); i++)
+        {
+            for (int j = 0; j < ret.get(i).size(); j++)
+            {
 
 
-                for (int k = 0; k < blockWidth; k++) {
-                    for (int l = 0; l < blockHeight; l++) {
+                for (int k = 0; k < blockWidth; k++)
+                {
+                    for (int l = 0; l < blockHeight; l++)
+                    {
                         buf.setRGB(k + j * blockWidth, l + i * blockHeight, translateColor(ret.get(i).get(j)));
                     }
                 }
@@ -156,19 +176,29 @@ public class MapBuilder {
         return buf;
     }
 
-    private static int translateColor(WorldCell t) {
+    private static int translateColor(WorldCell t)
+    {
         //FUTURE make this data driven 
-        if (t instanceof PathCell) {
+        if (t instanceof PathCell)
+        {
             return Color.red.getRed();
-        } else if (t instanceof StartCell) {
+        }
+        else if (t instanceof StartCell)
+        {
             return Color.black.getRGB();
-        } else if (t instanceof EndCell) {
+        }
+        else if (t instanceof EndCell)
+        {
 
             return Color.ORANGE.getRGB();
-        } else if (t instanceof TowerCell) {
+        }
+        else if (t instanceof TowerCell)
+        {
 
             return Color.white.getRGB();
-        } else {
+        }
+        else
+        {
             return -1;
 
         }
@@ -176,3 +206,4 @@ public class MapBuilder {
 }
 //TODO make a map verifier 
 //FUTURE add comments inside the data file 
+

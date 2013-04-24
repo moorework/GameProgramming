@@ -3,6 +3,7 @@ package edu.moravian;
 import edu.moravian.graphics.VideoConfigurationException;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.FileNotFoundException;
 
 /**
  * The start-up for our game.
@@ -16,7 +17,7 @@ public class Main
     private static int DHEIGHT = 1200;
     private static int DBITDEPTH = 32;
 
-    public static void main(String[] args)
+    public static void main(String[] args) throws FileNotFoundException
       {
 
         Toolkit tk = Toolkit.getDefaultToolkit();

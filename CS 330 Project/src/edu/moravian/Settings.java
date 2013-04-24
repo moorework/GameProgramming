@@ -5,6 +5,7 @@ import edu.moravian.math.Point2D;
 import edu.moravian.math.Vector2D;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 
 /**
  * Singleton settings class
@@ -83,4 +84,9 @@ public class Settings
     
     
     public double getDrawablePercentage(){return .10;}
+
+    String getMapPath()
+    {
+        return "maps/basicMap";
+    }
   }

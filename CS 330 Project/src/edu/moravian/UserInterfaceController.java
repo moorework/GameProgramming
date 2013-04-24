@@ -1,6 +1,7 @@
 package edu.moravian;
 
 import edu.moravian.SM.PauseState;
+import edu.moravian.WorldMap.MapBuilder;
 import edu.moravian.graphics.VideoConfigurationException;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
@@ -21,6 +22,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -47,6 +50,7 @@ class UserInterfaceController extends JFrame implements Runnable
     private int clickableArea;
     private UI_Element reset;
     private UI_Element pause;
+    private BufferedImage mapRep;
 
     /**
      * Create an instance of the class with the specified screen configuration
@@ -60,7 +64,7 @@ class UserInterfaceController extends JFrame implements Runnable
      * available or if fullscreen mode is not allowed
      */
     public UserInterfaceController(int width, int height, int depth, Game thugAim)
-            throws VideoConfigurationException
+            throws VideoConfigurationException, FileNotFoundException
     {
         this.width = width;
         this.height = height;
@@ -108,6 +112,10 @@ class UserInterfaceController extends JFrame implements Runnable
         reset = new UI_Element(new Point2D(5, 5), "Reset", Color.blue, Color.black, new Dimension(50, 50));
         pause = new UI_Element(new Point2D(100, 5), "Pause", Color.blue, Color.black, new Dimension(50, 50));
 
+        String path = Settings.getInstance().getMapPath();
+
+        MapBuilder mb = new MapBuilder();
+        mapRep = mb.createImageReppresentation(MapBuilder.getMapRepresentation(path), new Dimension(width, height - clickableArea));
     }
 
     /**
@@ -245,6 +253,8 @@ class UserInterfaceController extends JFrame implements Runnable
                 g.setColor(Color.blue);
                 g.drawLine(0, clickableArea, width, clickableArea);
 
+                g.drawImage(mapRep, 0, clickableArea, this);
+                
 
                 // Tell the game to fillRect itself using the graphics context
                 game.draw(new WorldGraphics2D(g));
@@ -282,9 +292,9 @@ class UserInterfaceController extends JFrame implements Runnable
                 }
                 g.drawString(avgFPS, 100, (height - 5));
                 //TODO number of waves left
-                
-                g.drawString("Creeps alive: " + ((TowerDefenseGame)game).getCreepMan().getNumCreeps()+"", 350, 10);
-                
+
+                g.drawString("Creeps alive: " + ((TowerDefenseGame) game).getCreepMan().getNumCreeps() + "", 350, 10);
+
                 // Free up any resources being used.
                 g.dispose();
 
