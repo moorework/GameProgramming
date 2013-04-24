@@ -42,7 +42,7 @@ public class Wave {
     
     public CreepManager getCreepManager(WorldMap worldMap) {
         CreepManager ret;
-        ArrayList<Creep> creeps = new ArrayList<Creep>(numCreeps);
+        ArrayList<BasicCreep> creeps = new ArrayList<BasicCreep>(numCreeps);
         
         NavGraph navGraph = worldMap.getNavPath();
         

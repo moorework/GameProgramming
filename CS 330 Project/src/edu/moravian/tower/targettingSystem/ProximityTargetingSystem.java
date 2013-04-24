@@ -1,5 +1,6 @@
 package edu.moravian.tower.targettingSystem;
 
+import edu.moravian.creep.BasicCreep;
 import edu.moravian.creep.Creep;
 import edu.moravian.math.Point2D;
 import java.util.Iterator;
@@ -17,10 +18,10 @@ public class ProximityTargetingSystem extends TargetingSystem
       }
 
     @Override
-    public Creep determineTarget(Iterator<Creep> potentialTargets)
+    public Creep determineTarget(Iterator<BasicCreep> potentialTargets)
       {
         //Get a creep to work with 
-        Creep temp;
+        BasicCreep temp;
         if (potentialTargets.hasNext())
           {
             temp = potentialTargets.next();
@@ -36,7 +37,7 @@ public class ProximityTargetingSystem extends TargetingSystem
         //Find the shortest distance 
         while (potentialTargets.hasNext())
           {
-            Creep potential = potentialTargets.next();
+            BasicCreep potential = potentialTargets.next();
             double tempDist = potential.getPosition().minus(this.getPosition()).magnitude();
             if ((tempDist < champDist) && this.withinRange(potential))
               {

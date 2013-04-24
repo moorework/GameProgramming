@@ -2,13 +2,14 @@
 package edu.moravian;
 
 import edu.moravian.graphics.WorldGraphics2D;
+import java.awt.event.KeyListener;
 
 /**
  *
  * @author myles
  */
-public abstract class TowerDefenseState implements Game {
-    private TowerDefenseGame master;
+public abstract class TowerDefenseState implements KeyListener, Game {
+    protected TowerDefenseGame master;
 
     public TowerDefenseState(TowerDefenseGame master) {
         this.master = master;

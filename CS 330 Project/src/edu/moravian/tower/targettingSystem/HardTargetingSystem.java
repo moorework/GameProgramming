@@ -1,5 +1,6 @@
 package edu.moravian.tower.targettingSystem;
 
+import edu.moravian.creep.BasicCreep;
 import edu.moravian.creep.Creep;
 import edu.moravian.math.Point2D;
 import java.util.Iterator;
@@ -17,12 +18,12 @@ public class HardTargetingSystem extends TargetingSystem
       }
 
     @Override
-    public Creep determineTarget(Iterator<Creep> potentialTargets)
+    public Creep determineTarget(Iterator<BasicCreep> potentialTargets)
       {
         // determine which creep within range has the most health
 
         //Get one creep to have a point to start comparing them
-        Creep temp;
+        BasicCreep temp;
         if (potentialTargets.hasNext())
           {
             temp = potentialTargets.next();
@@ -35,7 +36,7 @@ public class HardTargetingSystem extends TargetingSystem
         double champHealth = temp.healthRemaining();
         while (potentialTargets.hasNext())
           {
-            Creep potential = potentialTargets.next();
+            BasicCreep potential = potentialTargets.next();
             double tempDist = temp.healthRemaining();
             if (tempDist < champHealth && this.withinRange(potential))
               {

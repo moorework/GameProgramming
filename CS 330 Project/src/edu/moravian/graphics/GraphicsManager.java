@@ -40,6 +40,11 @@ public class GraphicsManager {
         graphics.add(newDrawObject);
     }
     
+    public void clearManager() {
+        graphics.clear();
+        globalFilters.clear();
+    }
+    
     /**
      * Remove a Drawable object from the Manager (if it is present). If the object
      * is not present in the manager nothing is done.
@@ -49,7 +54,29 @@ public class GraphicsManager {
     public void removeDrawable(Drawable toRemove) {
         // the ArrayList will remove the object if present and ignore the request
         // otherwise
-        graphics.remove(toRemove);
+        int removalIndex = -1;
+        int toRemoveID = toRemove.getGraphicsID();
+        Point2D toRemovePos = toRemove.getPos();
+        Drawable currDrawable;
+        int currDrawID;
+        Point2D currDrawPos;
+        for (int i = 0; i < graphics.size(); i++) {
+            currDrawable = graphics.get(i);
+            currDrawID = currDrawable.getGraphicsID();
+            currDrawPos = currDrawable.getPos();
+            
+            if (currDrawID != toRemoveID) {
+                return;
+            }
+            
+            if (currDrawPos.equals(toRemovePos)) {
+                removalIndex = i;
+            }
+        }
+        
+        if (removalIndex >= 0) {
+            graphics.remove(removalIndex);
+        }
     }
     
     /**

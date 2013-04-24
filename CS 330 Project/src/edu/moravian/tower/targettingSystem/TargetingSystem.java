@@ -1,5 +1,6 @@
 package edu.moravian.tower.targettingSystem;
 
+import edu.moravian.creep.BasicCreep;
 import edu.moravian.creep.Creep;
 import edu.moravian.math.Point2D;
 import java.util.Iterator;
@@ -23,7 +24,7 @@ public abstract class TargetingSystem
         this.targettingType = targettingType;
       }
 
-    public abstract Creep determineTarget(Iterator<Creep> potentialTargets);
+    public abstract Creep determineTarget(Iterator<BasicCreep> potentialTargets);
 
     /*
      * Determines whethet a creep is within the range of the targeting system.
@@ -51,7 +52,7 @@ public abstract class TargetingSystem
           }
       }
 
-    public boolean hasTarget(Iterator<Creep> potentialTargets)
+    public boolean hasTarget(Iterator<BasicCreep> potentialTargets)
       {    
         //TODO make this better
 

@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 package edu.moravian;
 
@@ -9,11 +6,14 @@ import edu.moravian.WorldMap.WorldMap;
 import edu.moravian.creep.CreepManager;
 import edu.moravian.creep.Wave;
 import edu.moravian.creep.WaveCreator;
+import edu.moravian.graphics.GraphicsRegistry;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
 import edu.moravian.tower.TowerManager;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+
 
 /**
  *
@@ -28,7 +28,6 @@ public class TowerDefensePlayingState extends TowerDefenseState {
     private int worldHeight;
     
     private boolean endgame_met;
-    private boolean gameWon;
     
     private Color background;
     private Settings set;
@@ -51,7 +50,10 @@ public class TowerDefensePlayingState extends TowerDefenseState {
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
         
+        GraphicsRegistry.clearRegistry();
+        
         worldMap = new WorldMap(MAP_FILE, worldWidth, worldHeight);
+        GraphicsRegistry.registerDrawable(worldMap);
         waveCreator = new WaveCreator(WAVE_FILE);
 
         set = Settings.getInstance();
@@ -61,7 +63,7 @@ public class TowerDefensePlayingState extends TowerDefenseState {
 
         background = set.getBackgroundColor();
 
-       towerManager = new TowerManager();
+        towerManager = new TowerManager();
         
         Wave firstWave = waveCreator.getNextWave();
         creepManager = firstWave.getCreepManager(worldMap);
@@ -94,7 +96,10 @@ public class TowerDefensePlayingState extends TowerDefenseState {
     private void updateState() {
         // the player has won the game!
         if (player.numLives() > 0 && waveCreator.hasMoreWaves() == false) {
-            // change state
+            // they win!
+        }
+        else if (player.numLives() < 1) {
+            master.setState(new TowerDefenseGameOverState(master));
         }
     }
 
@@ -111,6 +116,28 @@ public class TowerDefensePlayingState extends TowerDefenseState {
       {
         return endgame_met;
       }
+
+    @Override
+    public void keyTyped(KeyEvent ke)
+    {
+        switch (ke.getKeyCode()) {
+        case KeyEvent.VK_Q:
+            endgame_met = true;
+            break;
+    }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent ke)
+    {
+        // like I give a damn
+    }
+
+    @Override
+    public void keyReleased(KeyEvent ke)
+    {
+        // like I give a damn
+    }
     
      private class Player {
          private int lives;

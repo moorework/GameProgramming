@@ -1,27 +1,28 @@
 package edu.moravian.creep;
 
+import edu.moravian.graphics.GraphicsRegistry;
 import edu.moravian.graphics.WorldGraphics2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- *  This clas manages the living and dead creeps.  It automatically trims the creeps on their deaths 
+ *  This class manages the living and dead creeps.  It automatically trims the creeps on their deaths 
  * @author myles
  */
 public class CreepManager
   {
 
-    ArrayList<Creep> creepsAlive;
-    ArrayList<Creep> creepsDead;
+    ArrayList<BasicCreep> creepsAlive;
+    ArrayList<BasicCreep> creepsDead;
 
     public CreepManager()
       {
-        creepsAlive = new ArrayList<Creep>();
-        creepsDead = new ArrayList<Creep>();
+        creepsAlive = new ArrayList<BasicCreep>();
+        creepsDead = new ArrayList<BasicCreep>();
       }
 
-    public CreepManager(ArrayList<Creep> initialCreeps)
+    public CreepManager(ArrayList<BasicCreep> initialCreeps)
       {
         if (initialCreeps != null)
           {
@@ -29,15 +30,20 @@ public class CreepManager
           }
         else
           {
-            creepsAlive = new ArrayList<Creep>();
+            creepsAlive = new ArrayList<BasicCreep>();
           }
-        this.creepsDead = new ArrayList<Creep>();
+        this.creepsDead = new ArrayList<BasicCreep>();
+        
+        for (BasicCreep c : creepsAlive) {
+            GraphicsRegistry.registerDrawable(c);
+        }
       }
 
     
-    public void addCreep(Creep newCreep)
+    public void addCreep(BasicCreep newCreep)
       {
         this.creepsAlive.add(newCreep);
+        GraphicsRegistry.registerDrawable(newCreep);
       }
 
     public int getNumCreeps()
@@ -45,7 +51,7 @@ public class CreepManager
         return creepsAlive.size();
       }
 
-    public Iterator<Creep> getCreeps()
+    public Iterator<BasicCreep> getCreeps()
       {
         return creepsAlive.iterator();
       }
@@ -55,13 +61,14 @@ public class CreepManager
 
         pruneCreeps();
 
-        for (Creep c : creepsAlive)
+        for (BasicCreep c : creepsAlive)
           {
             //TODO update?
             c.update(delta);
             if (c.isDead())
               {
                 creepsDead.add(c);
+                GraphicsRegistry.unRegisterDrawable(c);
               }
           }
         

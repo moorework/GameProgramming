@@ -1,16 +1,7 @@
 package edu.moravian;
 
-import edu.moravian.WorldMap.WorldMap;
-import edu.moravian.creep.CreepManager;
-import edu.moravian.creep.Wave;
-import edu.moravian.creep.WaveCreator;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
-import edu.moravian.projectile.BulletManager;
-import edu.moravian.tower.BasicTower;
-import edu.moravian.tower.TowerManager;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -48,6 +39,10 @@ public class TowerDefenseGame implements KeyListener, Game
       {
           currState.update(delta);
       }
+    
+    public void setState(TowerDefenseState newState) {
+        currState = newState;
+    }
 
     @Override
     public void draw(WorldGraphics2D Wg2D)

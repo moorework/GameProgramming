@@ -1,5 +1,6 @@
 package edu.moravian.projectile;
 
+import edu.moravian.graphics.GraphicsRegistry;
 import edu.moravian.graphics.WorldGraphics2D;
 import java.util.LinkedList;
 
@@ -27,6 +28,10 @@ public class BulletManager
           {
             bullets = new LinkedList<Projectile>();
           }
+        
+        for (Projectile p : bullets) {
+            GraphicsRegistry.registerDrawable(p);
+        }
       }
 
     public void update(double delta)
@@ -40,6 +45,7 @@ public class BulletManager
             if (proj.isDone())
               {
                 deadBullets.add(proj);
+                GraphicsRegistry.unRegisterDrawable(proj);
               }
           }
 
@@ -48,6 +54,7 @@ public class BulletManager
 
     public void shoot(BasicBullet basicBullet)
       {
+        GraphicsRegistry.registerDrawable(basicBullet);
         bullets.add(basicBullet);
       }
 
