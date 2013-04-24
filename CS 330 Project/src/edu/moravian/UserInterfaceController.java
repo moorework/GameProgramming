@@ -278,19 +278,8 @@ class UserInterfaceController extends JFrame implements Runnable
 
                 g.drawString(framesPerSecond, 0, (height - 5));
 
-                if (avgCount < 100)
-                {
-                    avg += time.getFPS();
-                    //      System.out.println(avg);
-                    avgCount += 1;
-
-                }
-                else
-                {
-                    avgFPS = avg / 100 + "";
-                    avgCount = 0;
-                }
-                g.drawString(avgFPS, 100, (height - 5));
+     
+                
                 //TODO number of waves left
 
                 g.drawString("Creeps alive: " + ((TowerDefenseGame) game).getCreepMan().getNumCreeps() + "", 350, 10);
