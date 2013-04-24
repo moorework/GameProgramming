@@ -25,13 +25,11 @@ public class PathFinder {
         // we start by finding the PathCell closest to our startingPoint and targetPoints;
         // the closest startingPoint will also be our first waypoint.
 
-        System.out.println("start point passed: " + startingPoint);
+        
 
         PathCell startCell = getClosestCellToPoint(navGraph.vertexSet(), startingPoint);
         PathCell goalCell = getClosestCellToPoint(navGraph.vertexSet(), targetPoint);
 
-        System.out.println("startCell: " + startCell.getCenterPoint());
-        System.out.println("goalCell: " + goalCell.getCenterPoint());
 
         // for every PathCell in the shortest distance computed from the startCell
         // to the goalCell...

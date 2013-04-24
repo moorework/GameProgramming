@@ -83,11 +83,11 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener
     @Override
     public void draw(WorldGraphics2D Wg2D)
     {
-        System.out.println("We be drawing");
+        
         
         gManager.draw(Wg2D);
         
-        System.out.println("Not graphics manager's fault!");
+        
         towMan.draw(Wg2D);
 
         creepMan.draw(Wg2D);

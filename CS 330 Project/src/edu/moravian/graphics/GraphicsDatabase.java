@@ -44,9 +44,9 @@ public class GraphicsDatabase {
         ArrayList<Sprite> readInImage;
         Sprite sprite;
         
-        System.out.println("Beginning the image process  "  + numImages);
+        
         for (int i = 0; i < numImages; i++) { 
-            System.out.println("image one");
+            
             key = key + i;
             
             imageDirectory = properties.getProperty(key + "");
@@ -57,15 +57,12 @@ public class GraphicsDatabase {
   
             
             graphicsTable.put(key, sprite);
-            System.out.println("Graphics put");
+         
         }
     }
     
     public Sprite getImage(int imageID) {
-        System.out.println("Rad");
-        System.out.println(graphicsTable.size());
-        System.out.println(imageID);
-        System.out.println(graphicsTable.get(imageID));
+     
         
         return graphicsTable.get(imageID);
     }

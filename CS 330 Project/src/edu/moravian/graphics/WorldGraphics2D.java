@@ -86,10 +86,8 @@ public class WorldGraphics2D
         Point2D screenPoint = trans.worldtoScreen(position);
         
         
-              System.out.println("getting img ");
-              System.out.println(sprite);
         BufferedImage img = sprite.getBackingImage();
-        System.out.println("got ");
+        
         
         g2d.drawImage(img, (int) screenPoint.getX() - (int) (sprite.getWidth() / 2), (int) screenPoint.getY() - (sprite.getHeight() / 2), null);
     }
@@ -105,9 +103,8 @@ public class WorldGraphics2D
     {
         Point2D screenPoint = trans.worldtoScreen(position);
         
-        System.out.println("getting img ");
         BufferedImage img = sprite.getBackingImage();
-        System.out.println("got ");
+        
         g2d.drawImage(img, (int) screenPoint.getX(), (int) screenPoint.getY() - (sprite.getHeight() / 2), null);
     }
     

@@ -178,11 +178,7 @@ public class PathFinderTest {
         }
         
         actualShortestPath.add(twoPathGoalCell.getCenterPoint());
-        
-        System.out.println(foundPath.numWayPoints());
-        
-        System.out.println("----->");
-        
+
         for (int i = 0; i < actualShortestPath.size(); i++) {
             System.out.println(actualShortestPath.get(i));
         }

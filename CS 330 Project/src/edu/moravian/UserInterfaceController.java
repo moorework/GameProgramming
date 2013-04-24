@@ -259,15 +259,15 @@ class UserInterfaceController extends JFrame implements Runnable
 
                 g.drawImage(mapRep, 0, clickableArea, this);
                 
-                System.out.println(g == null);
+                
                 // Tell the game to fillRect itself using the graphics context
                 WorldGraphics2D world  = new WorldGraphics2D(g);
-                System.out.println("Now we draw");
+                
                 game.draw(world);
-                System.out.println("Game drawn");
+                
                 reset.draw(g);
                 pause.draw(g);
-                System.out.println("Most things drawn");
+
 
                 // Write the FPS in the upper-left corner.  The coordinates
                 // designate the lower left of the text, and so anything

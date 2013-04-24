@@ -26,7 +26,7 @@ public class RunningState implements TowerDefenseGameState {
         towMan = ag.getTowMan();
         bulMan = ag.getProjMan();
         creMan = ag.getCreepMan();
-        System.out.println("Running");
+        
     }
 
     @Override
@@ -39,7 +39,7 @@ public class RunningState implements TowerDefenseGameState {
 
     @Override
     public void Leave(TowerDefenseGame ag) {
-        System.out.println("Done running for now");
+        
     }
 
     @Override

@@ -28,7 +28,7 @@ public class GraphicsDataParser {
      * @return a Collection of the Sprites read in from the provided filePath
      */
     public static ArrayList<Sprite> readInSprites(String filePath) {
-        System.out.println("Readin dem sprites");
+        
         // the files that we will need to read in from the provided directory
         ArrayList<File> filesToReadIn = new ArrayList<File>();
         // the target directory that we will be reading from
@@ -71,12 +71,12 @@ public class GraphicsDataParser {
                 // wrap the file is a FileInputStream - provides more control in
                 // the event of screw ups
                 FileInputStream fis = new FileInputStream(currFile);
-                System.out.println("InputStream made");
+                
                 // read in the image and store it as a Sprite
                 toAdd = new Sprite(ImageIO.read(fis));
-                System.out.println("Sprite read in");
+                
                 output.add(toAdd); // add it to our output array to be returned
-                System.out.println("We good");
+                
             }
             catch (IOException ex) {
                 System.out.println("GraphicsDataParser failed to read-in data: " + currFile);
@@ -92,18 +92,18 @@ public class GraphicsDataParser {
     public static Sprite readInSprite(String filePath) {
         File file = new File(filePath);
         
-        System.out.println("Full file path \n  " + file.getAbsolutePath());
+        
         
         FileInputStream fis;
         Sprite s = null;
         try {
             fis = new FileInputStream(file);
             s = new Sprite(ImageIO.read(fis));
-            System.out.println("File read!");
+            
         } catch (Exception ex) {
             Logger.getLogger(GraphicsDataParser.class.getName()).log(Level.SEVERE, null, ex);
         }
-                System.out.println("InputStream made");
+                
                 // read in the image and store it as a Sprite
                 return s;
     }

@@ -141,7 +141,7 @@ public class GraphicsManager {
          * Drawable object using an enum.
          */
         
-        System.out.println("GraphicsManager drawing");
+        
         
         Sprite sprite; // the Drawable graphic that will be drawn to the World2D object
         
@@ -152,7 +152,7 @@ public class GraphicsManager {
             // retrieve the frame to be drawn to the World2D object
             sprite = graphicsDatabase.getImage(imageID);
             
-            System.out.println("Got the sprite!  "  + sprite);
+        
             
             // for each of our filters...
             for (SpriteFilter filter : globalFilters) {
@@ -173,9 +173,9 @@ public class GraphicsManager {
                     break; // prevent fall-through
                 case CENTER: // fillRect the Sprite such that the Position describes
                              // its center-point
-                    System.out.println("Gonna draw at center");
+                    
                     w2d.drawImageWithPointAtCenter(sprite, drawPoint);
-                    System.out.println("Drew at center");
+                    
                     break; // prevent fall-through
                 case CENTER_X:
                     w2d.drawImageCenterXAxis(sprite, drawPoint);
