@@ -40,11 +40,11 @@ public class MapBuilder
     
     
     
-    public static void main(String[] args) throws FileNotFoundException, IOException
+    public static void initMapData(double width, double height) throws Exception
     {
 
 
-        BufferedImage buf = createImageReppresentation(getMapRepresentation("maps/basicMap"), new Dimension(800, 600));
+        BufferedImage buf = createImageReppresentation(getMapRepresentation("maps/basicMap"), new Dimension((int) width, (int) height));
 
         File outputFile = new File("image.png");
         ImageIO.write(buf, "PNG", outputFile);

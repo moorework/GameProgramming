@@ -190,6 +190,7 @@ public class Sprite extends Image {
     }
     
     public BufferedImage getBackingImage() {
+        System.out.println(sprite);
         return sprite;
     }
 }

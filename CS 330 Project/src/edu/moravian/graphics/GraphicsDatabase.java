@@ -43,20 +43,30 @@ public class GraphicsDatabase {
         String imageDirectory;
         ArrayList<Sprite> readInImage;
         Sprite sprite;
-        for (int i = 0; i < numImages; i++) {
+        
+        System.out.println("Beginning the image process  "  + numImages);
+        for (int i = 0; i < numImages; i++) { 
+            System.out.println("image one");
             key = key + i;
             
             imageDirectory = properties.getProperty(key + "");
+
             
-            readInImage = (ArrayList) GraphicsDataParser.readInSprites(imageDirectory);
             
-            sprite = readInImage.get(0);
+            sprite = GraphicsDataParser.readInSprite(imageDirectory);
+  
             
             graphicsTable.put(key, sprite);
+            System.out.println("Graphics put");
         }
     }
     
     public Sprite getImage(int imageID) {
+        System.out.println("Rad");
+        System.out.println(graphicsTable.size());
+        System.out.println(imageID);
+        System.out.println(graphicsTable.get(imageID));
+        
         return graphicsTable.get(imageID);
     }
 }

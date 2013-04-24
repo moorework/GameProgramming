@@ -66,6 +66,12 @@ public class WorldMap implements Drawable
         startingPoints = MapBuilder.getStartingPoints();
         endingPoints = MapBuilder.getEndingPoints();
         
+        try {
+        MapBuilder.initMapData(mapWidth, mapHeight);
+        } catch (Exception ex) {
+            System.out.println("Fuckin shit: " + ex);
+        }
+        
         setPathableCenterPoints();
     }
 

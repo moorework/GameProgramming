@@ -21,7 +21,7 @@ import java.awt.Color;
  */
 public class BasicTower extends Tower
   {
-    private final int BULLET_IMAGE_ID = 1;
+    private final int BULLET_IMAGE_ID = 100;
     
     private int imageID;
     
@@ -48,6 +48,8 @@ public class BasicTower extends Tower
         time.tick();
         towerLoc = pos;
         manager = man;
+        
+        imageID = 101;
     }
 
     @Override

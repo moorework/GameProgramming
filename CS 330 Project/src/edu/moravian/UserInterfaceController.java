@@ -195,18 +195,6 @@ class UserInterfaceController extends JFrame implements Runnable
             // Now that the strategy is created, we safe a reference to it
             // so that we can fillRect (below)
             BufferStrategy bufStrat = this.getBufferStrategy();
-            
-            DeltaTimer deltaTimer = new DeltaTimer();
-            
-            // prev will be the time of the last frame.
-            double delta = 0;
-            // time since we last drew the FPS on-screen
-            double sinceLastFPSDraw = 0;
-            // to reduce the wild drawing of the FPS counter, we'll restrict
-            // updating it to once every 70 milliseconds
-            final double SPAN_BETWEEN_FPS_DRAWS = 70 / 1000.0;
-            // a String representing the FPS counter to be drawn on-screen
-            String framesPerSecond = "";
 
             DeltaTimer deltaTimer = new DeltaTimer();
 
@@ -271,11 +259,15 @@ class UserInterfaceController extends JFrame implements Runnable
 
                 g.drawImage(mapRep, 0, clickableArea, this);
                 
-
+                System.out.println(g == null);
                 // Tell the game to fillRect itself using the graphics context
-                game.draw(new WorldGraphics2D(g));
+                WorldGraphics2D world  = new WorldGraphics2D(g);
+                System.out.println("Now we draw");
+                game.draw(world);
+                System.out.println("Game drawn");
                 reset.draw(g);
                 pause.draw(g);
+                System.out.println("Most things drawn");
 
                 // Write the FPS in the upper-left corner.  The coordinates
                 // designate the lower left of the text, and so anything

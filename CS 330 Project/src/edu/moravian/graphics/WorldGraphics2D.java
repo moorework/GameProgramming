@@ -85,7 +85,13 @@ public class WorldGraphics2D
     {
         Point2D screenPoint = trans.worldtoScreen(position);
         
-        g2d.drawImage(sprite.getBackingImage(), (int) screenPoint.getX() - (int) (sprite.getWidth() / 2), (int) screenPoint.getY() - (sprite.getHeight() / 2), null);
+        
+              System.out.println("getting img ");
+              System.out.println(sprite);
+        BufferedImage img = sprite.getBackingImage();
+        System.out.println("got ");
+        
+        g2d.drawImage(img, (int) screenPoint.getX() - (int) (sprite.getWidth() / 2), (int) screenPoint.getY() - (sprite.getHeight() / 2), null);
     }
     
     public void drawImageCenterXAxis(Sprite sprite, Point2D position)
@@ -99,7 +105,10 @@ public class WorldGraphics2D
     {
         Point2D screenPoint = trans.worldtoScreen(position);
         
-        g2d.drawImage(sprite.getBackingImage(), (int) screenPoint.getX(), (int) screenPoint.getY() - (sprite.getHeight() / 2), null);
+        System.out.println("getting img ");
+        BufferedImage img = sprite.getBackingImage();
+        System.out.println("got ");
+        g2d.drawImage(img, (int) screenPoint.getX(), (int) screenPoint.getY() - (sprite.getHeight() / 2), null);
     }
     
     public void fillCircle(Point2D pos, int Radius, Color brighter)
