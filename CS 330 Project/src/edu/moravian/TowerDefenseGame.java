@@ -99,8 +99,6 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener
 
         stateMac.draw(Wg2D);
         
-        //Wg2D.fillRect(new Point2D(100,100), new Dimension(Xsize, 100), Color.cyan);
-        //Math.abs(Xsize ++);
     }
 
     @Override

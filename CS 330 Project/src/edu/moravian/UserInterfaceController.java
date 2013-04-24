@@ -1,5 +1,6 @@
 package edu.moravian;
 
+import edu.moravian.SM.PauseState;
 import edu.moravian.graphics.VideoConfigurationException;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
@@ -44,7 +45,8 @@ class UserInterfaceController extends JFrame implements Runnable
     private Game game;
     private Timer time;
     private int clickableArea;
-    private UI_ELEMENT reset;
+    private UI_Element reset;
+    private UI_Element pause;
 
     /**
      * Create an instance of the class with the specified screen configuration
@@ -103,7 +105,8 @@ class UserInterfaceController extends JFrame implements Runnable
 
         time = new Timer();
 
-        reset = new UI_ELEMENT(new Point2D(5, 5), "Reset", Color.blue, Color.black, new Dimension(50, 50));
+        reset = new UI_Element(new Point2D(5, 5), "Reset", Color.blue, Color.black, new Dimension(50, 50));
+        pause = new UI_Element(new Point2D(100, 5), "Pause", Color.blue, Color.black, new Dimension(50, 50));
 
     }
 
@@ -246,6 +249,7 @@ class UserInterfaceController extends JFrame implements Runnable
                 // Tell the game to fillRect itself using the graphics context
                 game.draw(new WorldGraphics2D(g));
                 reset.draw(g);
+                pause.draw(g);
 
                 // Write the FPS in the upper-left corner.  The coordinates
                 // designate the lower left of the text, and so anything
@@ -254,9 +258,12 @@ class UserInterfaceController extends JFrame implements Runnable
                 g.setColor(Color.BLUE);
                 if (sinceLastFPSDraw >= SPAN_BETWEEN_FPS_DRAWS)
                 {
-                    sinceLastFPSDraw = 0;
+                    if (getPauseStatus((TowerDefenseGame) game) == false)
+                    {
+                        sinceLastFPSDraw = 0;
 
-                    framesPerSecond = "" + (int) (1.0 / (delta));
+                        framesPerSecond = "" + (int) (1.0 / (delta));
+                    }
                 }
 
                 g.drawString(framesPerSecond, 0, (height - 5));
@@ -274,8 +281,10 @@ class UserInterfaceController extends JFrame implements Runnable
                     avgCount = 0;
                 }
                 g.drawString(avgFPS, 100, (height - 5));
-
-
+                //TODO number of waves left
+                
+                g.drawString("Creeps alive: " + ((TowerDefenseGame)game).getCreepMan().getNumCreeps()+"", 350, 10);
+                
                 // Free up any resources being used.
                 g.dispose();
 
@@ -317,6 +326,11 @@ class UserInterfaceController extends JFrame implements Runnable
         }
     }
 
+    private boolean getPauseStatus(TowerDefenseGame td)
+    {
+        return td.getStateMac().isPaused();
+    }
+
     private class inputHandler implements KeyListener, MouseListener
     {
 
@@ -345,12 +359,17 @@ class UserInterfaceController extends JFrame implements Runnable
             //Interrupt the event here, query interactable state from game 
             if (me.getY() < clickableArea)
             {
+                Point2D click = new Point2D(me.getX(), me.getY());
 
-
-                if (reset.contains(new Point2D(me.getX(), me.getY())))
+                if (reset.contains(click))
                 {
                     game = new TowerDefenseGame(width, height);
                 }
+                else if (pause.contains(click))
+                {
+                    ((TowerDefenseGame) game).getStateMac().pause();
+                }
+
             }
             else
             {
@@ -380,7 +399,7 @@ class UserInterfaceController extends JFrame implements Runnable
         }
     }
 
-    private class UI_ELEMENT
+    private class UI_Element
     {
 
         Point2D loc;
@@ -389,7 +408,7 @@ class UserInterfaceController extends JFrame implements Runnable
         Color colorBT;
         Dimension boxSize;
 
-        public UI_ELEMENT(Point2D pt, String str, Color colText, Color colBack, Dimension size)
+        public UI_Element(Point2D pt, String str, Color colText, Color colBack, Dimension size)
         {
             loc = pt;
             text = str;

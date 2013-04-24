@@ -138,6 +138,11 @@ public class TD_StateMach implements MouseListener
     {
     }
 
+    public boolean isPaused()
+    {
+        return globalState instanceof PauseState;
+    }
+
     /**
      * This allows the easy creation of managers for time based game metrics.
      *
