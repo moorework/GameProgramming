@@ -47,10 +47,10 @@ public class NavGraph {
         }
         
         Node n = new Node(p2, edge);
-        Node nBack = new Node(p1, edge);
+        //Node nBack = new Node(p1, edge);
             
         adjacencyList.get(p1).add(n);
-        adjacencyList.get(p2).add(nBack);
+        //adjacencyList.get(p2).add(nBack);
     }
     
 

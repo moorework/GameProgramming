@@ -50,16 +50,17 @@ public class TowerDefenseGame implements KeyListener, Game
 
     public TowerDefenseGame(int worldWidth, int worldHeight)
     {
-        waveCreator = new WaveCreator(WAVE_DIRECTORY);
-        currWave = waveCreator.getNextWave();
         
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
         
         worldMap = new WorldMap(MAP_DIRECTORY, worldWidth, worldHeight);
+        
+        waveCreator = new WaveCreator(WAVE_DIRECTORY);
+        currWave = waveCreator.getNextWave();
 
         endgame_met = false;
-
+        
         creepMan = currWave.getCreepManager(worldMap);
 
         towMan = new TowerManager();
@@ -67,9 +68,6 @@ public class TowerDefenseGame implements KeyListener, Game
         stateMac = new TD_StateMach(this);
         stateMac.setGlobalState(new RunningState());
         stateMac.setGameState(new NullState());
-        
-        // temp
-        gManager = new GraphicsManager();
 
         
     }
@@ -89,7 +87,6 @@ public class TowerDefenseGame implements KeyListener, Game
     @Override
     public void draw(WorldGraphics2D Wg2D)
     {
-        gManager.draw(Wg2D);
     }
 
     @Override

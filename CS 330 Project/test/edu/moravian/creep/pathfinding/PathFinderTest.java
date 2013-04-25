@@ -36,10 +36,10 @@ public class PathFinderTest {
         twoPathGraphModel = new NavGraph();
         
         
-        twoPathGoalCell = new PathCell();
+        twoPathGoalCell = new PathCell(false, true);
         twoPathGoalCell.setCenterPoint(new Point2D(15, 50));
         
-        twoPathStartCell = new PathCell();
+        twoPathStartCell = new PathCell(true, false);
         twoPathStartCell.setCenterPoint(new Point2D(0, 5));
         
         // add short path
@@ -48,7 +48,7 @@ public class PathFinderTest {
         PathCell newCell;
         for (int x = 5; x < 15; x += 5) {
             for (int y = 20; y < 50; y += 15) {
-                newCell = new PathCell();
+                newCell = new PathCell(false, false);
                 newCell.setCenterPoint(new Point2D(x, y));
                 
                 twoPathGraphModel.addEdge(currCell, newCell, weight);
@@ -64,7 +64,7 @@ public class PathFinderTest {
         currCell = twoPathStartCell;
         for (int x = 1; x < 15; x += 5) {
             for (int y = 5; y > -25; y -= 15) {
-                newCell = new PathCell();
+                newCell = new PathCell(false, false);
                 newCell.setCenterPoint(new Point2D(x, y));
                 
                 twoPathGraphModel.addEdge(currCell, newCell, weight);
@@ -81,38 +81,38 @@ public class PathFinderTest {
         complexGraphModel = new NavGraph();
         
         
-        complexGoalCell = new PathCell();
+        complexGoalCell = new PathCell(false, true);
         complexGoalCell.setCenterPoint(new Point2D(55, 1));
         
-        complexStartCell = new PathCell();
+        complexStartCell = new PathCell(true, false);
         complexStartCell.setCenterPoint(new Point2D(5, 2));
         
         // dead end 1
-        PathCell cellA = new PathCell();
+        PathCell cellA = new PathCell(false, false);
         cellA.setCenterPoint(new Point2D(3, 10));
         
         complexGraphModel.addEdge(complexStartCell, cellA, 0.2);
         
         // dead end 1
-        PathCell cellB = new PathCell();
+        PathCell cellB = new PathCell(false, false);
         cellB.setCenterPoint(new Point2D(2, 18));
         
         complexGraphModel.addEdge(cellA, cellB, 0.2);
         
         // shortest path 1
-        PathCell cellC = new PathCell();
+        PathCell cellC = new PathCell(false, false);
         cellC.setCenterPoint(new Point2D(15, 2));
         
         complexGraphModel.addEdge(complexStartCell, cellC, 1.0);
         
         // cell where the two shortest paths converge
-        PathCell cellD = new PathCell();
+        PathCell cellD = new PathCell(false, false);
         cellD.setCenterPoint(new Point2D(25, 2));
         
         complexGraphModel.addEdge(cellC, cellD, 1.1);
         
         // part of both shortest paths
-        PathCell cellE = new PathCell();
+        PathCell cellE = new PathCell(false, false);
         cellE.setCenterPoint(new Point2D(40, 2));
        
         complexGraphModel.addEdge(cellD, cellE, 1.0);
@@ -122,24 +122,24 @@ public class PathFinderTest {
         complexGraphModel.addEdge(cellE, complexGoalCell, 1.0);
         
         // shortest path 2
-        PathCell cellF = new PathCell();
+        PathCell cellF = new PathCell(false, false);
         cellF.setCenterPoint(new Point2D(5, 0));
         
         complexGraphModel.addEdge(complexStartCell, cellF, 0.5);
         
         // dead end 2
-        PathCell cellG = new PathCell();
+        PathCell cellG = new PathCell(false, false);
         cellG.setCenterPoint(new Point2D(5, -2));
 
         complexGraphModel.addEdge(cellF, cellG, 0.1);
         
         // shortest path 2
-        PathCell cellH = new PathCell();
+        PathCell cellH = new PathCell(false, false);
         cellH.setCenterPoint(new Point2D(15, -1));
         complexGraphModel.addEdge(cellG, cellH, 0.5);
         
         // shortest path 2
-        PathCell cellI = new PathCell();
+        PathCell cellI = new PathCell(false, false);
         cellI.setCenterPoint(new Point2D(25, -1));
         
         complexGraphModel.addEdge(cellH, cellI, 0.5);
