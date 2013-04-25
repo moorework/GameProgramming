@@ -3,6 +3,7 @@ package edu.moravian.WorldMap;
 import edu.moravian.graphics.DrawLocation;
 import edu.moravian.graphics.Drawable;
 import edu.moravian.math.Point2D;
+import edu.moravian.tower.Tower;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -67,7 +68,7 @@ public class WorldMap implements Drawable
         endingPoints = MapBuilder.getEndingPoints();
         
         try {
-        MapBuilder.initMapData(mapWidth, mapHeight);
+            MapBuilder.initMapData(mapWidth, mapHeight);
         } catch (Exception ex) {
             System.out.println("Fuckin shit: " + ex);
         }
@@ -101,6 +102,23 @@ public class WorldMap implements Drawable
             return false; // so inform the client that it's not occupied
           }
       }
+    
+    public boolean canBeOccupied(Point2D pointToCheck) {
+         WorldCell pointCell = convertPointToCell(pointToCheck);
+         TowerCell pointCellTower;
+         
+         if (isATowerCell(pointCell))
+          {
+            // cast the cell to a TowerCell
+            pointCellTower = (TowerCell) pointCell;
+            // and tell the client whether it's occupied
+            return pointCellTower.canBeOccupied();
+          }
+        else
+          { // it's not a TowerCell, so it can never be occupied...
+            return false; // so inform the client that it's not occupied
+          }
+    }
 
     /**
      * Set the cell corresponding to the provided world Point as being occupied.
@@ -109,7 +127,7 @@ public class WorldMap implements Drawable
      * 
      * @param pointToOccupy a world Point corresponding to a cell to be occupied.
      */
-    public void setOccupied(Point2D pointToOccupy)
+    public void setOccupied(Point2D pointToOccupy, Tower t)
       {
         // we presumptuously cast the WorldCell corresponding to the provided
         // WorldPoint to a TowerCell on the basis that the client should have
@@ -117,7 +135,7 @@ public class WorldMap implements Drawable
         // didn't then they're a jackass and deserve what they get.
         TowerCell pointCell = (TowerCell) convertPointToCell(pointToOccupy);
 
-        pointCell.setOccupied();
+        pointCell.setOccupied(t);
       }
 
     /**
@@ -137,6 +155,12 @@ public class WorldMap implements Drawable
 
         pointCell.setUnOccupied();
       }
+    
+    public Tower getTowerAtPoint(Point2D point) {
+        TowerCell pointCell = (TowerCell) convertPointToCell(point);
+        
+        return pointCell.getTower();
+    }
 
     /**
      * Get the game world point that describes the upper-left hand corner of the

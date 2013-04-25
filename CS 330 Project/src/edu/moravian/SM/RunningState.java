@@ -18,13 +18,11 @@ import edu.moravian.tower.TowerManager;
 public class RunningState implements TowerDefenseGameState {
 
     TowerManager towMan;
-    BulletManager bulMan;
     CreepManager creMan;
 
     @Override
     public void Enter(TowerDefenseGame ag) {
         towMan = ag.getTowMan();
-        bulMan = ag.getProjMan();
         creMan = ag.getCreepMan();
         
     }
@@ -33,7 +31,6 @@ public class RunningState implements TowerDefenseGameState {
     public void Execute(TowerDefenseGame ag) {
         //TODO this needs to be delta
         towMan.update(10);
-        bulMan.update(10);
         creMan.update(10);
     }
 

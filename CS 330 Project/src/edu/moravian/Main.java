@@ -1,6 +1,7 @@
 package edu.moravian;
 
 import edu.moravian.graphics.VideoConfigurationException;
+import edu.moravian.util.CoordinateTranslator;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.FileNotFoundException;
@@ -34,16 +35,21 @@ public class Main
         // the screen size
       
         TowerDefenseGame g = new TowerDefenseGame((int)set.getWorldSize().getWidth(),(int) set.getWorldSize().getHeight());
-                 
-          
+        
+        Controller controller;
+        CoordinateTranslator coordTrans = new CoordinateTranslator(set.getResolution().width, set.getResolution().height,
+                        set.getWorldSize().width, set.getWorldSize().height);
+        
         try
           {
             // Create the video controller.  This will throw if something
             // goes wrong
-        
-            UserInterfaceController video = new UserInterfaceController(DWIDTH, DHEIGHT, DBITDEPTH, g);
+            UserInterfaceController video = new UserInterfaceController(DWIDTH, DHEIGHT, DBITDEPTH);
             
-              
+            controller = new Controller(video, g, coordTrans);
+            
+            video.setController(controller);
+
             // And run the game
             new Thread(video).start();
           }

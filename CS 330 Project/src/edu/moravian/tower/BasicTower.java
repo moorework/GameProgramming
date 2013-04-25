@@ -34,9 +34,9 @@ public class BasicTower extends Tower
     //TODO factor out magic number 
     private Point2D towerLoc;
 
-    public BasicTower(CreepManager man, BulletManager bul, Point2D pos, int radius)
+    public BasicTower(CreepManager man, Point2D pos, int radius)
     {
-        super(man, bul, pos, radius);
+        super(man, pos, radius);
 
         //TODO magic number
         tar = new ProximityTargetingSystem(targetingRadius, pos);
@@ -44,7 +44,7 @@ public class BasicTower extends Tower
         shotFrequency = 2;
         speedScale = 1;
         damage = 1;
-        bulletman = bul;
+        bulletman = new BulletManager();
         time.tick();
         towerLoc = pos;
         manager = man;

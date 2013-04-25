@@ -44,7 +44,7 @@ public class MapBuilder
     {
 
 
-        BufferedImage buf = createImageReppresentation(getMapRepresentation("maps/basicMap"), new Dimension((int) width, (int) height));
+        BufferedImage buf = createImageReppresentation(getMapRepresentation("maps/basicMap.txt"), new Dimension((int) width, (int) height));
 
         File outputFile = new File("image.png");
         ImageIO.write(buf, "PNG", outputFile);
@@ -64,12 +64,13 @@ public class MapBuilder
         ArrayList<ArrayList<WorldCell>> ret = new ArrayList<ArrayList<WorldCell>>();
 
         String first = s.nextLine().toUpperCase().trim();
-
+        System.out.println(first);
         ret.add(translate(first));
 
         while (s.hasNextLine())
         {
             String temp = s.nextLine().toUpperCase().trim();
+            System.out.println(temp);
             if (temp.length() != first.length())
             {
                 throw new IllegalArgumentException("Lines must all contain same number of charactars");

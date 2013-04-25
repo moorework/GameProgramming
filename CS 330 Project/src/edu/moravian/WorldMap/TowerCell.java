@@ -1,5 +1,7 @@
 package edu.moravian.WorldMap;
 
+import edu.moravian.tower.Tower;
+
 /**
  *
  * @author myles
@@ -7,6 +9,7 @@ package edu.moravian.WorldMap;
 public class TowerCell implements WorldCell {
     private final boolean CAN_BE_OCCUPIED;
     private final boolean IS_PATHABLE;
+    private Tower t;
     
     private boolean isOccupied;
     
@@ -29,14 +32,20 @@ public class TowerCell implements WorldCell {
         return isOccupied;
     }
     
-    public void setOccupied()
+    public void setOccupied(Tower newTower)
     {
+        t = newTower;
         isOccupied = true;
     }
     
     public void setUnOccupied()
     {
+        t = null;
         isOccupied = false;
+    }
+    
+    public Tower getTower() {
+        return t;
     }
 
     @Override
