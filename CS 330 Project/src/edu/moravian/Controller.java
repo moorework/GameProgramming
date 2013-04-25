@@ -26,6 +26,8 @@ public class Controller implements KeyListener, MouseListener {
     
     private boolean aboutToBuildTower;
     
+    private int DEFAULT_TOWER_RADIUS = 200;
+    
     public Controller(UserInterfaceController uic, TowerDefenseGame towerDefenseGame, CoordinateTranslator ct) {
         uiController = uic;
         tdGame = towerDefenseGame;
@@ -97,8 +99,9 @@ public class Controller implements KeyListener, MouseListener {
             towerCurrentlySelected = true;
         }
         // if we're about to build a tower and the point is not occupied
-        else if (aboutToBuildTower == true && tdGame.pointIsOccupied(clickLocation) == false) {
-            tdGame.setOccupied(clickLocation, currentlySelectedTower);
+        else if (aboutToBuildTower == true && tdGame.pointIsOccupied(clickLocation) == false && clickInBuildable) {
+            tdGame.addTower(tdGame.getCornerPoint(clickLocation), DEFAULT_TOWER_RADIUS);
+            
             aboutToBuildTower = false;
         }
         // the player is an idiot
