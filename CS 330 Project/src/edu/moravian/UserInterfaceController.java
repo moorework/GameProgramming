@@ -71,8 +71,6 @@ class UserInterfaceController extends JFrame implements Runnable
         this.depth = depth;
         this.game = thugAim;
 
-
-
         // Save references to the graphics environment and device
         // for future reference
         genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -163,6 +161,7 @@ class UserInterfaceController extends JFrame implements Runnable
     @Override
     public void run()
     {
+        
         int avgCount = 0;
         double avg = 0;
         String avgFPS = "";
@@ -179,6 +178,7 @@ class UserInterfaceController extends JFrame implements Runnable
 
         try
         {
+         
             // Go full screen!  "this" is the object, which is a window
             gdev.setFullScreenWindow(this);
             // Change to our desired resolution
@@ -214,6 +214,7 @@ class UserInterfaceController extends JFrame implements Runnable
             // Keep going until the game says it is done
             while (!game.done())
             {
+         
                 //Tick the timer 
                 time.tick();
 
@@ -227,10 +228,6 @@ class UserInterfaceController extends JFrame implements Runnable
                 // the program's frames per second.
                 deltaTimer.tick();
 
-                // By getting the current time each frame, we can compute
-                // the program's frames per second.
-                deltaTimer.tick();
-
                 // retrieve the span of time necessary to process the last frame
                 // to use as a basis for computations for this frame
                 delta = deltaTimer.getDelta();
@@ -238,18 +235,20 @@ class UserInterfaceController extends JFrame implements Runnable
                 // update the time since last we updated the FPS on-screen
                 sinceLastFPSDraw += delta;
 
-
-                // Tell the game object to update itself - i.e. to make itself
+                         // Tell the game object to update itself - i.e. to make itself
                 // ready for the next fillRect.
                 game.update(delta);
-
+         
                 // Drawing is done through a Graphics object.  You can think
                 // of this as the object representing the screen.
+         
                 Graphics g = bufStrat.getDrawGraphics();
-
+         
+                
                 // THe first thing we have to do is "clear" the screen.
                 // Whatever was drawn perviously is still on the screen.
                 // We'll use a solid white background here.
+         
                 g.setColor(Settings.getInstance().getBackgroundColor());
                 // Note that drawRect will only fillRect the rectangle outline
                 g.fillRect(0, 0, width, height);
@@ -259,13 +258,13 @@ class UserInterfaceController extends JFrame implements Runnable
 
                 g.drawImage(mapRep, 0, clickableArea, this);
                 
-                
                 // Tell the game to fillRect itself using the graphics context
                 WorldGraphics2D world  = new WorldGraphics2D(g);
                 
                 game.draw(world);
                 
                 reset.draw(g);
+                
                 pause.draw(g);
 
 
@@ -290,7 +289,7 @@ class UserInterfaceController extends JFrame implements Runnable
                 
                 //TODO number of waves left
 
-                g.drawString("Creeps alive: " + ((TowerDefenseGame) game).getCreepMan().getNumCreeps() + "", 350, 10);
+                g.drawString("Creeps alive: " + ((TowerDefenseGame) game).getCreepMan().getNumCreeps() + "", 350, 7);
 
                 // Free up any resources being used.
                 g.dispose();

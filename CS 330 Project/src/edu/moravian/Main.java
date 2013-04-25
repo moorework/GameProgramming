@@ -32,14 +32,18 @@ public class Main
 
         // Create our game with a world size equal to
         // the screen size
+      
         TowerDefenseGame g = new TowerDefenseGame((int)set.getWorldSize().getWidth(),(int) set.getWorldSize().getHeight());
-
+                 
+          
         try
           {
             // Create the video controller.  This will throw if something
             // goes wrong
+        
             UserInterfaceController video = new UserInterfaceController(DWIDTH, DHEIGHT, DBITDEPTH, g);
-
+            
+              
             // And run the game
             new Thread(video).start();
           }

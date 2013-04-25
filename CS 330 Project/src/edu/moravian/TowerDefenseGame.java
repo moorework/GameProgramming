@@ -4,6 +4,9 @@ import edu.moravian.SM.MainMenu;
 import edu.moravian.SM.NullState;
 import edu.moravian.SM.RunningState;
 import edu.moravian.SM.TD_StateMach;
+import edu.moravian.WorldMap.NavGraph;
+import edu.moravian.creep.BasicCreep;
+import edu.moravian.creep.Creep;
 import edu.moravian.creep.CreepManager;
 import edu.moravian.graphics.GraphicsManager;
 import edu.moravian.graphics.GraphicsRegistry;
@@ -67,8 +70,15 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener
         
         BasicTower t = new BasicTower(creepMan, projMan, new Point2D(100, 200), 20);
         
+        BasicCreep foo = new BasicCreep(new Point2D(100,100), new Point2D(100,100), 10);
+        
+        
         GraphicsRegistry.setGraphicsManager(gManager);
+        
         GraphicsRegistry.registerDrawable(t);
+        
+        GraphicsRegistry.registerDrawable(foo);
+        
     }
 
     @Override
@@ -83,18 +93,7 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener
     @Override
     public void draw(WorldGraphics2D Wg2D)
     {
-        
-        
         gManager.draw(Wg2D);
-        
-        
-        towMan.draw(Wg2D);
-
-        creepMan.draw(Wg2D);
-        
-        projMan.draw(Wg2D);
-
-        stateMac.draw(Wg2D);
     }
 
     @Override
