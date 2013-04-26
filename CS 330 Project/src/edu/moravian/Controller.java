@@ -98,6 +98,7 @@ public class Controller implements KeyListener, MouseListener {
         else if (aboutToBuildTower == true && tdGame.pointIsOccupied(clickLocation) == true) {
             aboutToBuildTower = false;
         }
+        
         // if we clicked on an occupied cell, that tower is now selected
         else if (clickInBuildable && tdGame.pointIsOccupied(clickLocation)) {
             currentlySelectedTower = tdGame.getTowerAtPoint(clickLocation);

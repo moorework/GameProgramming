@@ -432,7 +432,7 @@ class UserInterfaceController extends JFrame implements Runnable
             g.setColor(colorMF);
             g.fillRect((int) loc.getX(), (int) loc.getY(), boxSize.width, boxSize.height);
             g.setColor(colorBT);
-            g.drawString(text, (int) loc.getX(), (int) loc.getY() + boxSize.height / 2);
+            g.drawString(text, (int) loc.getX() + 6, (int) loc.getY() + boxSize.height / 2);
             g.setColor(old);
         }
 

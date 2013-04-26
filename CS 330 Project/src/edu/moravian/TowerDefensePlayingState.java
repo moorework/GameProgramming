@@ -61,7 +61,7 @@ public class TowerDefensePlayingState extends TowerDefenseState {
 
         background = set.getBackgroundColor();
 
-       towerManager = new TowerManager();
+        towerManager = new TowerManager();
         
         Wave firstWave = waveCreator.getNextWave();
         creepManager = firstWave.getCreepManager(worldMap);
