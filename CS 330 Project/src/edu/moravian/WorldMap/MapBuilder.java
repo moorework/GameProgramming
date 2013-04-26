@@ -31,9 +31,9 @@ public class MapBuilder
     public static void initMapData(ArrayList<ArrayList<WorldCell>> mapData, double width, double height) throws Exception
     {
 
-
+        
         BufferedImage buf = createImageReppresentation(mapData, new Dimension((int) width, (int) height));
-
+        
         File outputFile = new File("image.png");
         ImageIO.write(buf, "PNG", outputFile);
     }
@@ -57,7 +57,6 @@ public class MapBuilder
         while (s.hasNextLine())
         {
             String temp = s.nextLine().toUpperCase().trim();
-            System.out.println(temp);
             
             if (temp.length() != first.length())
             {
@@ -66,6 +65,8 @@ public class MapBuilder
 
             ret.add(translate(temp));
         }
+        
+        System.out.println("MAp size" + ret.size() + "  " + ret.get(0).size() );
 
         return ret;
     }
@@ -114,13 +115,15 @@ public class MapBuilder
      */
         public static BufferedImage createImageReppresentation(ArrayList<ArrayList<WorldCell>> ret, Dimension res)
     {
-
-        int blockWidth = res.width / ret.get(0).size();
+        System.out.println("RES" +res);
+        
         int blockHeight = res.height / ret.size();
-
+        int blockWidth = blockHeight;
+        
+        System.out.println("Block widths " + blockWidth +" " + blockHeight);
 
         BufferedImage buf = new BufferedImage(res.width, res.height, BufferedImage.TYPE_INT_RGB);
-
+        
         for (int i = 0; i < ret.size(); i++)
         {
             for (int j = 0; j < ret.get(i).size(); j++)
@@ -150,20 +153,20 @@ public class MapBuilder
             p = (PathCell) t;
         }
         else {
-            return Color.green.getRGB();
+            return new Color(0,123,12).getRGB();
         }
         
         //FUTURE make this data driven 
         if (p.isSpawn() == true)
         {
-            return Color.black.getRGB();
+            return new Color(119,81,17).getRGB();
         }
         else if (p.isEnd() == true) {
-            return Color.ORANGE.getRGB();
+            return new Color(119,81,17).getRGB();
         }
         else
         {
-            return Color.GRAY.getRGB();
+            return new Color(119,81,17).getRGB();
         }
     }
 }
