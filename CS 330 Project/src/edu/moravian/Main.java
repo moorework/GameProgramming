@@ -25,25 +25,25 @@ public class Main
 
         Settings set = Settings.getInstance();
         set.setResolution(resolution);
-        set.setWorldSize(new Dimension(1200,800));
+        set.setWorldSize(new Dimension(1200, 800));
 
         DWIDTH = resolution.width;
         DHEIGHT = resolution.height;
 
         // Create our game with a world size equal to
         // the screen size
-      
-        TowerDefenseGame g = new TowerDefenseGame((int)set.getWorldSize().getWidth(),(int) set.getWorldSize().getHeight());
-                 
-          
+
+        TowerDefenseGame g = new TowerDefenseGame((int) set.getWorldSize().getWidth(), (int) set.getWorldSize().getHeight());
+
+
         try
           {
             // Create the video controller.  This will throw if something
             // goes wrong
-        
+
             UserInterfaceController video = new UserInterfaceController(DWIDTH, DHEIGHT, DBITDEPTH, g);
-            
-              
+
+
             // And run the game
             new Thread(video).start();
           }

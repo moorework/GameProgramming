@@ -8,6 +8,7 @@ import java.util.ArrayList;
  *
  * @author Myles
  */
+//TODO we need to not read from disk constantly 
 public class GraphicsManager
   {
 
@@ -177,14 +178,14 @@ public class GraphicsManager
                 // apply the filter to the Sprite
                 sprite = filter.filterSprite(sprite);
               }
-            
+
             // retrieve the Drawable's DrawLocation so that we know how it would
             // like to be drawn
-            
+
             DrawLocation drawLoc = toDraw.getDrawLocation();
             // retrieve the Drawable's position so that we know where to fillRect it
             Point2D drawPoint = toDraw.getPos();
-            
+
             // based on the DrawLocation that we pulled from the 
             switch (drawLoc)
               {
@@ -207,7 +208,7 @@ public class GraphicsManager
                     System.out.println("Default draw loc achieved, ");
               }
 
-            
+
           }
       }
   }
