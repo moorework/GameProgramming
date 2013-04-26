@@ -45,7 +45,7 @@ public class Controller implements KeyListener, MouseListener {
     }
     
     public void update(double delta) {
-        tdGame.update(delta);
+        // draw tower placement stuff
     }
     
     public void draw(WorldGraphics2D g2d) {
@@ -89,8 +89,13 @@ public class Controller implements KeyListener, MouseListener {
         
         boolean clickInBuildable = tdGame.pointDescribesBuildableArea(clickLocation);
         
+        // if we clicked a unbuildable area...
+        if (clickInBuildable == false) {
+            currentlySelectedTower = null;
+            aboutToBuildTower = false;
+        }
         // if we're about to build but we clicked on an already occupied cell
-        if (aboutToBuildTower == true && tdGame.pointIsOccupied(clickLocation) == true) {
+        else if (aboutToBuildTower == true && tdGame.pointIsOccupied(clickLocation) == true) {
             aboutToBuildTower = false;
         }
         // if we clicked on an occupied cell, that tower is now selected
@@ -118,25 +123,25 @@ public class Controller implements KeyListener, MouseListener {
     @Override
     public void mousePressed(MouseEvent me)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //
     }
 
     @Override
     public void mouseReleased(MouseEvent me)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //
     }
 
     @Override
     public void mouseEntered(MouseEvent me)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //
     }
 
     @Override
     public void mouseExited(MouseEvent me)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //
     }
     
     public void setAboutToBuildTower() {

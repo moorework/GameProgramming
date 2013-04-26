@@ -29,6 +29,7 @@ public class NavGraphTest {
         ngraph.addVertex(pCell2);
         
         ngraph.addEdge(pCell1, pCell2, 1.5);
+        ngraph.addEdge(pCell2, pCell1, 1.5);
         
         assertEquals(1.5, ngraph.getEdgeWeight(pCell1, pCell2), 0.0);
         assertEquals(1.5, ngraph.getEdgeWeight(pCell2, pCell1), 0.0);
@@ -45,6 +46,7 @@ public class NavGraphTest {
         NavGraph ngraph = new NavGraph();
         
         ngraph.addEdge(pCell1, pCell2, 1.5);
+        ngraph.addEdge(pCell2, pCell1, 1.5);
         
         assertEquals(1.5, ngraph.getEdgeWeight(pCell1, pCell2), 0.0);
         assertEquals(1.5, ngraph.getEdgeWeight(pCell2, pCell1), 0.0);
@@ -61,6 +63,7 @@ public class NavGraphTest {
         NavGraph ngraph = new NavGraph();
         
         ngraph.addEdge(pCell1, pCell2);
+        ngraph.addEdge(pCell2, pCell1);
         
         assertEquals(1.0, ngraph.getEdgeWeight(pCell1, pCell2), 0.0);
         assertEquals(1.0, ngraph.getEdgeWeight(pCell2, pCell1), 0.0);
