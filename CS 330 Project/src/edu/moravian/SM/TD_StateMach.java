@@ -21,9 +21,6 @@ public class TD_StateMach implements MouseListener
     private TowerDefenseGame game;
     private TowerDefenseGameState globalState;
     private TowerDefenseGameState gameState;
-    private TowerManager towMan;
-    private BulletManager bulMan;
-    private CreepManager creMan;
     private boolean pause;
     private RunningState mainState;
 
@@ -34,12 +31,9 @@ public class TD_StateMach implements MouseListener
  * @param pm
  * @param cm 
  */
-    public TD_StateMach(TowerDefenseGame game_in, TowerManager tm, BulletManager pm, CreepManager cm)
+    public TD_StateMach(TowerDefenseGame game_in)
     {
         game = game_in;
-        towMan = tm;
-        bulMan = pm;
-        creMan = cm;
         gameState = new NullState();
         globalState = new NullState();
         pause = false;

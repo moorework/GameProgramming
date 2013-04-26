@@ -10,12 +10,17 @@ public class PathCell implements WorldCell {
     private final boolean CAN_BE_OCCUPIED;
     private final boolean IS_PATHABLE;
     
+    private boolean spawnCell;
+    private boolean endCell;
     private Point2D centerPoint;
     
-    public PathCell()
+    public PathCell(boolean isSpawnCell, boolean isEndCell)
     {
         CAN_BE_OCCUPIED = false;
         IS_PATHABLE = true;
+        
+        spawnCell = isSpawnCell;
+        endCell = isEndCell;
     }
     
     @Override
@@ -38,6 +43,14 @@ public class PathCell implements WorldCell {
     public Point2D getCenterPoint()
     {
         return centerPoint;
+    }
+    
+    public boolean isSpawn() {
+        return spawnCell;
+    }
+    
+    public boolean isEnd() {
+        return endCell;
     }
     
     @Override

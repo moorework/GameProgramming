@@ -27,24 +27,12 @@ public class MapBuilder
     private static final char TOWER_CHAR = 'T';
     private static final char START_CHAR = 'S';
     private static final char END_CHAR = 'E';
-    private static int cachedAppearenceID;
-    private static LinkedList<PathCell> cachedStartingPoints;
-    private static LinkedList<PathCell> cachedEndingPoints;
 
-    public MapBuilder()
-    {
-        cachedStartingPoints = new LinkedList<PathCell>();
-        cachedEndingPoints = new LinkedList<PathCell>();
-    }
-
-    
-    
-    
-    public static void initMapData(double width, double height) throws Exception
+    public static void initMapData(ArrayList<ArrayList<WorldCell>> mapData, double width, double height) throws Exception
     {
 
 
-        BufferedImage buf = createImageReppresentation(getMapRepresentation("maps/basicMap"), new Dimension((int) width, (int) height));
+        BufferedImage buf = createImageReppresentation(mapData, new Dimension((int) width, (int) height));
 
         File outputFile = new File("image.png");
         ImageIO.write(buf, "PNG", outputFile);
@@ -64,43 +52,22 @@ public class MapBuilder
         ArrayList<ArrayList<WorldCell>> ret = new ArrayList<ArrayList<WorldCell>>();
 
         String first = s.nextLine().toUpperCase().trim();
-
         ret.add(translate(first));
-
+        
         while (s.hasNextLine())
         {
             String temp = s.nextLine().toUpperCase().trim();
+            System.out.println(temp);
+            
             if (temp.length() != first.length())
             {
                 throw new IllegalArgumentException("Lines must all contain same number of charactars");
             }
 
             ret.add(translate(temp));
-
         }
 
-        //TODO pull out appearenceID at some point; last line of file?
-//TODO move the start off screen?
-
         return ret;
-    }
-
-    protected static int getAppearenceID()
-    {
-
-        return cachedAppearenceID;
-    }
-
-    protected static LinkedList<PathCell> getStartingPoints()
-    {
-
-        return cachedStartingPoints;
-    }
-
-    protected static LinkedList<PathCell> getEndingPoints()
-    {
-
-        return cachedEndingPoints;
     }
 
     private static ArrayList<WorldCell> translate(String first)
@@ -112,10 +79,11 @@ public class MapBuilder
         ArrayList<WorldCell> ret = new ArrayList<WorldCell>();
         for (char c : first.toCharArray())
         {
+            
             switch (c)
             {
                 case PATH_CHAR:
-                    pCell = new PathCell();
+                    pCell = new PathCell(false, false);
                     ret.add(pCell);
                     break;
                 case TOWER_CHAR:
@@ -123,13 +91,11 @@ public class MapBuilder
                     ret.add(tCell);
                     break;
                 case START_CHAR:
-                    pCell = new StartCell();
-                    cachedStartingPoints.add(pCell);
+                    pCell = new PathCell(true, false);
                     ret.add(pCell);
                     break;
                 case END_CHAR:
-                    pCell = new EndCell();
-                    cachedEndingPoints.add(pCell);
+                    pCell = new PathCell(false, true);
                     ret.add(pCell);
                     break;
                 default:
@@ -178,29 +144,26 @@ public class MapBuilder
 
     private static int translateColor(WorldCell t)
     {
-        //FUTURE make this data driven 
-        if (t instanceof PathCell)
-        {
-            return Color.red.getRed();
+        PathCell p;
+        
+        if (t.isPathable() == true) {
+            p = (PathCell) t;
         }
-        else if (t instanceof StartCell)
+        else {
+            return Color.green.getRGB();
+        }
+        
+        //FUTURE make this data driven 
+        if (p.isSpawn() == true)
         {
             return Color.black.getRGB();
         }
-        else if (t instanceof EndCell)
-        {
-
+        else if (p.isEnd() == true) {
             return Color.ORANGE.getRGB();
-        }
-        else if (t instanceof TowerCell)
-        {
-
-            return Color.white.getRGB();
         }
         else
         {
-            return -1;
-
+            return Color.GRAY.getRGB();
         }
     }
 }

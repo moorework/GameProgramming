@@ -17,8 +17,8 @@ public class NavGraphTest {
     
     @Test
     public void testProperVertexAdding() {
-        PathCell pCell1 = new PathCell();
-        PathCell pCell2 = new PathCell();
+        PathCell pCell1 = new PathCell(false, false);
+        PathCell pCell2 = new PathCell(false, false);
         
         pCell1.setCenterPoint(new Point2D(50, 70));
         pCell2.setCenterPoint(new Point2D(120.5, 1.1));
@@ -36,8 +36,8 @@ public class NavGraphTest {
     
     @Test
     public void testBadVertexAdding() {
-        PathCell pCell1 = new PathCell();
-        PathCell pCell2 = new PathCell();
+        PathCell pCell1 = new PathCell(false, false);
+        PathCell pCell2 = new PathCell(false, false);
         
         pCell1.setCenterPoint(new Point2D(50, 70));
         pCell2.setCenterPoint(new Point2D(120.5, 1.1));
@@ -52,8 +52,8 @@ public class NavGraphTest {
     
     @Test
     public void testNaiveVertexAdding() {
-        PathCell pCell1 = new PathCell();
-        PathCell pCell2 = new PathCell();
+        PathCell pCell1 = new PathCell(false, false);
+        PathCell pCell2 = new PathCell(false, false);
         
         pCell1.setCenterPoint(new Point2D(50, 70));
         pCell2.setCenterPoint(new Point2D(120.5, 1.1));
@@ -68,11 +68,11 @@ public class NavGraphTest {
     
     @Test
     public void testEdgesOf() {
-        PathCell pCell1 = new PathCell();
-        PathCell pCell2 = new PathCell();
-        PathCell pCell3 = new PathCell();
-        PathCell pCell4 = new PathCell();
-        PathCell pCell5 = new PathCell();
+        PathCell pCell1 = new PathCell(false, false);
+        PathCell pCell2 = new PathCell(false, false);
+        PathCell pCell3 = new PathCell(false, false);
+        PathCell pCell4 = new PathCell(false, false);
+        PathCell pCell5 = new PathCell(false, false);
         
         pCell1.setCenterPoint(new Point2D(50, 70));
         pCell2.setCenterPoint(new Point2D(120.5, 1.1));

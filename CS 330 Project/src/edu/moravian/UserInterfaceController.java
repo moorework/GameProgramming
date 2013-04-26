@@ -45,7 +45,7 @@ class UserInterfaceController extends JFrame implements Runnable
     private int width;
     private int height;
     private int depth;
-    private Game game;
+    private Controller controller;
     private Timer time;
     private int clickableArea;
     private UI_Element reset;
@@ -63,13 +63,12 @@ class UserInterfaceController extends JFrame implements Runnable
      * @throws VideoConfigurationException if the desired video mode is not
      * available or if fullscreen mode is not allowed
      */
-    public UserInterfaceController(int width, int height, int depth, Game thugAim)
+    public UserInterfaceController(int width, int height, int depth)
             throws VideoConfigurationException, FileNotFoundException
     {
         this.width = width;
         this.height = height;
         this.depth = depth;
-        this.game = thugAim;
 
         // Save references to the graphics environment and device
         // for future reference
@@ -152,6 +151,10 @@ class UserInterfaceController extends JFrame implements Runnable
 
         return false;
     }
+    
+    public void setController(Controller c) {
+        controller = c;
+    }
 
     /**
      * This method is the process of the loop. After changing to the specified
@@ -212,7 +215,7 @@ class UserInterfaceController extends JFrame implements Runnable
             long prev = 0;
 
             // Keep going until the game says it is done
-            while (!game.done())
+            while (!controller.done())
             {
          
                 //Tick the timer 
@@ -237,8 +240,8 @@ class UserInterfaceController extends JFrame implements Runnable
 
                          // Tell the game object to update itself - i.e. to make itself
                 // ready for the next fillRect.
-                game.update(delta);
-         
+                controller.update(delta);
+
                 // Drawing is done through a Graphics object.  You can think
                 // of this as the object representing the screen.
          
@@ -260,13 +263,12 @@ class UserInterfaceController extends JFrame implements Runnable
                 
                 // Tell the game to fillRect itself using the graphics context
                 WorldGraphics2D world  = new WorldGraphics2D(g);
-                
-                game.draw(world);
-                
+
+                controller.draw(world);
+
                 reset.draw(g);
                 
                 pause.draw(g);
-
 
                 // Write the FPS in the upper-left corner.  The coordinates
                 // designate the lower left of the text, and so anything
@@ -275,7 +277,7 @@ class UserInterfaceController extends JFrame implements Runnable
                 g.setColor(Color.BLUE);
                 if (sinceLastFPSDraw >= SPAN_BETWEEN_FPS_DRAWS)
                 {
-                    if (getPauseStatus((TowerDefenseGame) game) == false)
+                    if (controller.gameIsPaused() == false)
                     {
                         sinceLastFPSDraw = 0;
 
@@ -289,7 +291,8 @@ class UserInterfaceController extends JFrame implements Runnable
                 
                 //TODO number of waves left
 
-                g.drawString("Creeps alive: " + ((TowerDefenseGame) game).getCreepMan().getNumCreeps() + "", 350, 7);
+                // FIXME
+                //g.drawString("Creeps alive: " + ((TowerDefenseGame) game).getCreepMan().getNumCreeps() + "", 350, 10);
 
                 // Free up any resources being used.
                 g.dispose();
@@ -343,19 +346,19 @@ class UserInterfaceController extends JFrame implements Runnable
         @Override
         public void keyTyped(KeyEvent e)
         {
-            ((TowerDefenseGame) game).keyTyped(e);
+            controller.keyTyped(e);
         }
 
         @Override
         public void keyPressed(KeyEvent e)
         {
-            ((TowerDefenseGame) game).keyPressed(e);
+            controller.keyPressed(e);
         }
 
         @Override
         public void keyReleased(KeyEvent e)
         {
-            ((TowerDefenseGame) game).keyReleased(e);
+            controller.keyReleased(e);
         }
 
         @Override
@@ -369,17 +372,17 @@ class UserInterfaceController extends JFrame implements Runnable
 
                 if (reset.contains(click))
                 {
-                    game = new TowerDefenseGame(width, height);
+                    controller.resetTowerDefense(width, height);
                 }
                 else if (pause.contains(click))
                 {
-                    ((TowerDefenseGame) game).getStateMac().pause();
+                    controller.pause();
                 }
 
             }
             else
             {
-                ((TowerDefenseGame) game).mouseClicked(me);
+                controller.mouseClicked(me);
 
             }
         }

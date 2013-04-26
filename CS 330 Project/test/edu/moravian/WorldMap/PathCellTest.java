@@ -17,7 +17,7 @@ public class PathCellTest {
     
     @Test
     public void PathCellCreationTest() {
-        PathCell pCell = new PathCell();
+        PathCell pCell = new PathCell(false, false);
         
         assertTrue(pCell.canBeOccupied() == false);
         assertTrue(pCell.isPathable());
@@ -25,7 +25,7 @@ public class PathCellTest {
     
     @Test
     public void testCenterPoint() {
-        PathCell pCell = new PathCell();
+        PathCell pCell = new PathCell(false, false);
         
         assertEquals(null, pCell.getCenterPoint());
         

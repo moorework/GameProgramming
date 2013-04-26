@@ -5,40 +5,43 @@ import edu.moravian.SM.NullState;
 import edu.moravian.SM.RunningState;
 import edu.moravian.SM.TD_StateMach;
 import edu.moravian.WorldMap.NavGraph;
+import edu.moravian.WorldMap.WorldMap;
 import edu.moravian.creep.BasicCreep;
 import edu.moravian.creep.Creep;
 import edu.moravian.creep.CreepManager;
+import edu.moravian.creep.Wave;
+import edu.moravian.creep.WaveCreator;
 import edu.moravian.graphics.GraphicsManager;
-import edu.moravian.graphics.GraphicsRegistry;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
-import edu.moravian.projectile.BulletManager;
 import edu.moravian.tower.BasicTower;
+import edu.moravian.tower.Tower;
 import edu.moravian.tower.TowerManager;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 /**
  * This class encapsulates and holds all of the rules for the game
  *
  * @author moore
  */
-public class TowerDefenseGame implements KeyListener, Game, MouseListener
+public class TowerDefenseGame implements KeyListener, Game
 {
+    private final String WAVE_DIRECTORY = "waves.properties";
+    private final String MAP_DIRECTORY = "maps/basicMap.txt";
+    
     private int worldWidth;
     private int worldHeight;
     private boolean endgame_met;
     private Settings set;
-    private BulletManager projMan;
     private CreepManager creepMan;
     private TowerManager towMan;
     private TD_StateMach stateMac;
-    private int Xsize;
     
-    //temporary
-    private GraphicsManager gManager;
+    private WorldMap worldMap;
+    
+    private WaveCreator waveCreator;
+    private Wave currWave;
     
     /*
      * In general we are trying to delegate logic to others 
@@ -47,37 +50,25 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener
 
     public TowerDefenseGame(int worldWidth, int worldHeight)
     {
-
+        
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
+        
+        worldMap = new WorldMap(MAP_DIRECTORY, worldWidth, worldHeight);
+        
+        waveCreator = new WaveCreator(WAVE_DIRECTORY);
+        currWave = waveCreator.getNextWave();
 
         endgame_met = false;
-
-        projMan = new BulletManager(null);
-
-        creepMan = new CreepManager(null);
+        
+        creepMan = currWave.getCreepManager(worldMap);
 
         towMan = new TowerManager();
-        towMan.addTower(new BasicTower(creepMan, projMan, new Point2D(500, 500), 500));
-        towMan.addTower(new BasicTower(creepMan, projMan, new Point2D(500, 100), 100));
 
-        stateMac = new TD_StateMach(this, towMan, projMan, creepMan);
+        stateMac = new TD_StateMach(this);
         stateMac.setGlobalState(new RunningState());
         stateMac.setGameState(new NullState());
-        
-        // temp
-        gManager = new GraphicsManager();
-        
-        BasicTower t = new BasicTower(creepMan, projMan, new Point2D(100, 200), 20);
-        
-        BasicCreep foo = new BasicCreep(new Point2D(100,100), new Point2D(100,100), 10);
-        
-        
-        GraphicsRegistry.setGraphicsManager(gManager);
-        
-        GraphicsRegistry.registerDrawable(t);
-        
-        GraphicsRegistry.registerDrawable(foo);
+
         
     }
 
@@ -86,14 +77,16 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener
     {
         //Delegate the game's behavior to the state machine
         //It holds all the revlevant crap
-
+        
+        towMan.update(delt);
+        creepMan.update(delt);
+        
         stateMac.update();
     }
 
     @Override
     public void draw(WorldGraphics2D Wg2D)
     {
-        gManager.draw(Wg2D);
     }
 
     @Override
@@ -140,12 +133,6 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener
     {
     }
 
-    //TODO may want to redo whole state driven design 
-    public BulletManager getProjMan()
-    {
-        return projMan;
-    }
-
     public CreepManager getCreepMan()
     {
         return creepMan;
@@ -161,31 +148,34 @@ public class TowerDefenseGame implements KeyListener, Game, MouseListener
         return stateMac;
     }
 
-    @Override
-    public void mouseClicked(MouseEvent me)
+    public boolean pointDescribesBuildableArea(Point2D point) {
+        return worldMap.canBeOccupied(point);
+    }
+    
+    public Point2D getCornerPoint(Point2D point) {
+        return worldMap.getCornerPoint(point);
+    }
+    
+    public boolean pointIsOccupied(Point2D point) 
     {
-        stateMac.mouseClicked(me);
+        return worldMap.isOccupied(point);
+    }
+    
+    public Tower getTowerAtPoint(Point2D point) {
+        return worldMap.getTowerAtPoint(point);
     }
 
-    @Override
-    public void mousePressed(MouseEvent me)
-    {
+    public void setOccupied(Point2D point, Tower t) {
+        worldMap.setOccupied(point, t);
     }
-
-    @Override
-    public void mouseReleased(MouseEvent me)
-    {
+    
+    public void addTower(Point2D topLeftCorner, int towerRadius) {
+        // TODO magic number - given our current project structure, there is no place for this
+        Point2D towerLocation = new Point2D(topLeftCorner.getX() + towerRadius / 2, topLeftCorner.getY() + towerRadius / 2);
+        Tower newTower = new BasicTower(creepMan, topLeftCorner, 200);
+        
+        towMan.addTower(newTower);
+        
+        worldMap.setOccupied(towerLocation, newTower);
     }
-
-    @Override
-    public void mouseEntered(MouseEvent me)
-    {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent me)
-    {
-    }
-
-
 }
