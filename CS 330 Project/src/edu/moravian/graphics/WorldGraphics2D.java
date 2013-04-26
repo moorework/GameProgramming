@@ -129,11 +129,13 @@ public class WorldGraphics2D
         g2d.setColor(old);
     }
     
-    public void fillOval(Point2D loc, int i1, int i2)
+    public void fillOval(Point2D loc, int i1, int i2, Color col)
     {
+        Color old = g2d.getColor();
         Point2D temp = trans.worldtoScreen(loc);
+        g2d.setColor(col);
         g2d.fillOval((int) temp.getX(), (int) temp.getY(), i1, i2);
-        
+        g2d.setBackground(old);
     }
     
     public void drawCircle(Point2D loc, int diameter, Color col)

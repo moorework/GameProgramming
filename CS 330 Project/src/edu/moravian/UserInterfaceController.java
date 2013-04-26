@@ -408,7 +408,6 @@ class UserInterfaceController extends JFrame implements Runnable
         public void mouseClicked(MouseEvent me)
         {
             Point2D click = new Point2D(me.getX(), me.getY());
-            System.out.println("Clicin errerwhere");
             //Interrupt the event here, query interactable state from game 
             if (me.getY() < clickableArea)
             {
@@ -432,7 +431,6 @@ class UserInterfaceController extends JFrame implements Runnable
             
             else
             {
-                System.out.println("CLickin down low");
                 controller.mouseClicked(me);
 
             }
@@ -467,7 +465,6 @@ class UserInterfaceController extends JFrame implements Runnable
         @Override
         public void mouseMoved(MouseEvent me)
         {
-            System.out.println("MouseMovement "+ me.getPoint());
             // if the player's mouse is in the UI area...
             if (me.getY() < clickableArea) {
                 // ignore

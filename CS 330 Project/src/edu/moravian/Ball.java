@@ -59,7 +59,7 @@ public class Ball
         Color old = g2d.getColor();
         g2d.setColor(color);
 
-        g2d.fillOval(location, (int) radius * 2, (int) radius * 2);
+        //g2d.fillOval(location, (int) radius * 2, (int) radius * 2);
         g2d.setColor(old);
     }
 

@@ -3,6 +3,7 @@ package edu.moravian.WorldMap;
 import edu.moravian.graphics.DrawLocation;
 import edu.moravian.graphics.Drawable;
 import edu.moravian.math.Point2D;
+import edu.moravian.tower.BasicTower;
 import edu.moravian.tower.Tower;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -48,18 +49,14 @@ public class WorldMap implements Drawable {
             // retrieve the backing data for the WorldMap from the MapBuilder
             // based on the external directory location provided to us
             topography = MapBuilder.getMapRepresentation(mapDirLocation);
-            System.out.println("TOPO SIZE " + topography.size() + " " + topography.get(0).size());
         } catch (Exception ex) {
             // well shit
             System.out.println("MapBuilder encountered an error: " + ex.getMessage() + ex.toString());
         }
 
-                System.out.println(topography.get(2).get(0) instanceof PathCell);
-        
+            
         numHorizCells = topography.get(0).size(); // number of rows
         numVertCells = topography.size(); // number of columns
-        
-        System.out.println("Map Size " + mapWidth + "  " + mapHeight);
 
         cellWidth = width / numHorizCells;
         //cellHeight = height / numVertCells;
@@ -75,7 +72,7 @@ public class WorldMap implements Drawable {
         try {
             MapBuilder.initMapData(topography, mapWidth, mapHeight);
         } catch (Exception ex) {
-            System.out.println("Fuckin shit: " + ex);
+            //System.out.println("Fuckin shit: " + ex);
         }
     }
 
@@ -135,9 +132,12 @@ public class WorldMap implements Drawable {
         // WorldPoint to a TowerCell on the basis that the client should have
         // ensured that the location is both occupiable and unoccupied. If they
         // didn't then they're a jackass and deserve what they get.
-        TowerCell pointCell = (TowerCell) convertPointToCell(pointToOccupy);
+        WorldCell c = convertPointToCell(pointToOccupy);
+        if (c.isPathable() == false) {
+            TowerCell pointCell = (TowerCell) convertPointToCell(pointToOccupy);
 
-        pointCell.setOccupied(t);
+            pointCell.setOccupied(t);
+        }
     }
 
     /**
@@ -181,9 +181,6 @@ public class WorldMap implements Drawable {
 
         int horizCellNum = (int) (pointX / cellWidth);
         int vertCellNum = (int) (pointY / cellHeight);
-
-        horizCellNum = horizCellNum;
-        vertCellNum = vertCellNum;
 
         double cornerPointX = cellWidth * horizCellNum;
         double cornerPointY = cellHeight * vertCellNum;
@@ -255,7 +252,6 @@ public class WorldMap implements Drawable {
         if (cell.isPathable() == true) {
             return true;
         }
-
         return false;
     }
 
@@ -304,11 +300,6 @@ public class WorldMap implements Drawable {
         // we flip it before using it.
         vertCellNum = numVertCells - 1 - vertCellNum;
 
-        try {
-            System.out.println(topography.get(vertCellNum - 1).get(horizCellNum - 1));
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
         // matrices are row-by-column
         return topography.get(vertCellNum - 1).get(horizCellNum -1);
     }

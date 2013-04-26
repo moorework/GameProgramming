@@ -65,8 +65,6 @@ public class MapBuilder
 
             ret.add(translate(temp));
         }
-        
-        System.out.println("MAp size" + ret.size() + "  " + ret.get(0).size() );
 
         return ret;
     }
@@ -115,12 +113,9 @@ public class MapBuilder
      */
         public static BufferedImage createImageReppresentation(ArrayList<ArrayList<WorldCell>> ret, Dimension res)
     {
-        System.out.println("RES" +res);
         
         int blockHeight = res.height / ret.size();
         int blockWidth = blockHeight;
-        
-        System.out.println("Block widths " + blockWidth +" " + blockHeight);
 
         BufferedImage buf = new BufferedImage(res.width, res.height, BufferedImage.TYPE_INT_RGB);
         

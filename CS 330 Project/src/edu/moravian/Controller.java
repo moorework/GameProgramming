@@ -10,7 +10,9 @@ import edu.moravian.tower.Tower;
 import edu.moravian.util.CoordinateTranslator;
 import edu.moravian.util.GraphicsDataParser;
 import edu.moravian.util.Timer;
+import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -67,17 +69,17 @@ public class Controller implements KeyListener, MouseListener {
             System.exit(1);
         }
         
-//        System.out.println(tdGame.pointIsOccupied(new Point2D(1210, 50)));
-        System.out.println(tdGame.pointDescribesBuildableArea(new Point2D(1210, 50)));
-        
     }
     
     public void draw(WorldGraphics2D g2d) {
         tdGame.draw(g2d);
         
         if (aboutToBuildTower) {
-            System.out.println("Buildin them towers");
-              g2d.drawImage(towerImage, drawPoint, null);
+         
+          
+            g2d.fillOval(new Point2D(drawPoint.getX() - DEFAULT_TOWER_RADIUS / 2, drawPoint.getY() + DEFAULT_TOWER_RADIUS / 2), DEFAULT_TOWER_RADIUS * 2, DEFAULT_TOWER_RADIUS * 2, new Color(215, 74, 74, 180));
+            
+              g2d.drawImage(towerImage, new Point2D(drawPoint.getX() + towerImage.getWidth() / 2, drawPoint.getY() - towerImage.getHeight() / 2), null);
            
         }
     }
@@ -121,6 +123,7 @@ public class Controller implements KeyListener, MouseListener {
         
         // if we clicked a unbuildable area...
         if (clickInBuildable == false) {
+            System.out.println("Not buildable!");
             currentlySelectedTower = null;
             aboutToBuildTower = false;
         }
@@ -130,12 +133,13 @@ public class Controller implements KeyListener, MouseListener {
         }
         
         // if we clicked on an occupied cell, that tower is now selected
-        else if (clickInBuildable && tdGame.pointIsOccupied(clickLocation)) {
+        else if (aboutToBuildTower == false && clickInBuildable && tdGame.pointIsOccupied(clickLocation)) {
             currentlySelectedTower = (BasicTower) tdGame.getTowerAtPoint(clickLocation);
             towerCurrentlySelected = true;
         }
         // if we're about to build a tower and the point is not occupied
         else if (aboutToBuildTower == true && tdGame.pointIsOccupied(clickLocation) == false && clickInBuildable) {
+            System.out.println("Building tower");
             tdGame.addTower(tdGame.getCornerPoint(clickLocation), DEFAULT_TOWER_RADIUS);
             
             aboutToBuildTower = false;
@@ -184,11 +188,7 @@ public class Controller implements KeyListener, MouseListener {
     }
     
     public void mouseMoved(Point2D mouse) {
-        System.out.println("I AM ALIVE  +"+aboutToBuildTower+"\n\n");
-        
-        System.out.println(mouse);
         if (aboutToBuildTower == true) {
-            System.out.println("Mouse moved: " + mouse);
             drawPoint = coordTrans.screenToWorld(mouse);
             drawPoint = tdGame.getCornerPoint(coordTrans.screenToWorld(mouse));
             
@@ -204,7 +204,7 @@ public class Controller implements KeyListener, MouseListener {
         else {
             drawPoint = Point2D.zero;
             
-            uiController.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            uiController.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
     }
 }
