@@ -47,7 +47,7 @@ public class Settings
 
     public Color getBackgroundColor()
       {
-        return Color.gray;
+        return Color.DARK_GRAY;
       }
 
     public double getDesiredFPS()
@@ -87,6 +87,6 @@ public class Settings
 
     String getMapPath()
     {
-        return "maps/basicMap";
+        return "maps/basicMap.txt";
     }
   }

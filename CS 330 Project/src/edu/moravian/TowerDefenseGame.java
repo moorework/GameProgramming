@@ -167,6 +167,7 @@ public class TowerDefenseGame implements KeyListener, Game
 
     public void setOccupied(Point2D point, Tower t) {
         worldMap.setOccupied(point, t);
+<<<<<<< HEAD
     }
     
     public void addTower(Point2D topLeftCorner, int towerRadius) {
@@ -178,4 +179,18 @@ public class TowerDefenseGame implements KeyListener, Game
         
         worldMap.setOccupied(towerLocation, newTower);
     }
+=======
+    }
+    
+    public void addTower(Point2D topLeftCorner, int towerRadius) {
+        System.out.println("Being called");
+        // TODO magic number - given our current project structure, there is no place for this
+        Point2D towerLocation = new Point2D(topLeftCorner.getX() + towerRadius / 2, topLeftCorner.getY() + towerRadius / 2);
+        Tower newTower = new BasicTower(creepMan, topLeftCorner, 200);
+        
+        towMan.addTower(newTower);
+
+        worldMap.setOccupied(towerLocation, newTower);
+    }
+>>>>>>> e95bf10e4d8e648f063bddc74ce56a4581d58b10
 }

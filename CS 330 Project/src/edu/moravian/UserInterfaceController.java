@@ -5,7 +5,10 @@ import edu.moravian.WorldMap.MapBuilder;
 import edu.moravian.graphics.VideoConfigurationException;
 import edu.moravian.graphics.WorldGraphics2D;
 import edu.moravian.math.Point2D;
+import edu.moravian.tower.BasicTower;
+import edu.moravian.tower.Tower;
 import edu.moravian.util.DeltaTimer;
+import edu.moravian.util.GraphicsDataParser;
 import edu.moravian.util.Timer;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,9 +24,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -50,6 +55,8 @@ class UserInterfaceController extends JFrame implements Runnable
     private int clickableArea;
     private UI_Element reset;
     private UI_Element pause;
+    private UI_Element towerData;
+    private SimpleButton towerButton;
     private BufferedImage mapRep;
 
     /**
@@ -63,7 +70,11 @@ class UserInterfaceController extends JFrame implements Runnable
      * @throws VideoConfigurationException if the desired video mode is not
      * available or if fullscreen mode is not allowed
      */
+<<<<<<< HEAD
     public UserInterfaceController(int width, int height, int depth)
+=======
+    public UserInterfaceController(int width, int height, int depth) 
+>>>>>>> e95bf10e4d8e648f063bddc74ce56a4581d58b10
             throws VideoConfigurationException, FileNotFoundException
     {
         this.width = width;
@@ -103,15 +114,20 @@ class UserInterfaceController extends JFrame implements Runnable
 
         this.addKeyListener(input);
         this.addMouseListener(input);
+        this.addMouseMotionListener(input);
 
         time = new Timer();
-
-        reset = new UI_Element(new Point2D(5, 5), "Reset", Color.blue, Color.black, new Dimension(50, 50));
-        pause = new UI_Element(new Point2D(100, 5), "Pause", Color.blue, Color.black, new Dimension(50, 50));
+        
+        reset = new UI_Element(new Point2D(20, 20), "Reset", Color.blue, Color.black, new Dimension(50, 50), false);
+        pause = new UI_Element(new Point2D(100, 20), "Pause", Color.blue, Color.black, new Dimension(50, 50), false);
+        
+        towerData = new UI_Element(new Point2D(1250, 0), "", Color.LIGHT_GRAY, Color.black, new Dimension(640, 120), true);
+        towerButton = new SimpleButton(new Point2D(1160, 30), new Dimension(50, 50), GraphicsDataParser.readInSprite("buttonTower.png").getBackingImage());
 
         String path = Settings.getInstance().getMapPath();
 
         MapBuilder mb = new MapBuilder();
+        
         mapRep = mb.createImageReppresentation(MapBuilder.getMapRepresentation(path), new Dimension(width, height - clickableArea));
     }
 
@@ -213,7 +229,7 @@ class UserInterfaceController extends JFrame implements Runnable
 
             // prev will be the time of the last frame.
             long prev = 0;
-
+            String towerStr;
             // Keep going until the game says it is done
             while (!controller.done())
             {
@@ -269,6 +285,40 @@ class UserInterfaceController extends JFrame implements Runnable
                 reset.draw(g);
                 
                 pause.draw(g);
+<<<<<<< HEAD
+=======
+                
+                BasicTower t;
+                towerStr = "";
+                if (controller.towerCurrentlySelected()) {
+                    towerData.clearText();
+                    t = controller.getCurrentlySelectedTower();
+                    towerStr = "Damage: " + t.getDamage() + "\n";
+                    towerData.addString(towerStr);
+                    towerStr = "Targeting Radius: " + t.getRadius() + "\n";
+                    towerData.addString(towerStr);
+                    towerStr = "\n";
+                    towerData.addString(towerStr);
+                    towerStr = "Targeting System: " + t.getTargetingType() + "\n";
+                    towerData.addString(towerStr);
+                }
+                else {
+                    towerData.clearText();
+                    towerStr = "Damage: --- \n";
+                    towerData.addString(towerStr);
+                    towerStr = "\n";
+                    towerData.addString(towerStr);
+                    towerStr = "Targeting Radius: --- \n";
+                    towerData.addString(towerStr);
+                    towerStr = "\n";
+                    towerData.addString(towerStr);
+                    towerStr = "Targeting System: --- \n";
+                    towerData.addString(towerStr);
+                }
+                
+                towerData.draw(g);
+                towerButton.draw(g);
+>>>>>>> e95bf10e4d8e648f063bddc74ce56a4581d58b10
 
                 // Write the FPS in the upper-left corner.  The coordinates
                 // designate the lower left of the text, and so anything
@@ -340,7 +390,7 @@ class UserInterfaceController extends JFrame implements Runnable
         return td.getStateMac().isPaused();
     }
 
-    private class inputHandler implements KeyListener, MouseListener
+    private class inputHandler implements KeyListener, MouseListener, MouseMotionListener
     {
 
         @Override
@@ -364,22 +414,34 @@ class UserInterfaceController extends JFrame implements Runnable
         @Override
         public void mouseClicked(MouseEvent me)
         {
-
+            Point2D click = new Point2D(me.getX(), me.getY());
             //Interrupt the event here, query interactable state from game 
             if (me.getY() < clickableArea)
             {
-                Point2D click = new Point2D(me.getX(), me.getY());
+                
 
                 if (reset.contains(click))
                 {
+<<<<<<< HEAD
+=======
+                    
+>>>>>>> e95bf10e4d8e648f063bddc74ce56a4581d58b10
                     controller.resetTowerDefense(width, height);
                 }
                 else if (pause.contains(click))
                 {
+<<<<<<< HEAD
+=======
+                    
+>>>>>>> e95bf10e4d8e648f063bddc74ce56a4581d58b10
                     controller.pause();
                 }
+                else if (towerButton.contains(click)) {
+                    controller.setAboutToBuildTower();
+            }
 
             }
+            
             else
             {
                 controller.mouseClicked(me);
@@ -406,6 +468,52 @@ class UserInterfaceController extends JFrame implements Runnable
         public void mouseExited(MouseEvent me)
         {
         }
+
+        @Override
+        public void mouseDragged(MouseEvent me)
+        {
+            // okay
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent me)
+        {
+            // if the player's mouse is in the UI area...
+            if (me.getY() < clickableArea) {
+                // ignore
+                return;
+            }
+            
+            // otherwise it's in the game, so pass it on
+            controller.mouseMoved(new Point2D(me.getX(), me.getY()));
+        }
+    }
+    
+    private class SimpleButton {
+        Point2D loc;
+        Dimension size;
+        BufferedImage img;
+        
+        public SimpleButton(Point2D position, Dimension dim, BufferedImage img) {
+            loc = position;
+            size = dim;
+            this.img = img;
+        }
+        
+        public boolean contains(Point2D pt)
+        {
+            return pt.getX() > loc.getX()
+                    && (loc.getX() + size.width) > pt.getX()
+                    && pt.getY() > loc.getY()
+                    && (loc.getY() + size.height) > pt.getY();
+        }
+        
+        public void draw(Graphics g) {
+            g.setColor(Color.BLUE);
+            g.fillRect((int) loc.getX() - 5, (int) loc.getY() - 5, size.width + 10, size.height + 10);
+            
+            g.drawImage(img, (int) loc.getX(), (int) loc.getY(), null);
+        }
     }
 
     private class UI_Element
@@ -416,14 +524,24 @@ class UserInterfaceController extends JFrame implements Runnable
         Color colorMF;
         Color colorBT;
         Dimension boxSize;
+        
+        int textHeightSpacing;
+        ArrayList<String> texts;
+        boolean spaceText;
 
-        public UI_Element(Point2D pt, String str, Color colText, Color colBack, Dimension size)
+        public UI_Element(Point2D pt, String str, Color colText, Color colBack, Dimension size, boolean spaceText)
         {
             loc = pt;
             text = str;
             colorMF = colText;
             colorBT = colBack;
             boxSize = size;
+            
+            texts = new ArrayList<String>();
+            texts.add(str);
+            
+            textHeightSpacing = 0;
+            this.spaceText = spaceText;
         }
 
         public void draw(Graphics g)
@@ -432,8 +550,23 @@ class UserInterfaceController extends JFrame implements Runnable
             g.setColor(colorMF);
             g.fillRect((int) loc.getX(), (int) loc.getY(), boxSize.width, boxSize.height);
             g.setColor(colorBT);
-            g.drawString(text, (int) loc.getX(), (int) loc.getY() + boxSize.height / 2);
+            
+            if (spaceText == true) {
+                drawSpacedText(g);
+            }
+            else {
+                g.drawString(text, (int) loc.getX() + 6, (int) loc.getY() + boxSize.height / 2);
+            }
             g.setColor(old);
+        }
+        
+        private void drawSpacedText(Graphics g) {
+            String toDraw;
+            int spaceTextAmount = 20;
+           for (int i = 0; i < texts.size(); i++) {
+               toDraw = texts.get(i);
+               g.drawString(toDraw, (int) loc.getX() + 6, (int) loc.getY() + 25 + spaceTextAmount * i);
+           }
         }
 
         public boolean contains(Point2D pt)
@@ -442,6 +575,19 @@ class UserInterfaceController extends JFrame implements Runnable
                     && (loc.getX() + boxSize.width) > pt.getX()
                     && pt.getY() > loc.getY()
                     && (loc.getY() + boxSize.height) > pt.getY();
+        }
+        
+        public void addString(String newText) {
+            texts.add(newText);
+        }
+        
+        public void setString(String newText) {
+            texts.clear();
+            texts.add(newText);
+        }
+        
+        public void clearText() {
+            texts.clear();
         }
     }
 }

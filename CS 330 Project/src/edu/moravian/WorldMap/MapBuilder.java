@@ -30,10 +30,16 @@ public class MapBuilder
 
     public static void initMapData(ArrayList<ArrayList<WorldCell>> mapData, double width, double height) throws Exception
     {
+<<<<<<< HEAD
 
 
         BufferedImage buf = createImageReppresentation(mapData, new Dimension((int) width, (int) height));
+=======
+>>>>>>> e95bf10e4d8e648f063bddc74ce56a4581d58b10
 
+        
+        BufferedImage buf = createImageReppresentation(mapData, new Dimension((int) width, (int) height));
+        
         File outputFile = new File("image.png");
         ImageIO.write(buf, "PNG", outputFile);
     }
@@ -57,7 +63,10 @@ public class MapBuilder
         while (s.hasNextLine())
         {
             String temp = s.nextLine().toUpperCase().trim();
+<<<<<<< HEAD
             System.out.println(temp);
+=======
+>>>>>>> e95bf10e4d8e648f063bddc74ce56a4581d58b10
             
             if (temp.length() != first.length())
             {
@@ -114,13 +123,12 @@ public class MapBuilder
      */
         public static BufferedImage createImageReppresentation(ArrayList<ArrayList<WorldCell>> ret, Dimension res)
     {
-
-        int blockWidth = res.width / ret.get(0).size();
+        
         int blockHeight = res.height / ret.size();
-
+        int blockWidth = blockHeight;
 
         BufferedImage buf = new BufferedImage(res.width, res.height, BufferedImage.TYPE_INT_RGB);
-
+        
         for (int i = 0; i < ret.size(); i++)
         {
             for (int j = 0; j < ret.get(i).size(); j++)
@@ -148,6 +156,7 @@ public class MapBuilder
         
         if (t.isPathable() == true) {
             p = (PathCell) t;
+<<<<<<< HEAD
         }
         else {
             return Color.green.getRGB();
@@ -164,6 +173,24 @@ public class MapBuilder
         else
         {
             return Color.GRAY.getRGB();
+=======
+        }
+        else {
+            return new Color(0,123,12).getRGB();
+        }
+        
+        //FUTURE make this data driven 
+        if (p.isSpawn() == true)
+        {
+            return new Color(119,81,17).getRGB();
+        }
+        else if (p.isEnd() == true) {
+            return new Color(119,81,17).getRGB();
+        }
+        else
+        {
+            return new Color(119,81,17).getRGB();
+>>>>>>> e95bf10e4d8e648f063bddc74ce56a4581d58b10
         }
     }
 }

@@ -81,7 +81,6 @@ public class PathFinder {
         while (bpQueue.isEmpty() == false) { // while the queue is not empty
             // pull out the cell with the lowest distance from the start
             currCell = (PathCell) bpQueue.getSomeShit();
-            System.out.println("Polled: " + currCell.getCenterPoint() + " *dist*: " + distance.get(currCell));
             // for every neighbor of currCell
             for (PathCell adjCell : graph.edgesOf(currCell)) {
                 // compute the distance between start and the neighbor to currCell, adjCell,

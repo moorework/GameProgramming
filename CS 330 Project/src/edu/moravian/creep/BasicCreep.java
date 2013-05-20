@@ -91,14 +91,12 @@ public class BasicCreep implements Creep, Drawable
     @Override
     public void update(double delta)
       {
-          System.out.println("10");
         if (health <= 0)
           { // if the agent has died since the last update...
             dead = true; // make a note of this
 
             return; // dead creeps don't have behavior (movement, etc.)
           }
-          System.out.println("11");
 
         // move the agent by a distance that reflects their speed in the direction
         // of their heading, scaled by the delta to ensure consistent preformance

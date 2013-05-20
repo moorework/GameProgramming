@@ -112,4 +112,16 @@ public class BasicTower extends Tower
         w2d.setColor(col);
 
     }
+    
+    public int getRadius() {
+        return targetingRadius;
+    }
+    
+    public int getDamage() {
+        return damage;
+    }
+    
+    public String getTargetingType() {
+        return tar.typeOfTower().toString();
+    }
 }
